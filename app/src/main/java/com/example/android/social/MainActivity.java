@@ -44,7 +44,7 @@ import static android.R.attr.data;
 //, GoogleApiClient.OnConnectionFailedListener
 public class MainActivity extends AppCompatActivity implements View.OnClickListener , GoogleApiClient.OnConnectionFailedListener {
     //gplus login
-    //minor change
+    //minor change again
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 420;
 
