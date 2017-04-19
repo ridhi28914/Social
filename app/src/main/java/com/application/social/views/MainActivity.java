@@ -22,7 +22,6 @@ import com.application.social.utils.UploadManager;
 import com.application.social.data.UserDetails;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.android.social.R;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -48,6 +47,7 @@ import org.json.JSONObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Date;
 
 //, GoogleApiClient.OnConnectionFailedListener
 //implement interface class
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String strUrl="http://www.google.com";
 
     UploadManager um = new UploadManager();
-    UserDetails cred =  new UserDetails();
+    UserDetails userDetails =  new UserDetails();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,12 +139,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 // Application code
                                 try {
-                                    String email = object.getString("email");
-                                    String personName = object.getString("name");
-                                    String publicProfile = (String) object.get("public_profile");
-                                    cred.profilePic=publicProfile;
-                                    cred.name=personName;
-                                    cred.email=email;
+                                    userDetails.email = object.getString("email");
+                                    userDetails.name = object.getString("name");
+                                    userDetails.profilePic= (String) object.get("public_profile");
 
 //                                    String birthday = object.getString("birthday"); // 01/31/1980 format
                                 } catch (JSONException e) {
@@ -153,17 +150,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,gender,birthday,public_profile,user_friends");
+                parameters.putString("fields", "id,name,email,gender,birthday,public_profile,user_friend,publish_actions");
                 request.setParameters(parameters);
-//                um.callAsync();
-                String fbToken=loginResult.getAccessToken().getToken();
-                String fbGoId=loginResult.getAccessToken().getUserId();
-                cred.fbGoId=fbGoId;
-                cred.token=fbToken;
-                cred.source=0;
-
+                userDetails.token=loginResult.getAccessToken().getToken();
+                userDetails.fbGoId=loginResult.getAccessToken().getUserId();
+                userDetails.source=0;
+                userDetails.fbPermission= String.valueOf(loginResult.getAccessToken().getPermissions());
+                //// TODO: 4/19/2017 change this to fbdata
+                userDetails.facebookData = loginResult.getAccessToken().getApplicationId();
+                um.callAsync(userDetails);
                 request.executeAsync();
-
+//                Date expiresOn=loginResult.getAccessToken().getExpires();
             }
 
             @Override
@@ -207,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onResult(Status status) {
                         updateUI(false);
+
                     }
                 });
     }
@@ -219,30 +217,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println(acct);
 
             String info=acct.getDisplayName();
-
+//System.out.print(acct.getIdToken());
+            Log.d(TAG,"token is:-"+acct.getIdToken());
             //Fetch values
-            String googleToken=acct.getIdToken();
-            String email=acct.getEmail();
-            String id=acct.getId();
-            String personName = acct.getDisplayName();
-            String personPhotoUrl = acct.getPhotoUrl().toString();
-
-            cred.name=personName;
-            cred.email=email;
-            cred.userId=id;
-            System.out.print(id);
-            cred.token=googleToken;
-            cred.profilePic=personPhotoUrl;
-            cred.source=1;
-//send cred to UploadManager to store
-            um.callAsync(cred);
+//            userDetails.token=acct.getIdToken();
+            userDetails.token="sometoken";
+            userDetails.email=acct.getEmail();
+            userDetails.fbGoId=acct.getId();
+            userDetails.name= acct.getDisplayName();
+            userDetails.profilePic= acct.getPhotoUrl().toString();
+            userDetails.source=0;
+            //send cred to UploadManager to store
+            um.callAsync(userDetails);
 
             //Set values
-            txtName.setText(personName);
-            txtEmail.setText(email);
+            txtName.setText(userDetails.email);
+            txtEmail.setText(userDetails.name);
             //Set profile pic with the help of Glide
-            Glide.with(getApplicationContext()).load(personPhotoUrl)
-                    .thumbnail(0.5f)
+            Glide.with(getApplicationContext()).load(userDetails.profilePic)
+                    .thumbnail(0.2f)
                     .crossFade()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imgProfilePic);
@@ -342,10 +335,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
-    public void doneUpload() {
-
-        Toast.makeText(MainActivity.this,"hi",Toast.LENGTH_LONG).show();
-
+    public void doneLoggingIn() {
+        Log.d(TAG,"done uploading");
     }
 }
 

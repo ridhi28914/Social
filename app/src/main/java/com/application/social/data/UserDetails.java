@@ -13,6 +13,25 @@ public class UserDetails {
     public String profilePic;
     public int source;
     public String fbGoId;
+    public String facebookData;
+    public String fbPermission;
+
+    public String getFacebookData() {
+        return facebookData;
+    }
+
+    public void setFacebookData(String facebookData) {
+        this.facebookData = facebookData;
+    }
+
+    public String getFbPermission() {
+        return fbPermission;
+    }
+
+    public void setFbPermission(String fbPermission) {
+        this.fbPermission = fbPermission;
+    }
+
 
     public void setSource(int source) {
         this.source = source;

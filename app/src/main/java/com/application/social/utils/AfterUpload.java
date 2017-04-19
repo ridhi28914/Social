@@ -5,5 +5,6 @@ package com.application.social.utils;
  */
 
 public interface AfterUpload {
-    public void doneUpload();
+    public void doneLoggingIn();
+
 }

@@ -1,5 +1,6 @@
 package com.application.social.utils;
 
+import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -32,7 +33,7 @@ public  class UploadManager {
         sc.execute();
     }
 
-    public class StoreCred extends AsyncTask< Void , UserDetails, JSONObject> {
+    public class StoreCred extends AsyncTask< Void , UserDetails, String> {
         private UserDetails cred;
         MainActivity mainobj = new MainActivity();
         String value;
@@ -52,7 +53,7 @@ public  class UploadManager {
 
 
         @Override
-        protected JSONObject doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
 
             Log.d(mTAG, "email is " + cred.token);
 
@@ -73,69 +74,28 @@ public  class UploadManager {
             String url = "http://192.168.43.22:8080/SocialServer/rest/auth/login";
 
             try {
-                Response response= ApiCall.POST(client,url,body);
-                System.out.print(response.body());
+                String response= ApiCall.POST(client,url,body);
+                Log.d(mTAG, "rspnse is:-" + response);
+                return response;
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return null;
-//            try {
-//                JSONObject Jobject = new JSONObject(response);
-//                return Jobject;
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            return null;
-//            }
-//            Request request = new Request.Builder()
-//                    .url("")
-//                    .post(body)
-//                    .build();
-//            try {
-//                response = client.newCall(request).execute();
-//               Log.d(TAG,"response is"+response);
-//                String jsonobject = response.body().string();
-//                JSONObject Jobject = new JSONObject(jsonobject);
-//                return Jobject;
-////                return response.body();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                return null;
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//                return null;
-//            }
+
 
         }
-            //            super.doInBackground();
-
-
         @Override
-        protected void onPostExecute(JSONObject Jobject) {
+        protected void onPostExecute(String Jobject) {
             JsonParser pr = new JsonParser();
             Log.d(mTAG,"json object is:- "+ Jobject);
 //            Void res = pr.getAccessToken(Jobject);
-//            mainobj.doneUpload();
-                super.onPostExecute(Jobject);
+            mainobj.doneLoggingIn();
+//                super.onPostExecute(Jobject);
 
         }
     }
-}
-//            try {
-////                UserDetails ud;
-//                URL url = new URL("http://192.168.43.22:8080/SocialServer/rest/auth/login");
-//                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//                con.setRequestMethod("GET");
-//                con.connect();
-//                BufferedReader bf = new BufferedReader(new InputStreamReader(con.getInputStream()));
-//                value = bf.readLine();
-//                return cred;
-//            } catch (Exception e) {
-//                System.out.println(e);
-//            }
-//             finally {
-//                con.disconnect();
-//            }
-//            return null;
-//        }
 
+
+
+}

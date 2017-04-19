@@ -25,13 +25,13 @@ public class ApiCall {
     }
 
     //POST network request
-    public static Response POST(OkHttpClient client, String url, RequestBody body) throws IOException {
+    public static String POST(OkHttpClient client, String url, RequestBody body) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
         Response response = client.newCall(request).execute();
-        return response;
+        return response.toString();
 //        return response.body().string();
     }
 }
