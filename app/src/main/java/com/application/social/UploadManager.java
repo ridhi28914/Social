@@ -1,20 +1,17 @@
-package com.example.android.social;
+package com.application.social;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
 import okhttp3.FormBody;
-import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import okhttp3.RequestBody;
 /**
  * Created by Ridhi on 3/26/2017.
  */
@@ -73,7 +70,7 @@ public  class UploadManager {
             String url = "http://192.168.43.22:8080/SocialServer/rest/auth/login";
 
             try {
-                Response response=ApiCall.POST(client,url,body);
+                Response response= ApiCall.POST(client,url,body);
                 System.out.print(response.body());
 
             } catch (IOException e) {

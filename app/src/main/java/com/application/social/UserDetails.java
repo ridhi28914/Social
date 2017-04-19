@@ -1,4 +1,4 @@
-package com.example.android.social;
+package com.application.social;
 
 /**
  * Created by Ridhi on 4/6/2017.

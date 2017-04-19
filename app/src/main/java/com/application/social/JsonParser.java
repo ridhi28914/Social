@@ -1,4 +1,4 @@
-package com.example.android.social;
+package com.application.social;
 
 import org.json.JSONObject;
 
