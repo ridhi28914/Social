@@ -1,4 +1,4 @@
-package com.application.social;
+package com.application.social.utils;
 
 /**
  * Created by Ridhi on 3/26/2017.

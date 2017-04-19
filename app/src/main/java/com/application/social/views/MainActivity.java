@@ -1,4 +1,4 @@
-package com.application.social;
+package com.application.social.views;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -17,6 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.application.social.utils.AfterUpload;
+import com.application.social.utils.UploadManager;
+import com.application.social.data.UserDetails;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.android.social.R;
@@ -78,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.example.android.social",
+                    "com.application.social",
                     PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");

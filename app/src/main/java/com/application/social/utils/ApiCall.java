@@ -1,4 +1,4 @@
-package com.application.social;
+package com.application.social.utils;
 
 import java.io.IOException;
 

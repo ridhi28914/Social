@@ -1,7 +1,10 @@
-package com.application.social;
+package com.application.social.utils;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.application.social.data.UserDetails;
+import com.application.social.views.MainActivity;
 
 import org.json.JSONObject;
 
@@ -22,7 +25,7 @@ public  class UploadManager {
     String mTAG = "myAsyncTask";
 
     //static list
-    void callAsync(UserDetails details) {
+    public void callAsync(UserDetails details) {
 
         StoreCred sc = new StoreCred(details);
         Log.d(mTAG, details.email);
