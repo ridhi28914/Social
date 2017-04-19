@@ -26,31 +26,64 @@ public  class UploadManager {
     String mTAG = "myAsyncTask";
 
     //static list
-    public void callAsync(UserDetails details) {
+    public void login(UserDetails details) {
 
-        StoreCred sc = new StoreCred(details);
+        LoginCred loginCred = new LoginCred(details);
         Log.d(mTAG, details.email);
-        sc.execute();
+        loginCred.execute();
     }
 
-    public class StoreCred extends AsyncTask< Void , UserDetails, String> {
+    public void logout(String accessToken){
+        LogoutCred loc=new LogoutCred();
+        loc.execute(accessToken);
+    }
+
+    public class LogoutCred extends AsyncTask< String , String, String> {
+
+
+        @Override
+        protected String doInBackground(String... accessToken) {
+            Log.d(mTAG,"access token is"+accessToken[0]);
+            OkHttpClient client;
+            client = new OkHttpClient();
+
+            RequestBody body = new FormBody.Builder()
+                    .add("access_token", accessToken[0])
+                    .add("client_id","social_android_client")
+                    .add("app_type","social_android")
+                    .build();
+
+            String url = "http://192.168.43.22:8080/SocialServer/rest/auth/logout";
+
+            try {
+                String response= ApiCall.POST(client,url,body);
+                Log.d(mTAG, "rspnse is:-" + response);
+                return response;
+            } catch (IOException e) {
+                e.printStackTrace();
+                //                // TODO: 4/20/2017 return json exception response
+//                Log.d(mTAG,"stack trace is :"+ e.printStackTrace());
+                return null;
+            }
+        }
+        @Override
+        protected void onPostExecute(String Jobject) {
+
+            Log.d(mTAG,"json object is:- "+ Jobject);
+        }
+    }
+
+        public class LoginCred extends AsyncTask< Void , UserDetails, String> {
         private UserDetails cred;
         MainActivity mainobj = new MainActivity();
         String value;
 
-        public StoreCred() {
+        public LoginCred() {
         }
 
-        StoreCred(UserDetails cred) {
+            LoginCred (UserDetails cred) {
             this.cred = cred;
         }
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
 
         @Override
         protected String doInBackground(Void... params) {
@@ -80,8 +113,9 @@ public  class UploadManager {
 
             } catch (IOException e) {
                 e.printStackTrace();
+//                // TODO: 4/20/2017 return json exception response
+                return null;
             }
-            return null;
 
 
         }

@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //googlelogin
     String strUrl="http://www.google.com";
 
-    UploadManager um = new UploadManager();
+    UploadManager uploadManager = new UploadManager();
     UserDetails userDetails =  new UserDetails();
 
     @Override
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 userDetails.fbPermission= String.valueOf(loginResult.getAccessToken().getPermissions());
                 //// TODO: 4/19/2017 change this to fbdata
                 userDetails.facebookData = loginResult.getAccessToken().getApplicationId();
-                um.callAsync(userDetails);
+                uploadManager.login(userDetails);
                 request.executeAsync();
 //                Date expiresOn=loginResult.getAccessToken().getExpires();
             }
@@ -204,7 +204,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onResult(Status status) {
                         updateUI(false);
-
+//                        // TODO: 4/20/2017 change this to access token in shared preferences 
+                        uploadManager.logout("cmlkaGkga3VtYXJpMTQ5MjYzMzk3Mjk2MjAwMDYwNTkwOA==");
                     }
                 });
     }
@@ -217,10 +218,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println(acct);
 
             String info=acct.getDisplayName();
-//System.out.print(acct.getIdToken());
+            //System.out.print(acct.getIdToken());
             Log.d(TAG,"token is:-"+acct.getIdToken());
             //Fetch values
-//            userDetails.token=acct.getIdToken();
+            userDetails.token=acct.getIdToken();
             userDetails.token="sometoken";
             userDetails.email=acct.getEmail();
             userDetails.fbGoId=acct.getId();
@@ -228,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userDetails.profilePic= acct.getPhotoUrl().toString();
             userDetails.source=0;
             //send cred to UploadManager to store
-            um.callAsync(userDetails);
+            uploadManager.login(userDetails);
 
             //Set values
             txtName.setText(userDetails.email);
