@@ -18,12 +18,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginManager;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -37,14 +38,17 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
-import static android.R.attr.data;
 //, GoogleApiClient.OnConnectionFailedListener
-public class MainActivity extends AppCompatActivity implements View.OnClickListener , GoogleApiClient.OnConnectionFailedListener {
+//implement interface class
+public class MainActivity extends AppCompatActivity implements View.OnClickListener , GoogleApiClient.OnConnectionFailedListener , AfterUpload {
     //gplus login
-    //minor change again
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 420;
 
@@ -63,6 +67,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LoginButton login_button;
     CallbackManager callbackManager;
 
+    //googlelogin
+    String strUrl="http://www.google.com";
+
+    UploadManager um = new UploadManager();
+    UserDetails cred =  new UserDetails();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,18 +91,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        setContentView(R.layout.activity_main);
         initializeControls();
         loginWithFB();
-        initializeGPlusSettings();
+        loginWithGoogle();
+
+
     }
 
     private void initializeControls() {
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        setContentView(R.layout.activity_main);
         //fb login
         txtstatus = (TextView) findViewById(R.id.txtStatus);
         login_button = (LoginButton) findViewById(R.id.login_button);
         callbackManager = CallbackManager.Factory.create();
+
+        login_button.setReadPermissions(Arrays.asList(
+                "public_profile", "email", "user_birthday", "user_friends"));
 
         //gpluslogin
         btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
@@ -111,8 +125,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onSuccess(LoginResult loginResult) {
-                txtstatus.setText("Login successful\n" + loginResult.getAccessToken().getUserId()+
-                "\n"+loginResult.getAccessToken().getToken());
+                // App code
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                Log.v("LoginActivity", response.toString());
+
+                                // Application code
+                                try {
+                                    String email = object.getString("email");
+                                    String personName = object.getString("name");
+                                    String publicProfile = (String) object.get("public_profile");
+                                    cred.profilePic=publicProfile;
+                                    cred.name=personName;
+                                    cred.email=email;
+
+//                                    String birthday = object.getString("birthday"); // 01/31/1980 format
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender,birthday,public_profile,user_friends");
+                request.setParameters(parameters);
+//                um.callAsync();
+                String fbToken=loginResult.getAccessToken().getToken();
+                String fbGoId=loginResult.getAccessToken().getUserId();
+                cred.fbGoId=fbGoId;
+                cred.token=fbToken;
+                cred.source=0;
+
+                request.executeAsync();
+
             }
 
             @Override
@@ -128,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         });
         }
-    private void initializeGPlusSettings(){
+    private void loginWithGoogle(){
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -165,28 +212,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
+            System.out.println(acct);
+
+            String info=acct.getDisplayName();
 
             //Fetch values
+            String googleToken=acct.getIdToken();
+            String email=acct.getEmail();
+            String id=acct.getId();
             String personName = acct.getDisplayName();
             String personPhotoUrl = acct.getPhotoUrl().toString();
-            String email = acct.getEmail();
-            String familyName = acct.getFamilyName();
 
-            Log.e(TAG, "Name: " + personName +
-                    ", email: " + email +
-                    ", Image: " + personPhotoUrl +
-                    ", Family Name: " + familyName);
+            cred.name=personName;
+            cred.email=email;
+            cred.userId=id;
+            System.out.print(id);
+            cred.token=googleToken;
+            cred.profilePic=personPhotoUrl;
+            cred.source=1;
+//send cred to UploadManager to store
+            um.callAsync(cred);
 
             //Set values
             txtName.setText(personName);
             txtEmail.setText(email);
-
             //Set profile pic with the help of Glide
             Glide.with(getApplicationContext()).load(personPhotoUrl)
                     .thumbnail(0.5f)
                     .crossFade()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imgProfilePic);
+
 
             updateUI(true);
         } else {
@@ -225,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
-            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+            // If the user's cached UserDetailss are valid, the OptionalPendingResult will be "done"
             // and the GoogleSignInResult will be available instantly.
             Log.d(TAG, "Got cached sign-in");
             GoogleSignInResult result = opr.get();
@@ -278,6 +334,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btnSignOut.setVisibility(View.GONE);
             llProfileLayout.setVisibility(View.GONE);
         }
+    }
+
+
+    @Override
+    public void doneUpload() {
+
+        Toast.makeText(MainActivity.this,"hi",Toast.LENGTH_LONG).show();
+
     }
 }
 
