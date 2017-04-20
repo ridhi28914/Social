@@ -23,6 +23,14 @@
         android:layout_below="@+id/btn_sign_in"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="112dp" />
+    <Button
+        android:id="@+id/platformActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="26dp"
+        android:layout_centerHorizontal="true"
+        android:text="Start Another Activity" />
     <LinearLayout
         android:id="@+id/llProfile"
         android:layout_width="fill_parent"
@@ -59,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:textSize="18dp" />
+
         </LinearLayout>
     </LinearLayout>
     <com.google.android.gms.common.SignInButton

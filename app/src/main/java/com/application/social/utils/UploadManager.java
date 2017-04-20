@@ -36,7 +36,7 @@ public  class UploadManager {
     public void login(UserDetails details) {
 
         LoginCred loginCred = new LoginCred(details);
-        Log.d(mTAG, details.email);
+        Log.d(mTAG, "email is"+details.email);
         loginCred.execute();
     }
 

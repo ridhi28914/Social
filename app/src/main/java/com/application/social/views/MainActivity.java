@@ -14,6 +14,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,6 +52,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Date;
 
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 //, GoogleApiClient.OnConnectionFailedListener
@@ -59,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences sharedPreference;
     SharedPreferences.Editor editor;
+
+//    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
     //gplus login
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -103,17 +107,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         super.onCreate(savedInstanceState);
-        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
-        editor = sharedPreference.edit();
-        if (sharedPreference.contains("access_token")) {
-//            // TODO: 4/20/2017 check if accesstoken is valid or not and give access to app 
-        }
-        else{
+//        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+//        editor = sharedPreference.edit();
+//        if (sharedPreference.contains("access_token")) {
+////            // TODO: 4/20/2017 check if accesstoken is valid or not and give access to app
+//        }
+//        else{
 
             initializeControls();
+        Button btnStartAnotherActivity;
+        btnStartAnotherActivity = (Button) findViewById(R.id.platformActivity);
+
+        btnStartAnotherActivity.setOnClickListener(this);
             loginWithFB();
             loginWithGoogle();
-        }
+//        }
 
 
     }
@@ -152,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
                                 Log.v("LoginActivity", response.toString());
-
+                                Log.d(TAG,"object is "+object);
                                 // Application code
                                 try {
                                     userDetails.email = object.getString("email");
@@ -275,6 +283,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_sign_out:
                 signOut();
                 break;
+            case R.id.platformActivity:
+                Intent inent = new Intent(this, Platforms.class);
+                startActivity(inent);
+                break;
         }
     }
 
@@ -294,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStart();
 
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (opr.isDone()) {
+        if (opr.isDone() ) {
             // If the user's cached UserDetailss are valid, the OptionalPendingResult will be "done"
             // and the GoogleSignInResult will be available instantly.
             Log.d(TAG, "Got cached sign-in");
@@ -354,6 +366,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void doneLoggingIn() {
         Log.d(TAG,"done uploading");
+//        Intent intent = new Intent(MainActivity.this, Platforms.class);
+//        EditText editText = (EditText) findViewById(R.id.editText);
+//        String message = editText.getText().toString();
+//        intent.putExtra("Some_message", "staring new activity");
+//        startActivity(intent);
     }
 }
 
