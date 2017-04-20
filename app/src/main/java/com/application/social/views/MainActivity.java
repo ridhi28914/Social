@@ -1,7 +1,9 @@
 package com.application.social.views;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -49,9 +51,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Date;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 //, GoogleApiClient.OnConnectionFailedListener
 //implement interface class
 public class MainActivity extends AppCompatActivity implements View.OnClickListener , GoogleApiClient.OnConnectionFailedListener , AfterUpload {
+
+    SharedPreferences sharedPreference;
+    SharedPreferences.Editor editor;
+
     //gplus login
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 420;
@@ -95,9 +103,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         super.onCreate(savedInstanceState);
-        initializeControls();
-        loginWithFB();
-        loginWithGoogle();
+        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+        editor = sharedPreference.edit();
+        if (sharedPreference.contains("access_token")) {
+//            // TODO: 4/20/2017 check if accesstoken is valid or not and give access to app 
+        }
+        else{
+
+            initializeControls();
+            loginWithFB();
+            loginWithGoogle();
+        }
 
 
     }
@@ -205,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onResult(Status status) {
                         updateUI(false);
 //                        // TODO: 4/20/2017 change this to access token in shared preferences 
-                        uploadManager.logout("cmlkaGkga3VtYXJpMTQ5MjYzMzk3Mjk2MjAwMDYwNTkwOA==");
+                        uploadManager.logout("cmlkaGkga3VtYXJpMTQ5MjY4MDk5MzUyODAwMDMyNjA0MA==");
                     }
                 });
     }
