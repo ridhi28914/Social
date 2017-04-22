@@ -59,10 +59,10 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 //implement interface class
 public class MainActivity extends AppCompatActivity implements View.OnClickListener , GoogleApiClient.OnConnectionFailedListener , AfterUpload {
 
+
     SharedPreferences sharedPreference;
     SharedPreferences.Editor editor;
 
-//    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
     //gplus login
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         super.onCreate(savedInstanceState);
+
 //        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
 //        editor = sharedPreference.edit();
 //        if (sharedPreference.contains("access_token")) {
@@ -284,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 signOut();
                 break;
             case R.id.platformActivity:
-                Intent inent = new Intent(this, Platforms.class);
+                Intent inent = new Intent(this, Home.class);
                 startActivity(inent);
                 break;
         }
