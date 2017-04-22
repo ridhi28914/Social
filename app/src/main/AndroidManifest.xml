@@ -25,11 +25,12 @@
         <activity
             android:name=".Home"
             android:label="@string/title_activity_platforms"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="8c97d33e897b7a04789f6641de84790cdc131845" />
+
     </application>
 
 </manifest>

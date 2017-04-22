@@ -8,4 +8,9 @@ public class CommonLib {
 
     public static final String CLIENT_ID = "social_android_client";
     public static final String APP_TYPE = "social_android";
+
+
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    public static final String TWITTER_KEY = "DqvYukCn5ZLGC1ypoPT3e9FrE";
+    public static final String TWITTER_SECRET = "UiAX48Jc3ddksA8kln0CofaoLLSgtlde26DaJ7Mwat8qBMRT1h";
 }

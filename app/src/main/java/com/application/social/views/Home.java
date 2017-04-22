@@ -4,9 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.application.social.data.UserDetails;
+import com.linkedin.platform.LISessionManager;
+import com.linkedin.platform.errors.LIAuthError;
+import com.linkedin.platform.listeners.AuthListener;
+import com.linkedin.platform.utils.Scope;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.*;
 //import com.twitter.sdk.android.core.identity.*;
@@ -22,21 +27,21 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 import com.twitter.sdk.android.tweetui.UserTimeline;
 
+import static com.application.social.utils.CommonLib.TWITTER_KEY;
+import static com.application.social.utils.CommonLib.TWITTER_SECRET;
+
 public class Home extends AppCompatActivity {
-    private TwitterLoginButton loginButton;
 
+    private TwitterLoginButton twitterLoginButton;
 
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "DqvYukCn5ZLGC1ypoPT3e9FrE";
-    private static final String TWITTER_SECRET = "UiAX48Jc3ddksA8kln0CofaoLLSgtlde26DaJ7Mwat8qBMRT1h";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_home);
-        loginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
-        loginButton.setCallback(new Callback<TwitterSession>() {
+        twitterLoginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
+        twitterLoginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
                 UserDetails user= new UserDetails();
@@ -83,8 +88,39 @@ public class Home extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         // Make sure that the loginButton hears the result from any
         // Activity that it triggered.
-        loginButton.onActivityResult(requestCode, resultCode, data);
+        twitterLoginButton.onActivityResult(requestCode, resultCode, data);
+        LISessionManager.getInstance(getApplicationContext())
+                .onActivityResult(this,
+                        requestCode, resultCode, data);
     }
 
 
+    //LinkedIn logiin
+    public void login(View view){
+        LISessionManager.getInstance(getApplicationContext())
+                .init(this, buildScope(), new AuthListener() {
+                    @Override
+                    public void onAuthSuccess() {
+//// TODO: 4/22/2017 remove toast and code to store credentials in db 
+                        Toast.makeText(getApplicationContext(), "success" +
+                                        LISessionManager
+                                                .getInstance(getApplicationContext())
+                                                .getSession().getAccessToken().toString(),
+                                Toast.LENGTH_LONG).show();
+
+                    }
+
+                    @Override
+                    public void onAuthError(LIAuthError error) {
+
+                        Toast.makeText(getApplicationContext(), "failed "
+                                        + error.toString(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                }, true);
+    }
+
+    private static Scope buildScope() {
+        return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS);
+    }
 }
