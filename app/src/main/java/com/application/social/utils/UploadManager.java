@@ -18,6 +18,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.application.social.utils.CommonLib.SERVER_URL;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.facebook.GraphRequest.TAG;
 
@@ -60,7 +61,7 @@ public  class UploadManager {
                     .add("app_type","social_android")
                     .build();
 
-            String url = "http://192.168.43.22:8080/SocialServer/rest/auth/logout";
+            String url = SERVER_URL+"auth/logout";
 
             try {
                 String response= ApiCall.POST(client,url,body);
@@ -115,7 +116,7 @@ public  class UploadManager {
                         .add("token", cred.token)
                         .build();
 
-                String url = "http://192.168.43.22:8080/SocialServer/rest/auth/login";
+                String url = SERVER_URL+"/auth/login";
 
                 try {
                     String response = ApiCall.POST(client, url, body);

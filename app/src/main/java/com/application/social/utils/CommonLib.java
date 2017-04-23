@@ -9,6 +9,9 @@ public class CommonLib {
     public static final String CLIENT_ID = "social_android_client";
     public static final String APP_TYPE = "social_android";
 
+    public static final String VERSION = "v1";
+
+    public static final String SERVER_URL = "http://192.168.43.22:8080/SocialServer/rest/";
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     public static final String TWITTER_KEY = "DqvYukCn5ZLGC1ypoPT3e9FrE";

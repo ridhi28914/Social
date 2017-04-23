@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.application.social.data.UserDetails;
+import com.application.social.utils.ApiCall;
 import com.linkedin.platform.LISessionManager;
 import com.linkedin.platform.errors.LIAuthError;
 import com.linkedin.platform.listeners.AuthListener;
@@ -21,17 +22,24 @@ import com.twitter.sdk.android.core.*;
 //import com.twitter.sdk.android.core.TwitterSession;
 //import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import io.fabric.sdk.android.Fabric;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 import com.twitter.sdk.android.tweetui.UserTimeline;
 
+import java.io.IOException;
+
+import static com.application.social.utils.CommonLib.SERVER_URL;
 import static com.application.social.utils.CommonLib.TWITTER_KEY;
 import static com.application.social.utils.CommonLib.TWITTER_SECRET;
 
 public class Home extends AppCompatActivity {
 
+    String TAG = "Home class";
     private TwitterLoginButton twitterLoginButton;
 
     @Override
@@ -54,10 +62,33 @@ public class Home extends AppCompatActivity {
 //                user.email=session.getEmail();
                 user.token= String.valueOf(session.getAuthToken());
                 user.fbGoId= String.valueOf(session.getUserId());
-                user.source=3;
 //                user.profilePic=
-                        String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
+
+                OkHttpClient client;
+                client = new OkHttpClient();
+
+                RequestBody body = new FormBody.Builder()
+//                        .add("email", cred.email)
+                        .add("name", user.name)
+                        .add("client_id", "social_android_client")
+                        .add("app_type", "social_android")
+                        .add("fbGoId", user.fbGoId)
+//                        .add("profile_pic", cred.profilePic)
+                        .add("token", user.token)
+                        .build();
+
+                String url = SERVER_URL+"twitter/login";
+                try {
+                    String response= ApiCall.POST(client,url,body);
+                    Log.d(TAG, "rspnse is:-" + response);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    //                // TODO: 4/20/2017 return json exception response
+//                Log.d(mTAG,"stack trace is :"+ e.printStackTrace());
+                }
+                String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+
 //// TODO: 4/22/2017 Get the email address of user
 //                TwitterAuthClient authClient = new TwitterAuthClient();
 //                authClient.requestEmail(session, new Callback<String>() {
@@ -74,6 +105,7 @@ public class Home extends AppCompatActivity {
 //                        Toast.makeText(getApplicationContext(), "No email ", Toast.LENGTH_LONG).show();
 //                    }
 //                });
+
             }
             @Override
             public void failure(TwitterException exception) {
@@ -95,7 +127,7 @@ public class Home extends AppCompatActivity {
     }
 
 
-    //LinkedIn logiin
+    //LinkedIn login
     public void login(View view){
         LISessionManager.getInstance(getApplicationContext())
                 .init(this, buildScope(), new AuthListener() {
