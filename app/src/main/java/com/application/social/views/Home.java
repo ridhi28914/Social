@@ -1,18 +1,26 @@
 package com.application.social.views;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.application.social.data.UserDetails;
 import com.application.social.utils.ApiCall;
+import com.linkedin.platform.APIHelper;
 import com.linkedin.platform.LISessionManager;
+import com.linkedin.platform.errors.LIApiError;
 import com.linkedin.platform.errors.LIAuthError;
+import com.linkedin.platform.listeners.ApiListener;
+import com.linkedin.platform.listeners.ApiResponse;
 import com.linkedin.platform.listeners.AuthListener;
 import com.linkedin.platform.utils.Scope;
+import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.*;
 //import com.twitter.sdk.android.core.identity.*;
@@ -28,8 +36,11 @@ import okhttp3.RequestBody;
 
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+import com.twitter.sdk.android.core.models.User;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 import com.twitter.sdk.android.tweetui.UserTimeline;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -41,10 +52,28 @@ public class Home extends AppCompatActivity {
 
     String TAG = "Home class";
     private TwitterLoginButton twitterLoginButton;
+    private static final String host = "api.linkedin.com";
+    private static final String liUrl = "https://" + host
+            + "/v1/people/~:" +
+            "(email-address,formatted-name,phone-numbers,picture-urls::(original))";
+
+    private ProgressDialog progress;
+    private TextView user_name, user_email;
+    private ImageView profile_picture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//
+//        progress= new ProgressDialog(this);
+//        progress.setMessage("Retrieve data...");
+//        progress.setCanceledOnTouchOutside(false);
+//        progress.show();
+//        user_email = (TextView) findViewById(R.id.email);
+//        user_name = (TextView) findViewById(R.id.name);
+//        profile_picture = (ImageView) findViewById(R.id.profile_picture);
+        linkededinApiHelper();
+
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_home);
@@ -129,6 +158,7 @@ public class Home extends AppCompatActivity {
 
     //LinkedIn login
     public void login(View view){
+        final UserDetails userDetails=new UserDetails();
         LISessionManager.getInstance(getApplicationContext())
                 .init(this, buildScope(), new AuthListener() {
                     @Override
@@ -139,6 +169,9 @@ public class Home extends AppCompatActivity {
                                                 .getInstance(getApplicationContext())
                                                 .getSession().getAccessToken().toString(),
                                 Toast.LENGTH_LONG).show();
+
+                        LISessionManager s=LISessionManager.getInstance(getApplicationContext());
+                        userDetails.setAccessToken(s.getSession().getAccessToken().toString());
 
                     }
 
@@ -155,4 +188,39 @@ public class Home extends AppCompatActivity {
     private static Scope buildScope() {
         return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS);
     }
+    public void linkededinApiHelper(){
+        APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
+        apiHelper.getRequest(Home.this, liUrl, new ApiListener() {
+            @Override
+            public void onApiSuccess(ApiResponse result) {
+                try {
+                    showResult(result.getResponseDataAsJson());
+                    progress.dismiss();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onApiError(LIApiError error) {
+
+            }
+        });
+    }
+
+    public  void  showResult(JSONObject response){
+
+        try {
+            user_email.setText(response.get("emailAddress").toString());
+            user_name.setText(response.get("formattedName").toString());
+
+            Picasso.with(this).load(response.getString("pictureUrl"))
+                    .into(profile_picture);
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 }
