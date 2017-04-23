@@ -64,14 +64,6 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//
-//        progress= new ProgressDialog(this);
-//        progress.setMessage("Retrieve data...");
-//        progress.setCanceledOnTouchOutside(false);
-//        progress.show();
-//        user_email = (TextView) findViewById(R.id.email);
-//        user_name = (TextView) findViewById(R.id.name);
-//        profile_picture = (ImageView) findViewById(R.id.profile_picture);
         linkededinApiHelper();
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
@@ -212,11 +204,9 @@ public class Home extends AppCompatActivity {
     public  void  showResult(JSONObject response){
 
         try {
-            user_email.setText(response.get("emailAddress").toString());
-            user_name.setText(response.get("formattedName").toString());
-
-            Picasso.with(this).load(response.getString("pictureUrl"))
-                    .into(profile_picture);
+            String email=response.get("emailAddress").toString();
+            String name=response.get("formattedName").toString();
+            String pic=response.getString("pictureUrl");
 
         } catch (Exception e){
             e.printStackTrace();
