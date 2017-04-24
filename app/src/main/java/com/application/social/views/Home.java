@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.application.social.data.UserDetails;
 import com.application.social.utils.ApiCall;
+import com.facebook.AccessToken;
 import com.linkedin.platform.APIHelper;
 import com.linkedin.platform.LISessionManager;
 import com.linkedin.platform.errors.LIApiError;
@@ -97,7 +98,6 @@ public class Home extends AppCompatActivity {
 //                        .add("profile_pic", cred.profilePic)
                         .add("token", user.token)
                         .build();
-
                 String url = SERVER_URL+"twitter/login";
                 try {
                     String response= ApiCall.POST(client,url,body);

@@ -21,16 +21,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.application.social.utils.AfterUpload;
+import com.application.social.utils.ApiCall;
 import com.application.social.utils.UploadManager;
 import com.application.social.data.UserDetails;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+//import com.facebook.Response;
+import com.facebook.HttpMethod;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -47,12 +51,17 @@ import com.google.android.gms.common.api.Status;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Date;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
+
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
+import static com.application.social.utils.CommonLib.SERVER_URL;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 //, GoogleApiClient.OnConnectionFailedListener
@@ -136,8 +145,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         callbackManager = CallbackManager.Factory.create();
 
         login_button.setReadPermissions(Arrays.asList(
-                "public_profile", "email", "user_birthday", "user_friends"));
-
+                "email", "user_birthday", "user_friends","user_posts"));
+//        login_button.setPublishPermissions("publish_actions");
         //gpluslogin
         btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
         btnSignOut = (Button) findViewById(R.id.btn_sign_out);
@@ -160,32 +169,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
-                                Log.v("LoginActivity", response.toString());
-                                Log.d(TAG,"object is "+object);
-                                // Application code
-                                try {
-                                    userDetails.email = object.getString("email");
-                                    userDetails.name = object.getString("name");
-                                    userDetails.profilePic= (String) object.get("public_profile");
 
-//                                    String birthday = object.getString("birthday"); // 01/31/1980 format
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                                Log.v("LoginActivity", response.toString());
+//                                try {
+//                                    userDetails.email = object.getString("email");
+//                                    userDetails.name = object.getString("name");
+//                                    userDetails.profilePic= (String) object.get("public_profile");
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+                               
+//                                // TODO: 4/24/2017 send request to get feed
+                                Bundle params = new Bundle();
+                                params.putString("fields", "picture,likes,comments,story,icon,message,place,shares");
+                                params.putString("limit", "10");
+
+                                new GraphRequest(
+                                        AccessToken.getCurrentAccessToken(),
+                                        "me/feed",
+                                        params,
+                                        HttpMethod.GET,
+                                        new GraphRequest.Callback() {
+                                            public void onCompleted(GraphResponse response) {
+                                                Log.d(TAG, String.valueOf(response));
+//                                                response.getGraphObject().getInnerJSONObject();
+            /* handle the result */
+                                            }
+                                        }
+                                ).executeAsync();
+
+                              
                             }
                         });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,gender,birthday,public_profile,user_friend,publish_actions");
+                parameters.putString("fields", "id,name,email,gender");
                 request.setParameters(parameters);
+                request.executeAsync();
+
+
                 userDetails.token=loginResult.getAccessToken().getToken();
                 userDetails.fbGoId=loginResult.getAccessToken().getUserId();
-                userDetails.source=0;
-                userDetails.fbPermission= String.valueOf(loginResult.getAccessToken().getPermissions());
                 //// TODO: 4/19/2017 change this to fbdata
                 userDetails.facebookData = loginResult.getAccessToken().getApplicationId();
-                uploadManager.login(userDetails);
-                request.executeAsync();
-//                Date expiresOn=loginResult.getAccessToken().getExpires();
+                userDetails.source=0;
+                String declinedPerm= String.valueOf(loginResult.getAccessToken().getDeclinedPermissions());
+                System.out.print(declinedPerm);
+
+//                uploadManager.login(userDetails);
+
+//              Date expiresOn=loginResult.getAccessToken().getExpires();
             }
 
             @Override
@@ -200,6 +232,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         });
+
         }
     private void loginWithGoogle(){
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
