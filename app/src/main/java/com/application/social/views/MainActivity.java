@@ -119,7 +119,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btnStartAnotherActivity;
         btnStartAnotherActivity = (Button) findViewById(R.id.platformActivity);
 
-        btnStartAnotherActivity.setOnClickListener(this);
+        // RAVLEEN'S CODE
+//         btnStartAnotherActivity.setOnClickListener(new View.OnClickListener() {
+//             @Override
+//             public void onClick(View v) {
+//                 Intent intent = new Intent(this, fragments_view.class);
+//                 startActivity(intent);
+//             }
+//         }
+
+
+       btnStartAnotherActivity.setOnClickListener(this);
             loginWithFB();
             loginWithGoogle();
 //        }

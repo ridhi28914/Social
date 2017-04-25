@@ -97,18 +97,22 @@ public class Home extends AppCompatActivity {
 //                        .add("profile_pic", cred.profilePic)
                         .add("token", user.token)
                         .build();
-
-                String url = SERVER_URL+"twitter/login";
-                try {
-                    String response= ApiCall.POST(client,url,body);
-                    Log.d(TAG, "rspnse is:-" + response);
-                } catch (IOException e) {
-                    e.printStackTrace();
+//
+//                String url = SERVER_URL+"twitter/login";
+//                try {
+//                    String response= ApiCall.POST(client,url,body);
+//                    Log.d(TAG, "rspnse is:-" + response);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
                     //                // TODO: 4/20/2017 return json exception response
 //                Log.d(mTAG,"stack trace is :"+ e.printStackTrace());
-                }
-                String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
-                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+               // }
+                //new Intent(this, fragments_view.class);
+                Intent intent = new Intent(getApplicationContext(), fragments_view.class);
+                startActivity(intent);
+                //ravleen commented it
+//                String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
+//                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
 
 //// TODO: 4/22/2017 Get the email address of user
 //                TwitterAuthClient authClient = new TwitterAuthClient();
