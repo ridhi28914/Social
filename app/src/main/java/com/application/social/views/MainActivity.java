@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnStartAnotherActivity.setOnClickListener(this);
         loginWithFB();
         loginWithGoogle();
+
 //        }
 
 
