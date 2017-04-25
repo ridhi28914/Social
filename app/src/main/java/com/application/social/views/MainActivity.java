@@ -124,13 +124,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        }
 //        else{
 
-            initializeControls();
+        initializeControls();
         Button btnStartAnotherActivity;
         btnStartAnotherActivity = (Button) findViewById(R.id.platformActivity);
 
         btnStartAnotherActivity.setOnClickListener(this);
-            loginWithFB();
-            loginWithGoogle();
+        loginWithFB();
+        loginWithGoogle();
 //        }
 
 
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                                } catch (JSONException e) {
 //                                    e.printStackTrace();
 //                                }
-                               
+
 //                                // TODO: 4/24/2017 send request to get feed
                                 Bundle params = new Bundle();
                                 params.putString("fields", "picture,likes,comments,story,icon,message,place,shares");
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         }
                                 ).executeAsync();
 
-                              
+
                             }
                         });
                 Bundle parameters = new Bundle();
@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         });
 
-        }
+    }
     private void loginWithGoogle(){
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onResult(Status status) {
                         updateUI(false);
-//                        // TODO: 4/20/2017 change this to access token in shared preferences 
+//                        // TODO: 4/20/2017 change this to access token in shared preferences
                         uploadManager.logout("cmlkaGkga3VtYXJpMTQ5MjY4MDk5MzUyODAwMDMyNjA0MA==");
                     }
                 });
@@ -407,5 +407,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        startActivity(intent);
     }
 }
-
-

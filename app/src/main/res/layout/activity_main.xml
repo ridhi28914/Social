@@ -97,5 +97,5 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_revoke_access"
         android:visibility="gone"
-    />
+        />
 </RelativeLayout>

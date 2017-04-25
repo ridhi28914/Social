@@ -5,13 +5,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.Window;
+import android.webkit.CookieSyncManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.application.social.data.UserDetails;
 import com.application.social.utils.ApiCall;
+import com.application.social.utils.CommonLib;
+import com.application.social.utils.InstagramApp;
+import com.application.social.utils.InstagramDialog;
 import com.facebook.AccessToken;
 import com.linkedin.platform.APIHelper;
 import com.linkedin.platform.LISessionManager;
@@ -45,13 +55,17 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import static android.graphics.Paint.Style.FILL;
 import static com.application.social.utils.CommonLib.SERVER_URL;
 import static com.application.social.utils.CommonLib.TWITTER_KEY;
 import static com.application.social.utils.CommonLib.TWITTER_SECRET;
+import static java.security.AccessController.getContext;
 
 public class Home extends AppCompatActivity {
 
     String TAG = "Home class";
+
+    //    twitter login
     private TwitterLoginButton twitterLoginButton;
     private static final String host = "api.linkedin.com";
     private static final String liUrl = "https://" + host
@@ -65,6 +79,27 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        final InstagramApp mApp = new InstagramApp(this, CommonLib.CLIENT_ID,
+//                CommonLib.INSTAGRAM_SECRET, CommonLib.INSTAGRAM_CALLBACK_URL);
+//        mApp.setListener(new InstagramApp.OAuthAuthenticationListener() {
+//
+//            @Override
+//            public void onSuccess() {
+//// tvSummary.setText("Connected as " + mApp.getUserName());
+////                btnConnect.setText("Disconnect");
+////                llAfterLoginView.setVisibility(View.VISIBLE);
+//// userInfoHashmap = mApp.
+//                mApp.fetchUserName();
+//            }
+//
+//            @Override
+//            public void onFail(String error) {
+//                Toast.makeText(Home.this, error, Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
+
         linkededinApiHelper();
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
@@ -155,7 +190,7 @@ public class Home extends AppCompatActivity {
                 .init(this, buildScope(), new AuthListener() {
                     @Override
                     public void onAuthSuccess() {
-//// TODO: 4/22/2017 remove toast and code to store credentials in db 
+//// TODO: 4/22/2017 remove toast and code to store credentials in db
                         Toast.makeText(getApplicationContext(), "success" +
                                         LISessionManager
                                                 .getInstance(getApplicationContext())
