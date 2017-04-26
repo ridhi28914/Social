@@ -20,4 +20,7 @@ public class CommonLib {
     public static final String INSTAGRAM_ID= "79653c8f7e93422da446cb8febd289cf";
     public static final String INSTAGRAM_SECRET= "cea697ad55594ccf98b3eecfc85e0de6";
     public static final String INSTAGRAM_CALLBACK_URL ="https://www.google.com";
+
+    public static final String PINTEREST_KEY = "4897144396905986296";
+
 }

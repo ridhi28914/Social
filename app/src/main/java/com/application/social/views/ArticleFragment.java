@@ -16,7 +16,7 @@ public class ArticleFragment extends Fragment {
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.activity_article_fragment, container, false);
+        return inflater.inflate(R.layout.activity_article_fragment, container, false);
 //        try {
 //            ConfigurationBuilder builder = new ConfigurationBuilder();
 //

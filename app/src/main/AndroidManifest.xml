@@ -32,7 +32,18 @@
             android:value="8c97d33e897b7a04789f6641de84790cdc131845" />
 
         <activity android:name=".fragments_view" />
-        <activity android:name=".ArticleFragment"></activity>
+        <activity android:name=".ArticleFragment" />
+        <activity
+            android:name=".Pinterest"
+            android:label="@string/title_activity_pinterest"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MyBoards"
+            android:label="@string/title_activity_my_boards"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".CreateBoardActivity" />
+        <activity android:name=".MyPins" />
+        <activity android:name=".CreatePinActivity"></activity>
     </application>
 
 </manifest>
