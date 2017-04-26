@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.application.social.views.SearchUserActivity">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_user"
+        android:hint="Search by username or id"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:id="@+id/search_button"
+        android:layout_below="@+id/search_user"
+        android:layout_centerHorizontal="true"
+        />
+
+    <ImageView
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:paddingTop="20dip"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/user_imageview"
+        android:layout_below="@+id/search_button"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_name"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/user_imageview"
+        />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Follow"
+        android:id="@+id/follow_button"
+        android:layout_below="@+id/user_name"
+        android:layout_centerHorizontal="true"
+        />
+</RelativeLayout>

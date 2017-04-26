@@ -43,7 +43,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".CreateBoardActivity" />
         <activity android:name=".MyPins" />
-        <activity android:name=".CreatePinActivity"></activity>
+        <activity android:name=".CreatePinActivity" />
+        <activity android:name=".FollowingActivity" />
+        <activity android:name=".SearchUserActivity"></activity>
     </application>
 
 </manifest>

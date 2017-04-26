@@ -54,7 +54,7 @@ public class Pinterest extends AppCompatActivity {
         followingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                onMyFollowing();
+                onMyFollowing();
             }
         });
 
@@ -113,10 +113,10 @@ public class Pinterest extends AppCompatActivity {
 //        startActivity(i);
 //    }
 //
-//    private void  onMyFollowing() {
-//        Intent i = new Intent(this, FollowingActivity.class);
-//        startActivity(i);
-//    }
+    private void  onMyFollowing() {
+        Intent i = new Intent(this, FollowingActivity.class);
+        startActivity(i);
+    }
 
     private void  onLogout() {
         PDKClient.getInstance().logout();
