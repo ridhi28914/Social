@@ -62,6 +62,7 @@ import com.twitter.sdk.android.tweetui.UserTimeline;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,24 +77,25 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
     String TAG = "Home class";
 
-    //    twitter login
-    private TwitterLoginButton twitterLoginButton;
-    private static final String host = "api.linkedin.com";
-    private static final String liUrl = "https://" + host
-            + "/v1/people/~:" +
-            "(email-address,formatted-name,phone-numbers,picture-urls::(original))";
 
-    private ProgressDialog progress;
-    private TextView user_name, user_email;
-    private ImageView profile_picture;
+//    private static final String host = "api.linkedin.com";
+//    private static final String liUrl = "https://" + host
+//            + "/v1/people/~:" +
+//            "(email-address,formatted-name,phone-numbers,picture-urls::(original))";
+
+//    private ProgressDialog progress;
+//    private TextView user_name, user_email;
+//    private ImageView profile_picture;
+
+    //    twitter login
+    TwitterLoginButton twitterLoginButton;
 
     private PDKClient pdkClient;
     Button pinterestLoginButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
         //inside onCreate
 
@@ -120,7 +122,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 //            @Override
 //            public void onSuccess(PDKResponse response) {
 //                Log.d(getClass().getName(), response.getData().toString());
-//                //user logged in, use response.getUser() to get PDKUser object
 //            }
 //
 //            @Override
@@ -133,6 +134,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
+
         setContentView(R.layout.activity_home);
 
         pinterestLoginButton = (Button) findViewById(R.id.pinterest_login);
@@ -141,74 +143,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         pdkClient.onConnect(this);
 
         twitterLoginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
-        twitterLoginButton.setCallback(new Callback<TwitterSession>() {
-            @Override
-            public void success(Result<TwitterSession> result) {
-                UserDetails user= new UserDetails();
-                // The TwitterSession is also available through:
-                // Twitter.getInstance().core.getSessionManager().getActiveSession()
-                TwitterSession session = result.data;
-                // TODO: Remove toast and use the TwitterSession's userID
-                // with your app's user model
-                user.name=session.getUserName();
-//                user.email=session.getEmail();
-                user.token= String.valueOf(session.getAuthToken());
-                user.fbGoId= String.valueOf(session.getUserId());
-//                user.profilePic=
-
-//                OkHttpClient client;
-//                client = new OkHttpClient();
-
-//                RequestBody body = new FormBody.Builder()
-////                        .add("email", cred.email)
-//                        .add("name", user.name)
-//                        .add("client_id", "social_android_client")
-//                        .add("app_type", "social_android")
-//                        .add("fbGoId", user.fbGoId)
-////                        .add("profile_pic", cred.profilePic)
-//                        .add("token", user.token)
-//                        .build();
-
-//
-//                String url = SERVER_URL+"twitter/login";
-//                try {
-//                    String response= ApiCall.POST(client,url,body);
-//                    Log.d(TAG, "rspnse is:-" + response);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-                    //                // TODO: 4/20/2017 return json exception response
-//                Log.d(mTAG,"stack trace is :"+ e.printStackTrace());
-               // }
-                //new Intent(this, fragments_view.class);
-                Intent intent = new Intent(getApplicationContext(), fragments_view.class);
-                startActivity(intent);
-                //ravleen commented it
-//                String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
-//                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-
-//// TODO: 4/22/2017 Get the email address of user
-//                TwitterAuthClient authClient = new TwitterAuthClient();
-//                authClient.requestEmail(session, new Callback<String>() {
-//                    @Override
-//                    public void success(Result<String> result) {
-//                        // Do something with the result, which provides the email address
-//                        String session2=result.data;
-//                        Toast.makeText(getApplicationContext(), session2, Toast.LENGTH_LONG).show();
-//                    }
-//
-//                    @Override
-//                    public void failure(TwitterException exception) {
-//                        // Do something on failure
-//                        Toast.makeText(getApplicationContext(), "No email ", Toast.LENGTH_LONG).show();
-//                    }
-//                });
-
-            }
-            @Override
-            public void failure(TwitterException exception) {
-                Log.d("TwitterKit", "Login with Twitter failure", exception);
-            }
-        });
+        onTwitterLogin(twitterLoginButton);
+//        twitterLoginButton.setOnClickListener(this);
 
 
     }
@@ -247,6 +183,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             public void onSuccess(PDKResponse response) {
                 Log.d(getClass().getName(), response.getData().toString());
                 onPinterestLoginSuccess();
+                //                //user logged in, use response.getUser() to get PDKUser object
             }
 
             @Override
@@ -255,12 +192,51 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             }
         });
     }
+
     private void onPinterestLoginSuccess() {
         Intent i = new Intent(this, Pinterest.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
         finish();
     }
+    public void onTwitterLogin(TwitterLoginButton twitterLoginButton) {
+
+        twitterLoginButton.setCallback(new Callback<TwitterSession>() {
+            @Override
+            public void success(Result<TwitterSession> result) {
+                Log.d("Twitter success "+ getClass().getName(), result.toString());
+                onTwitterLoginSuccess(result.data);
+
+
+            }
+            @Override
+            public void failure(TwitterException exception) {
+                Log.d("TwitterKit", "Login with Twitter failure", exception);
+            }
+        });
+
+    }
+    private void onTwitterLoginSuccess(TwitterSession result) {
+        
+//        // TODO: 4/27/2017 change this to fragment starting 
+        //new Intent(this, fragments_view.class);
+//        Intent intent = new Intent(getApplicationContext(), fragments_view.class);
+//        startActivity(intent);
+        
+        
+        Intent intent = new Intent(this, Twitter.class);
+        Bundle extras = new Bundle();
+        extras.putString("fbGoId", String.valueOf(result.getUserId()));
+        extras.putString("userName", result.getUserName());
+        extras.putString("token", String.valueOf(result.getAuthToken()));
+        intent.putExtras(extras);
+        startActivity(intent);
+        finish();
+    }
+
+
+
+
     //LinkedIn login
 //    public void login(View view){
 //        final UserDetails userDetails=new UserDetails();

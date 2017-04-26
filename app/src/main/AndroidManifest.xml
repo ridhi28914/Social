@@ -45,7 +45,8 @@
         <activity android:name=".MyPins" />
         <activity android:name=".CreatePinActivity" />
         <activity android:name=".FollowingActivity" />
-        <activity android:name=".SearchUserActivity"></activity>
+        <activity android:name=".SearchUserActivity" />
+        <activity android:name=".Twitter"></activity>
     </application>
 
 </manifest>
