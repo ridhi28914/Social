@@ -17,7 +17,7 @@ import okhttp3.RequestBody;
 
 import static com.application.social.utils.CommonLib.SERVER_URL;
 
-public class Twitter extends AppCompatActivity {
+public class TwitterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class Twitter extends AppCompatActivity {
 //                    }
 //                });
 
-        saveTwitterDb(user);
+//        saveTwitterDb(user);
 
 
 

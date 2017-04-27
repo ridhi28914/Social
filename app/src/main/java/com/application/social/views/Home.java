@@ -224,11 +224,12 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 //        startActivity(intent);
         
         
-        Intent intent = new Intent(this, Twitter.class);
         Bundle extras = new Bundle();
         extras.putString("fbGoId", String.valueOf(result.getUserId()));
         extras.putString("userName", result.getUserName());
         extras.putString("token", String.valueOf(result.getAuthToken()));
+        Intent intent = new Intent(this, TwitterActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtras(extras);
         startActivity(intent);
         finish();

@@ -37,6 +37,8 @@
             android:name=".Pinterest"
             android:label="@string/title_activity_pinterest"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".TwitterActivity"
+            android:label="@string/title_activity_twitter" />
         <activity
             android:name=".MyBoards"
             android:label="@string/title_activity_my_boards"
@@ -46,7 +48,7 @@
         <activity android:name=".CreatePinActivity" />
         <activity android:name=".FollowingActivity" />
         <activity android:name=".SearchUserActivity" />
-        <activity android:name=".Twitter"></activity>
+
     </application>
 
 </manifest>

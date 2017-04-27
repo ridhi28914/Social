@@ -15,4 +15,5 @@
     <string name="title_activity_my_boards">MyBoards</string>
     <string name="action_delete">Delete</string>
     <string name="action_new_pin">New Pin</string>
+    <string name="title_activity_twitter" >Pinterest</string>
 </resources>
