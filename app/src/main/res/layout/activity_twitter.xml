@@ -2,17 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.application.social.views.Twitter">
-    <Button
-        android:layout_width="200dip"
+    tools:context="com.application.social.views.Twitter.Twitter"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <TextView
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="My Pins"
-        android:id="@+id/twitter_button"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/name_textview"
-        android:background="@null"
+        android:text="Hello World, MyActivity"
         />
 
 </RelativeLayout>
