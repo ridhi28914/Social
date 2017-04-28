@@ -56,7 +56,7 @@ import static com.application.social.utils.CommonLib.TWITTER_SECRET;
 public class TwitterActivity extends ListActivity {
     final static String LOG_TAG = "rnc";
     private ListActivity activity;
-    final static String ScreenName = "ridhi28";
+//    final static String ScreenName = "ridhi28";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,12 +90,12 @@ public class TwitterActivity extends ListActivity {
 
 //        saveTwitterDb(user);
 
-        downloadTweets();
+        downloadTweets(user.getName());
 
 
     }
 
-    public void downloadTweets() {
+    public void downloadTweets(String ScreenName) {
 //        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 //        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 //
@@ -136,14 +136,15 @@ public class TwitterActivity extends ListActivity {
     // Uses an AsyncTask to download a Twitter user's timeline
     private class DownloadTwitterTask extends AsyncTask<String, Void, String> {
         final static String TwitterTokenURL = "https://api.twitter.com/oauth2/token";
-        final static String TwitterStreamURL = "https://api.twitter.com/1.1/statuses/home_timeline.json?screen_name=";
+        final static String TwitterStreamURL = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=";
+//        final static String TwitterStreamURL = "https://api.twitter.com/1.1/statuses/home_timeline.json";
 
         @Override
         protected String doInBackground(String... screenNames) {
             String result = null;
 
             if (screenNames.length > 0) {
-                result = getTwitterStream(screenNames[0]);
+                result = getTwitterStream(screenNames[0],0);
             }
             return result;
         }
@@ -160,9 +161,10 @@ public class TwitterActivity extends ListActivity {
 
             // send the tweets to the adapter for rendering
 //            ArrayAdapter<Tweet> adapter;
-//            adapter = new ArrayAdapter<Tweet>(activity, android.R.layout.simple_list_item_1, twits);
+//            adapter = new ArrayAdapter<Tweet>(activity, layout.simple_list_item_1, twits);
 //            setListAdapter(adapter);
         }
+
 
         // converts a string of JSON data into a Twitter object
         private MyTwitter jsonToTwitter(String result) {
@@ -221,7 +223,7 @@ public class TwitterActivity extends ListActivity {
             return sb.toString();
         }
 
-        private String getTwitterStream(String screenName) {
+        private String getTwitterStream(String screenName,int i) {
             String results = null;
 
             // Step 1: Encode consumer key and secret
@@ -251,6 +253,7 @@ public class TwitterActivity extends ListActivity {
 
                     // Step 3: Authenticate API requests with bearer token
                     HttpGet httpGet = new HttpGet(TwitterStreamURL + screenName);
+//                    HttpGet httpGet = new HttpGet(TwitterStreamURL);
 
                     // construct a normal HTTPS request and include an Authorization
                     // header with the value of Bearer <>
