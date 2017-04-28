@@ -24,6 +24,18 @@
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         android:id="@+id/pinterest_login"/>
+    <Button
+        android:id="@+id/instagram_button"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        android:text="Login with Instagram" />
+    <TextView
+        android:id="@+id/data_received_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Data Received" />
     <!--<Button-->
     <!--android:layout_below="@+id/linkedtext"-->
     <!--android:id="@+id/linkedin_login_button"-->

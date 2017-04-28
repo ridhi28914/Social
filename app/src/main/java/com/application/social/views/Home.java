@@ -1,29 +1,13 @@
 package com.application.social.views;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
-import android.view.Window;
-import android.webkit.CookieSyncManager;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.application.social.data.UserDetails;
-import com.application.social.utils.ApiCall;
-import com.application.social.utils.CommonLib;
-import com.application.social.utils.InstagramApp;
-import com.application.social.utils.InstagramDialog;
-import com.facebook.AccessToken;
 //import com.linkedin.platform.APIHelper;
 //import com.linkedin.platform.LISessionManager;
 //import com.linkedin.platform.errors.LIApiError;
@@ -32,14 +16,13 @@ import com.facebook.AccessToken;
 //import com.linkedin.platform.listeners.ApiResponse;
 //import com.linkedin.platform.listeners.AuthListener;
 //import com.linkedin.platform.utils.Scope;
+import com.application.social.utils.CommonLib;
+import com.application.social.utils.Instagram.InstagramHelper;
+import com.application.social.utils.Instagram.InstagramListener;
 import com.pinterest.android.pdk.PDKClient;
-import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.*;
 import io.fabric.sdk.android.Fabric;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
 
 
 import com.pinterest.android.pdk.PDKCallback;
@@ -49,25 +32,16 @@ import com.pinterest.android.pdk.PDKResponse;
 
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
-import com.twitter.sdk.android.core.models.User;
-import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
-import com.twitter.sdk.android.tweetui.UserTimeline;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-import static android.graphics.Paint.Style.FILL;
 import static com.application.social.utils.CommonLib.PINTEREST_KEY;
-import static com.application.social.utils.CommonLib.SERVER_URL;
 import static com.application.social.utils.CommonLib.TWITTER_KEY;
 import static com.application.social.utils.CommonLib.TWITTER_SECRET;
-import static java.security.AccessController.getContext;
 
-public class Home extends AppCompatActivity implements View.OnClickListener {
+public class Home extends AppCompatActivity implements InstagramListener, View.OnClickListener {
 
     String TAG = "Home class";
 
@@ -86,6 +60,11 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
     private PDKClient pdkClient;
     Button pinterestLoginButton;
+
+    private Button mInstagramButton;
+    private InstagramHelper mInstagram;
+    private TextView mDataTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,8 +117,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
         twitterLoginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
         onTwitterLogin(twitterLoginButton);
-//        twitterLoginButton.setOnClickListener(this);
 
+        mInstagramButton = (Button) findViewById(R.id.instagram_button);
+        mInstagramButton.setOnClickListener(this);
+        mInstagram = new InstagramHelper(this, this, CommonLib.INSTAGRAM_ID,CommonLib.INSTAGRAM_SECRET, CommonLib.INSTAGRAM_CALLBACK_URL);
 
     }
     @Override
@@ -163,7 +144,20 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             case R.id.pinterest_login:
                 onPinterestLogin();
                 break;
+            case R.id.instagram_button:
+                mInstagram.performSignIn();
+                break;
         }
+    }
+    @Override public void onInstagramSignInFail(String errorMessage) {
+        mDataTextView.setText(errorMessage);
+    }
+
+    @Override public void onInstagramSignInSuccess(String authToken, String userId) {
+        System.out.print(authToken);
+//        mDataTextView.setText(String.format(Locale.US, "User id:%s\n\nAuthToken:%s", userId, authToken));
+
+//        mDataTextView.setText(String.format(Locale.US, "User id:%s\n\nAuthToken:%s", userId, authToken));
     }
     private void onPinterestLogin() {
         List scopes = new ArrayList<String>();
@@ -228,8 +222,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         startActivity(intent);
         finish();
     }
-
-
 
 
     //LinkedIn login
