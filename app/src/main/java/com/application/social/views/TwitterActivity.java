@@ -96,14 +96,14 @@ public class TwitterActivity extends ListActivity {
     }
 
     public void downloadTweets() {
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-
-        if (networkInfo != null && networkInfo.isConnected()) {
+//        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+//
+//        if (networkInfo != null && networkInfo.isConnected()) {
             new DownloadTwitterTask().execute(ScreenName);
-        } else {
-            Log.v(LOG_TAG, "No network connection available.");
-        }
+//        } else {
+//            Log.v(LOG_TAG, "No network connection available.");
+//        }
     }
 
     private void saveTwitterDb(UserDetails user) {
@@ -136,7 +136,7 @@ public class TwitterActivity extends ListActivity {
     // Uses an AsyncTask to download a Twitter user's timeline
     private class DownloadTwitterTask extends AsyncTask<String, Void, String> {
         final static String TwitterTokenURL = "https://api.twitter.com/oauth2/token";
-        final static String TwitterStreamURL = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=";
+        final static String TwitterStreamURL = "https://api.twitter.com/1.1/statuses/home_timeline.json?screen_name=";
 
         @Override
         protected String doInBackground(String... screenNames) {
