@@ -1,4 +1,4 @@
-package com.application.social.views.Twitter;
+package com.application.social.utils.Twitter;
 
 /**
  * Created by Ridhi on 4/27/2017.

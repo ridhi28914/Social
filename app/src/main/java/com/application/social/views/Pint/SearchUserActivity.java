@@ -1,10 +1,8 @@
-package com.application.social.views;
+package com.application.social.views.Pint;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.application.social.views.R;
 import com.pinterest.android.pdk.PDKCallback;
 import com.pinterest.android.pdk.PDKClient;
 import com.pinterest.android.pdk.PDKException;

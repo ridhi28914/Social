@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.application.social.utils.CommonLib;
 import com.application.social.utils.Instagram.InstagramHelper;
 import com.application.social.utils.Instagram.InstagramListener;
+import com.application.social.views.Pint.Pinterest;
+import com.application.social.views.Twit.TwitterActivity;
 import com.pinterest.android.pdk.PDKClient;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.*;
@@ -35,7 +37,6 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static com.application.social.utils.CommonLib.PINTEREST_KEY;
 import static com.application.social.utils.CommonLib.TWITTER_KEY;

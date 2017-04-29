@@ -1,22 +1,17 @@
-package com.application.social.views;
+package com.application.social.views.Twit;
 
 import android.app.ListActivity;
-import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.application.social.data.UserDetails;
 import com.application.social.utils.ApiCall;
-import com.application.social.views.Twitter.MyTweet;
-import com.application.social.views.Twitter.MyTwitter;
-import com.application.social.views.Twitter.TwitterAuthenticated;
+import com.application.social.utils.Twitter.MyTweet;
+import com.application.social.utils.Twitter.MyTwitter;
+import com.application.social.utils.Twitter.TwitterAuthenticated;
+import com.application.social.views.R;
 import com.google.gson.Gson;
 //import org.apache.http.HttpEntity;
 //import org.apache.http.HttpResponse;
@@ -28,7 +23,6 @@ import com.google.gson.Gson;
 //import org.apache.http.impl.client.DefaultHttpClient;
 //import org.apache.http.params.BasicHttpParams;
 import com.loopj.android.http.HttpGet;
-import com.twitter.sdk.android.core.models.Tweet;
 
 import java.io.BufferedReader;
 import java.io.IOException;

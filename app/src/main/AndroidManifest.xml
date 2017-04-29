@@ -34,20 +34,20 @@
         <activity android:name=".fragments_view" />
         <activity android:name=".ArticleFragment" />
         <activity
-            android:name=".Pinterest"
+            android:name=".Pint.Pinterest"
             android:label="@string/title_activity_pinterest"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".TwitterActivity"
+        <activity android:name=".Twit.TwitterActivity"
             android:label="@string/title_activity_twitter" />
         <activity
-            android:name=".MyBoards"
+            android:name=".Pint.MyBoards"
             android:label="@string/title_activity_my_boards"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CreateBoardActivity" />
-        <activity android:name=".MyPins" />
-        <activity android:name=".CreatePinActivity" />
-        <activity android:name=".FollowingActivity" />
-        <activity android:name=".SearchUserActivity" />
+        <activity android:name=".Pint.CreateBoardActivity" />
+        <activity android:name=".Pint.MyPins" />
+        <activity android:name=".Pint.CreatePinActivity" />
+        <activity android:name=".Pint.FollowingActivity" />
+        <activity android:name=".Pint.SearchUserActivity" />
 
     </application>
 

@@ -1,7 +1,10 @@
-package com.application.social.views;
+package com.application.social.views.Pint;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -9,37 +12,40 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.application.social.views.R;
 import com.pinterest.android.pdk.PDKCallback;
 import com.pinterest.android.pdk.PDKClient;
 import com.pinterest.android.pdk.PDKException;
 import com.pinterest.android.pdk.PDKResponse;
 import com.pinterest.android.pdk.Utils;
-
-
-public class CreateBoardActivity extends AppCompatActivity {
-    EditText boardName, boardDesc;
-    Button saveButton;
+public class CreatePinActivity extends AppCompatActivity {
+    EditText imageUrl, link, boardId, note;
+    Button saveButton, selectImagebutton;
     TextView responseView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_board);
-        boardName = (EditText) findViewById(R.id.board_create_name);
-        boardDesc = (EditText) findViewById(R.id.board_create_desc);
-        responseView = (TextView) findViewById(R.id.board_response_view);
+        setContentView(R.layout.activity_create_pin);
+        imageUrl = (EditText) findViewById(R.id.pin_create_url);
+        link = (EditText) findViewById(R.id.pin_create_link);
+        note = (EditText) findViewById(R.id.pin_create_note);
+        responseView = (TextView) findViewById(R.id.pin_response_view);
+        boardId = (EditText) findViewById(R.id.create_pin_board_id);
         saveButton = (Button) findViewById(R.id.save_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onSaveBoard();
+                onSavePin();
             }
         });
     }
-    private void onSaveBoard() {
-        String bName = boardName.getText().toString();
-        if (!Utils.isEmpty(bName)) {
-            PDKClient.getInstance().createBoard(bName, boardDesc.getText().toString(), new PDKCallback() {
+    private void onSavePin() {
+        String pinImageUrl = imageUrl.getText().toString();
+        String board = boardId.getText().toString();
+        String noteText = note.getText().toString();
+        if (!Utils.isEmpty(noteText) &&!Utils.isEmpty(board) && !Utils.isEmpty(pinImageUrl)) {
+            PDKClient
+                    .getInstance().createPin(noteText, board, pinImageUrl, link.getText().toString(), new PDKCallback() {
                 @Override
                 public void onSuccess(PDKResponse response) {
                     Log.d(getClass().getName(), response.getData().toString());
@@ -54,7 +60,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(this, "Board name cannot be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Required fields cannot be empty", Toast.LENGTH_SHORT).show();
         }
     }
 }
