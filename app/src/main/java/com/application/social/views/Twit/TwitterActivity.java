@@ -13,15 +13,7 @@ import com.application.social.utils.Twitter.MyTwitter;
 import com.application.social.utils.Twitter.TwitterAuthenticated;
 import com.application.social.views.R;
 import com.google.gson.Gson;
-//import org.apache.http.HttpEntity;
-//import org.apache.http.HttpResponse;
-//import org.apache.http.client.ClientProtocolException;
-//import org.apache.http.client.methods.HttpGet;
-//import org.apache.http.client.methods.HttpPost;
-//import org.apache.http.client.methods.HttpRequestBase;
-//import org.apache.http.entity.StringEntity;
-//import org.apache.http.impl.client.DefaultHttpClient;
-//import org.apache.http.params.BasicHttpParams;
+
 import com.loopj.android.http.HttpGet;
 
 import java.io.BufferedReader;

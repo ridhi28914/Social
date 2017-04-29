@@ -48,6 +48,9 @@
         <activity android:name=".Pint.CreatePinActivity" />
         <activity android:name=".Pint.FollowingActivity" />
         <activity android:name=".Pint.SearchUserActivity" />
+        <activity android:name=".Insta.Photo"
+            android:label="@string/title_activity_photo" >
+        </activity>
 
     </application>
 

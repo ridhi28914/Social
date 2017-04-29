@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.application.social.utils.CommonLib;
 import com.application.social.utils.Instagram.InstagramHelper;
 import com.application.social.utils.Instagram.InstagramListener;
+import com.application.social.views.Insta.Photo;
 import com.application.social.views.Pint.Pinterest;
 import com.application.social.views.Twit.TwitterActivity;
 import com.pinterest.android.pdk.PDKClient;
@@ -156,10 +157,17 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 
     @Override public void onInstagramSignInSuccess(String authToken, String userId) {
         System.out.print(authToken);
-//        mDataTextView.setText(String.format(Locale.US, "User id:%s\n\nAuthToken:%s", userId, authToken));
-
-//        mDataTextView.setText(String.format(Locale.US, "User id:%s\n\nAuthToken:%s", userId, authToken));
+        show_photo_view(authToken);
     }
+    private void show_photo_view(String authToken){
+        Intent intent = new Intent(Home.this, Photo.class);
+        Bundle bundle= new Bundle();
+        bundle.putString("authToken",authToken);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
     private void onPinterestLogin() {
         List scopes = new ArrayList<String>();
         scopes.add(PDKClient.PDKCLIENT_PERMISSION_READ_PUBLIC);

@@ -16,4 +16,8 @@
     <string name="action_delete">Delete</string>
     <string name="action_new_pin">New Pin</string>
     <string name="title_activity_twitter" >Pinterest</string>
+
+    <!--<string name="action_settings">Settings</string>-->
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_photo">Photo</string>
 </resources>
