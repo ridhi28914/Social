@@ -7,6 +7,20 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
+        <ImageView
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:paddingTop="20dip"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/profile_imageview"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/name_textview"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            />
         <TabWidget
             android:id="@android:id/tabs"
             android:layout_width="fill_parent"
@@ -15,5 +29,6 @@
             android:id="@android:id/tabcontent"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"/>
+
     </LinearLayout>
 </TabHost>
