@@ -64,8 +64,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener , GoogleApiClient.OnConnectionFailedListener , AfterUpload {
 
 
-    SharedPreferences sharedPreference;
-    SharedPreferences.Editor editor;
+//    SharedPreferences sharedPreference;
+//    SharedPreferences.Editor editor;
 
 
     //gplus login
@@ -108,16 +108,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            e.printStackTrace();
 //        }
         super.onCreate(savedInstanceState);
-
-        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
-        editor = sharedPreference.edit();
-        String accessToken=sharedPreference.getString("access_token",null);
-        if (accessToken!=null) {
-            Log.d(TAG,"give access");
-            Intent intent = new Intent(this, Home.class);
-            startActivity(intent);
-        }
-        else{
+//
+//        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+//        editor = sharedPreference.edit();
+//        String accessToken=sharedPreference.getString("access_token",null);
+//        if (accessToken!=null) {
+//            Log.d(TAG,"give access");
+//            Intent intent = new Intent(this, Home.class);
+//            startActivity(intent);
+//        }
+//        else{
 
         initializeControls();
         Button btnStartAnotherActivity;
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loginWithFB();
         loginWithGoogle();
 
-        }
+//        }
 
 
     }

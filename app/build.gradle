@@ -53,6 +53,7 @@ dependencies {
 //    compile project(':linkedin-sdk')
     compile project(':pdk')
     //    compile 'com.android.support:appcompat-v7:25.2.0'
+    //    compile 'com.codepath.libraries:android-oauth-handler:1.1.2'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.facebook.android:facebook-android-sdk:4.20.0'
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
@@ -64,6 +65,5 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.loopj.android:android-async-http:1.4.9'
-//    compile 'com.codepath.libraries:android-oauth-handler:1.1.2'
     testCompile 'junit:junit:4.12'
 }
