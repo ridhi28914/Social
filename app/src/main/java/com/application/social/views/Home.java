@@ -20,6 +20,7 @@ import com.application.social.utils.CommonLib;
 import com.application.social.utils.Instagram.InstagramHelper;
 import com.application.social.utils.Instagram.InstagramListener;
 import com.application.social.views.Insta.Photo;
+import com.application.social.views.Pint.PintHome;
 import com.application.social.views.Pint.Pinterest;
 import com.application.social.views.Twit.TwitterActivity;
 import com.pinterest.android.pdk.PDKClient;
@@ -191,7 +192,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     }
 
     private void onPinterestLoginSuccess() {
-        Intent i = new Intent(this, Pinterest.class);
+        Intent i = new Intent(this, PintHome.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
         finish();

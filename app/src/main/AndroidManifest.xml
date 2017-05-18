@@ -37,7 +37,8 @@
             android:name=".Pint.Pinterest"
             android:label="@string/title_activity_pinterest"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Twit.TwitterActivity"
+        <activity
+            android:name=".Twit.TwitterActivity"
             android:label="@string/title_activity_twitter" />
         <activity
             android:name=".Pint.MyBoards"
@@ -48,10 +49,14 @@
         <activity android:name=".Pint.CreatePinActivity" />
         <activity android:name=".Pint.FollowingActivity" />
         <activity android:name=".Pint.SearchUserActivity" />
-        <activity android:name=".Insta.Photo"
-            android:label="@string/title_activity_photo" >
-        </activity>
-
+        <activity
+            android:name=".Insta.Photo"
+            android:label="@string/title_activity_photo" />
+        <activity android:name=".Pint.PintHome" />
+        <activity
+            android:name=".Pint.PintHomeTwo"
+            android:label="@string/title_activity_pint_home_two"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
