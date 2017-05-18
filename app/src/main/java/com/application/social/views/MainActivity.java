@@ -57,15 +57,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Date;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
-
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
 import static com.application.social.utils.CommonLib.SERVER_URL;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-//, GoogleApiClient.OnConnectionFailedListener
-//implement interface class
 public class MainActivity extends AppCompatActivity implements View.OnClickListener , GoogleApiClient.OnConnectionFailedListener , AfterUpload {
 
 
@@ -92,37 +87,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LoginButton login_button;
     CallbackManager callbackManager;
 
-    //googlelogin
-    String strUrl="http://www.google.com";
-
     UploadManager uploadManager = new UploadManager();
     UserDetails userDetails =  new UserDetails();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.application.social",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            PackageInfo info = getPackageManager().getPackageInfo(
+//                    "com.application.social",
+//                    PackageManager.GET_SIGNATURES);
+//            for (Signature signature : info.signatures) {
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//            }
+//        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+//
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
         super.onCreate(savedInstanceState);
 
-//        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
-//        editor = sharedPreference.edit();
-//        if (sharedPreference.contains("access_token")) {
-////            // TODO: 4/20/2017 check if accesstoken is valid or not and give access to app
-//        }
-//        else{
+        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+        editor = sharedPreference.edit();
+        String accessToken=sharedPreference.getString("access_token",null);
+        if (accessToken!=null) {
+            Log.d(TAG,"give access");
+            Intent intent = new Intent(this, Home.class);
+            startActivity(intent);
+        }
+        else{
 
         initializeControls();
         Button btnStartAnotherActivity;
@@ -132,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loginWithFB();
         loginWithGoogle();
 
-//        }
+        }
 
 
     }
@@ -319,8 +314,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 signOut();
                 break;
             case R.id.platformActivity:
-                Intent inent = new Intent(this, Home.class);
-                startActivity(inent);
+                Intent intent = new Intent(this, Home.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -339,27 +334,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onStart() {
         super.onStart();
-
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (opr.isDone() ) {
-            // If the user's cached UserDetailss are valid, the OptionalPendingResult will be "done"
-            // and the GoogleSignInResult will be available instantly.
-            Log.d(TAG, "Got cached sign-in");
-            GoogleSignInResult result = opr.get();
-            handleGPlusSignInResult(result);
-        } else {
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
-            showProgressDialog();
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-                    hideProgressDialog();
-                    handleGPlusSignInResult(googleSignInResult);
-                }
-            });
-        }
+//
+//        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+//        if (opr.isDone() ) {
+//            // If the user's cached UserDetailss are valid, the OptionalPendingResult will be "done"
+//            // and the GoogleSignInResult will be available instantly.
+//            Log.d(TAG, "Got cached sign-in");
+//            GoogleSignInResult result = opr.get();
+//            handleGPlusSignInResult(result);
+//        } else {
+//            // If the user has not previously signed in on this device or the sign-in has expired,
+//            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
+//            // single sign-on will occur in this branch.
+//            showProgressDialog();
+//            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+//                @Override
+//                public void onResult(GoogleSignInResult googleSignInResult) {
+//                    hideProgressDialog();
+//                    handleGPlusSignInResult(googleSignInResult);
+//                }
+//            });
+//        }
     }
 
     @Override
@@ -401,10 +396,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void doneLoggingIn() {
         Log.d(TAG,"done uploading");
-//        Intent intent = new Intent(MainActivity.this, Platforms.class);
-//        EditText editText = (EditText) findViewById(R.id.editText);
-//        String message = editText.getText().toString();
+        Intent intent = new Intent(this, Home.class);
 //        intent.putExtra("Some_message", "staring new activity");
-//        startActivity(intent);
+        startActivity(intent);
     }
 }

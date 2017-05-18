@@ -32,7 +32,6 @@ public class ApiCall {
                 .post(body)
                 .build();
         Response response = client.newCall(request).execute();
-        return response.toString();
-//        return response.body().string();
+        return response.body().string();
     }
 }
