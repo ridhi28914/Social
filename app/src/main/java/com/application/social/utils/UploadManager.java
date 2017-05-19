@@ -38,9 +38,9 @@ public  class UploadManager {
     //static list
     public void twitterLogIn(UserDetails details) {
 
-        TwitterLogin twitterLogIn= new TwitterLogin(details);
+        TwitterLogin twitterLogin= new TwitterLogin(details);
         Log.d(mTAG, "user is"+details.getName());
-        twitterLogIn.execute();
+        twitterLogin.execute();
     }
     public class TwitterLogin extends AsyncTask< Void , UserDetails, String> {
         private UserDetails cred;
@@ -108,9 +108,9 @@ public  class UploadManager {
 
     public void pinterestLogIn(UserDetails details) {
 
-        PinterestLogin pinterestLogIn= new PinterestLogin(details);
+        PinterestLogin pinterestLogin= new PinterestLogin(details);
         Log.d(mTAG, "user is"+details.getName());
-        pinterestLogIn.execute();
+        pinterestLogin.execute();
     }
     public class PinterestLogin extends AsyncTask< Void , UserDetails, String> {
         private UserDetails cred;

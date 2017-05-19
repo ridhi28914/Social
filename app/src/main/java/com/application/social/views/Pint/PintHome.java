@@ -24,7 +24,7 @@ import com.squareup.picasso.Picasso;
 import static com.application.social.views.BuildConfig.DEBUG;
 
 public class PintHome extends TabActivity {
-    UploadManager uploadManager;
+    UploadManager uploadManager=new UploadManager();;
     private TextView nameTv;
     private ImageView profileIv;
     private final String USER_FIELDS = "id,image,counts,created_at,first_name,last_name,bio";
