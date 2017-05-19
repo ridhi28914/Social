@@ -233,7 +233,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         finish();
     }
 
-
     //LinkedIn login
 //    public void login(View view){
 //        final UserDetails userDetails=new UserDetails();

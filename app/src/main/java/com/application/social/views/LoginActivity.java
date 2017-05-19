@@ -21,10 +21,12 @@ public class LoginActivity extends AppCompatActivity {
         if (accessToken!=null) {
             Intent intent = new Intent(this, Home.class);
             startActivity(intent);
+            finish();
         }
         else{
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 }

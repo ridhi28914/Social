@@ -7,4 +7,7 @@ package com.application.social.utils;
 public interface AfterUpload {
     public void doneLoggingIn();
 
+    void doneTwitterLogIn();
+
+    void donePinterestLogIn();
 }

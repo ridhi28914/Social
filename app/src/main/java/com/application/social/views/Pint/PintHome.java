@@ -10,6 +10,8 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.application.social.data.UserDetails;
+import com.application.social.utils.UploadManager;
 import com.application.social.views.R;
 import com.pinterest.android.pdk.PDKCallback;
 import com.pinterest.android.pdk.PDKClient;
@@ -22,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import static com.application.social.views.BuildConfig.DEBUG;
 
 public class PintHome extends TabActivity {
+    UploadManager uploadManager;
     private TextView nameTv;
     private ImageView profileIv;
     private final String USER_FIELDS = "id,image,counts,created_at,first_name,last_name,bio";
@@ -66,6 +69,13 @@ public class PintHome extends TabActivity {
             public void onSuccess(PDKResponse response) {
                 if (DEBUG) log(String.format("status: %d", response.getStatusCode()));
                 user = response.getUser();
+
+                UserDetails userDetails= new UserDetails();
+
+                userDetails.setName(user.getFirstName());
+                userDetails.setProfilePic(user.getImageUrl());
+                userDetails.setFbGoId(user.getUid());
+                savePinterestDb(userDetails);
                 setUser();
             }
             @Override
@@ -74,6 +84,10 @@ public class PintHome extends TabActivity {
                 Toast.makeText(PintHome.this, "/me Request failed", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void savePinterestDb(UserDetails user) {
+        uploadManager.pinterestLogIn(user);
     }
 
     private void setUser() {

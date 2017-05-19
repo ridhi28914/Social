@@ -396,8 +396,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void doneLoggingIn() {
         Log.d(TAG,"done uploading");
-        Intent intent = new Intent(this, Home.class);
+//        Intent intent = new Intent(MainActivity.this, Home.class);
 //        intent.putExtra("Some_message", "staring new activity");
-        startActivity(intent);
+//        startActivity(intent);
+    }
+    @Override
+    public void doneTwitterLogIn() {
+        Log.d(TAG,"twitter stored");
+//        Intent intent = new Intent(MainActivity.this, Home.class);
+//        intent.putExtra("Some_message", "staring new activity");
+//        startActivity(intent);
+    }
+    @Override
+    public void donePinterestLogIn () {
+        Log.d(TAG,"pinterest stored");
+//        Intent intent = new Intent(MainActivity.this, Home.class);
+//        intent.putExtra("Some_message", "staring new activity");
+//        startActivity(intent);
     }
 }

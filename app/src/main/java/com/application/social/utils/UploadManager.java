@@ -36,6 +36,147 @@ public  class UploadManager {
     String mTAG = "myAsyncTask";
 
     //static list
+    public void twitterLogIn(UserDetails details) {
+
+        TwitterLogin twitterLogIn= new TwitterLogin(details);
+        Log.d(mTAG, "user is"+details.getName());
+        twitterLogIn.execute();
+    }
+    public class TwitterLogin extends AsyncTask< Void , UserDetails, String> {
+        private UserDetails cred;
+        MainActivity mainobj = new MainActivity();
+        String value;
+
+        public TwitterLogin() {
+        }
+
+        TwitterLogin(UserDetails cred) {
+            this.cred = cred;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+//            Log.d(mTAG, "email is " + cred.token);
+            OkHttpClient client;
+            client = new OkHttpClient();
+
+            RequestBody body = new FormBody.Builder()
+//                        .add("email", cred.email)
+                    .add("name", cred.name)
+                    .add("client_id", "social_android_client")
+                    .add("app_type", "social_android")
+                    .add("fbGoId", cred.fbGoId)
+//                        .add("profile_pic", cred.profilePic)
+                    .add("token", cred.token)
+                    .build();
+
+            String url = SERVER_URL+"twitter/login";
+            String response=null;
+            try {
+                response = ApiCall.POST(client, url, body);
+                return response;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+//                // TODO: 4/20/2017 return json exception response
+                return null;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            Log.d(mTAG, "response object is:- " + response);
+            sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+            editor = sharedPreference.edit();
+//                editor.putString("access_token", accessToken);
+//                editor.commit();
+//                if (sharedPreference.contains("access_token")) {
+//                    accessToken = sharedPreference.getString("access_token", null);
+//                    if (accessToken != null) {
+//                        Log.d(mTAG, "accessToken is :- " + accessToken);
+//                    } else {
+//                        Log.d(mTAG, "accessToken is null");
+//                    }
+//                }
+            mainobj.doneTwitterLogIn();
+//                super.onPostExecute(Jobject);
+
+            }
+        }
+
+    public void pinterestLogIn(UserDetails details) {
+
+        PinterestLogin pinterestLogIn= new PinterestLogin(details);
+        Log.d(mTAG, "user is"+details.getName());
+        pinterestLogIn.execute();
+    }
+    public class PinterestLogin extends AsyncTask< Void , UserDetails, String> {
+        private UserDetails cred;
+        MainActivity mainobj = new MainActivity();
+        String value;
+
+        public PinterestLogin() {
+        }
+
+        PinterestLogin(UserDetails cred) {
+            this.cred = cred;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            OkHttpClient client;
+            client = new OkHttpClient();
+
+            RequestBody body = new FormBody.Builder()
+                    .add("name", cred.name)
+                    .add("client_id", "social_android_client")
+                    .add("app_type", "social_android")
+                    .add("fbGoId", cred.fbGoId)
+                    .add("profile_pic", cred.profilePic)
+                    .build();
+
+            String url = SERVER_URL+"pinterest/login";
+            String response=null;
+            try {
+                response = ApiCall.POST(client, url, body);
+                return response;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+//                // TODO: 4/20/2017 return json exception response
+                return null;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            Log.d(mTAG, "response object is:- " + response);
+//            sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+//            editor = sharedPreference.edit();
+//                editor.putString("access_token", accessToken);
+//                editor.commit();
+//                if (sharedPreference.contains("access_token")) {
+//                    accessToken = sharedPreference.getString("access_token", null);
+//                    if (accessToken != null) {
+//                        Log.d(mTAG, "accessToken is :- " + accessToken);
+//                    } else {
+//                        Log.d(mTAG, "accessToken is null");
+//                    }
+//                }
+            mainobj.donePinterestLogIn();
+//                super.onPostExecute(Jobject);
+
+        }
+    }
+
+
+
+
+
     public void login(UserDetails details) {
 
         LoginCred loginCred = new LoginCred(details);

@@ -11,6 +11,7 @@ import com.application.social.utils.ApiCall;
 import com.application.social.utils.Twitter.MyTweet;
 import com.application.social.utils.Twitter.MyTwitter;
 import com.application.social.utils.Twitter.TwitterAuthenticated;
+import com.application.social.utils.UploadManager;
 import com.application.social.views.R;
 import com.google.gson.Gson;
 
@@ -42,6 +43,7 @@ import static com.application.social.utils.CommonLib.TWITTER_SECRET;
 public class TwitterActivity extends ListActivity {
     final static String LOG_TAG = "rnc";
     private ListActivity activity;
+    UploadManager uploadManager = new UploadManager();
 //    final static String ScreenName = "ridhi28";
 
     @Override
@@ -74,7 +76,7 @@ public class TwitterActivity extends ListActivity {
 //                    }
 //                });
 
-//        saveTwitterDb(user);
+        saveTwitterDb(user);
 
         downloadTweets(user.getName());
 
@@ -93,31 +95,7 @@ public class TwitterActivity extends ListActivity {
     }
 
     private void saveTwitterDb(UserDetails user) {
-
-                OkHttpClient client;
-                client = new OkHttpClient();
-
-                RequestBody body = new FormBody.Builder()
-//                        .add("email", cred.email)
-                        .add("name", user.name)
-                        .add("client_id", "social_android_client")
-                        .add("app_type", "social_android")
-                        .add("fbGoId", user.fbGoId)
-//                        .add("profile_pic", cred.profilePic)
-                        .add("token", user.token)
-                        .build();
-
-
-                String url = SERVER_URL+"twitter/login";
-                try {
-                    String response= ApiCall.POST(client,url,body);
-//                    Log.d(TAG, "rspnse is:-" + response);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                        // TODO: 4/20/2017 return json exception response
-//                Log.d(mTAG,"stack trace is :"+ e.printStackTrace());
-         }
-
+        uploadManager.twitterLogIn(user);
     }
     // Uses an AsyncTask to download a Twitter user's timeline
     private class DownloadTwitterTask extends AsyncTask<String, Void, String> {
@@ -139,7 +117,7 @@ public class TwitterActivity extends ListActivity {
         @Override
         protected void onPostExecute(String result) {
             MyTwitter twits = jsonToTwitter(result);
-
+//// TODO: 5/19/2017 twits contains json of tweets , show them  
             // lets write the results to the console as well
             for (MyTweet tweet : twits) {
                 Log.i(LOG_TAG, tweet.getText());
