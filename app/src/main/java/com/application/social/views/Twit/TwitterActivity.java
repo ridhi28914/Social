@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.application.social.data.UserDetails;
 import com.application.social.utils.ApiCall;
@@ -38,20 +39,21 @@ import okhttp3.RequestBody;
 import static com.application.social.utils.CommonLib.SERVER_URL;
 import static com.application.social.utils.CommonLib.TWITTER_KEY;
 import static com.application.social.utils.CommonLib.TWITTER_SECRET;
+import static com.loopj.android.http.AsyncHttpClient.log;
 
 public class TwitterActivity extends ListActivity {
     final static String LOG_TAG = "rnc";
     private ListActivity activity;
 //    final static String ScreenName = "ridhi28";
-
+    private TextView twit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twitter);
-
+        twit = (TextView) findViewById(R.id.twittext);
         Bundle extras = getIntent().getExtras();
         UserDetails user= new UserDetails();
-
+        log.d("inside twitteractivity", "oncreate twitteractivity");
         user.setName(extras.getString("userName"));
 //                user.email=session.getEmail();
         user.setToken(extras.getString("token"));
@@ -107,16 +109,16 @@ public class TwitterActivity extends ListActivity {
                         .add("token", user.token)
                         .build();
 
-
-                String url = SERVER_URL+"twitter/login";
-                try {
-                    String response= ApiCall.POST(client,url,body);
-//                    Log.d(TAG, "rspnse is:-" + response);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                        // TODO: 4/20/2017 return json exception response
-//                Log.d(mTAG,"stack trace is :"+ e.printStackTrace());
-         }
+// Commented by Ravleen on 19 may 2017
+//                String url = SERVER_URL+"twitter/login";
+//                try {
+//                    String response= ApiCall.POST(client,url,body);
+////                    Log.d(TAG, "rspnse is:-" + response);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                        // TODO: 4/20/2017 return json exception response
+////                Log.d(mTAG,"stack trace is :"+ e.printStackTrace());
+//         }
 
     }
     // Uses an AsyncTask to download a Twitter user's timeline
