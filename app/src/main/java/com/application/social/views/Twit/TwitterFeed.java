@@ -24,21 +24,19 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class TwitterTry extends ListActivity {
+public class TwitterFeed extends ListActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_twitter_try);
-//        Bundle extras = getIntent().getExtras();
-//        UserDetails user= new UserDetails();
-//
-//        user.setName(extras.getString("userName"));
-////                user.email=session.getEmail();
-//        user.setToken(extras.getString("token"));
-//        user.setFbGoId(extras.getString("fbGoId"));
-        final UserTimeline userTimeline = new UserTimeline.Builder()
-                .screenName("deepikapadukone")
+        setContentView(R.layout.activity_twitter_feed);
+        Bundle extras = getIntent().getExtras();
+        String userName = null;
+        if(extras!=null) {
+            userName = extras.getString("userName");
+        }
+         final UserTimeline userTimeline = new UserTimeline.Builder()
+                .screenName(userName)
                 .build();
         final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(this)
                 .setTimeline(userTimeline)

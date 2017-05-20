@@ -58,9 +58,8 @@
             android:label="@string/title_activity_pint_home_two"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".Twit.TwitterFeed" />
         <activity android:name=".Twit.TwitterHome" />
-        <activity android:name=".Twit.TwitterTry" />
-        <activity android:name=".Twit.TwitHome"></activity>
     </application>
 
 </manifest>
