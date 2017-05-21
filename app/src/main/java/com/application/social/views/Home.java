@@ -17,13 +17,25 @@ import android.widget.TextView;
 //import com.linkedin.platform.listeners.ApiResponse;
 //import com.linkedin.platform.listeners.AuthListener;
 //import com.linkedin.platform.utils.Scope;
+import com.application.social.data.UserDetails;
 import com.application.social.utils.CommonLib;
 import com.application.social.utils.Instagram.InstagramHelper;
 import com.application.social.utils.Instagram.InstagramListener;
+import com.application.social.utils.UploadManager;
 import com.application.social.views.Insta.Photo;
 import com.application.social.views.Pint.PintHome;
 import com.application.social.views.Twit.TwitterFeed;
 import com.application.social.views.Twit.TwitterHome;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.pinterest.android.pdk.PDKClient;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.*;
@@ -38,7 +50,11 @@ import com.pinterest.android.pdk.PDKResponse;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.application.social.utils.CommonLib.PINTEREST_KEY;
@@ -71,6 +87,12 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     private InstagramHelper mInstagram;
     private TextView mDataTextView;
 
+    TextView txtstatus;
+    LoginButton login_button;
+    CallbackManager callbackManager;
+
+    UploadManager uploadManager = new UploadManager();
+    UserDetails userDetails =  new UserDetails();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +100,8 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_home);
 
@@ -93,12 +117,106 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         mInstagramButton.setOnClickListener(this);
         mInstagram = new InstagramHelper(this, this, CommonLib.INSTAGRAM_ID,CommonLib.INSTAGRAM_SECRET, CommonLib.INSTAGRAM_CALLBACK_URL);
 
+
+
+        loginWithFB();
+
+    }
+
+    private void loginWithFB() {
+        //fb login
+        txtstatus = (TextView) findViewById(R.id.txtStatus);
+        login_button = (LoginButton) findViewById(R.id.login_button);
+        callbackManager = CallbackManager.Factory.create();
+
+        login_button.setReadPermissions(Arrays.asList(
+                "email", "user_birthday", "user_friends","user_posts"));
+//        login_button.setPublishPermissions("publish_actions");
+        login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+
+                                Log.v("LoginActivity ", response.toString());
+                                try {
+
+
+
+                                    userDetails.setName(object.getString("name"));
+                                    userDetails.setUserId(object.getString("id"));
+                                    userDetails.setProfilePic("https://graph.facebook.com/" + userDetails.getUserId()+ "/picture?type=small");
+                                    if(object.getString("email") != null)
+                                        userDetails.setEmail(object.getString("email"));
+
+                                    Log.d(TAG,"user is "+userDetails);
+                                    uploadManager.facebookLogIn(userDetails);
+                                } catch (JSONException e) {
+                                    userDetails.setEmail("null");
+                                    uploadManager.login(userDetails);
+//                                    e.printStackTrace();
+                                }
+
+//                                // TODO: 4/24/2017 send request to get feed
+                                Bundle params = new Bundle();
+                                params.putString("fields", "picture,likes,comments,story,icon,message,place,shares");
+                                params.putString("limit", "10");
+
+                                new GraphRequest(
+                                        AccessToken.getCurrentAccessToken(),
+                                        "me/feed",
+                                        params,
+                                        HttpMethod.GET,
+                                        new GraphRequest.Callback() {
+                                            public void onCompleted(GraphResponse response) {
+                                                Log.d(TAG, "response is "+ String.valueOf(response));
+            /* handle the result */
+                                            }
+                                        }
+                                ).executeAsync();
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender");
+                request.setParameters(parameters);
+                request.executeAsync();
+
+                userDetails.setToken(loginResult.getAccessToken().getToken());
+                userDetails.setFbGoId(loginResult.getAccessToken().getUserId());
+                userDetails.setFacebookData(loginResult.getAccessToken().getApplicationId());
+                userDetails.setSource(0);
+                String declinedPerm = String.valueOf(loginResult.getAccessToken().getDeclinedPermissions());
+                System.out.print(declinedPerm);
+
+//              Date expiresOn=loginResult.getAccessToken().getExpires();
+            }
+
+            @Override
+            public void onCancel() {
+                txtstatus.setText("login cancelled");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                txtstatus.setText("login error: " + error.getMessage());
+            }
+
+
+        });
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // Make sure that the loginButton hears the result from any
         // Activity that it triggered.
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
         PDKClient.getInstance().onOauthResponse(requestCode, resultCode, data);
 
         twitterLoginButton.onActivityResult(requestCode, resultCode, data);

@@ -10,4 +10,6 @@ public interface AfterUpload {
     void doneTwitterLogIn();
 
     void donePinterestLogIn();
+
+    void doneFacebookLogIn();
 }

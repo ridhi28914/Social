@@ -30,6 +30,13 @@
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         android:text="Login with Instagram" />
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_sign_in"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="112dp" />
     <TextView
         android:id="@+id/data_received_text_view"
         android:layout_width="match_parent"

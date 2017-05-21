@@ -82,11 +82,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView txtName, txtEmail;
 
 
-    //fblogin
-    TextView txtstatus;
-    LoginButton login_button;
-    CallbackManager callbackManager;
-
     UploadManager uploadManager = new UploadManager();
     UserDetails userDetails =  new UserDetails();
 
@@ -108,41 +103,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            e.printStackTrace();
 //        }
         super.onCreate(savedInstanceState);
-//
-//        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
-//        editor = sharedPreference.edit();
-//        String accessToken=sharedPreference.getString("access_token",null);
-//        if (accessToken!=null) {
-//            Log.d(TAG,"give access");
-//            Intent intent = new Intent(this, Home.class);
-//            startActivity(intent);
-//        }
-//        else{
 
         initializeControls();
         Button btnStartAnotherActivity;
         btnStartAnotherActivity = (Button) findViewById(R.id.platformActivity);
 
         btnStartAnotherActivity.setOnClickListener(this);
-        loginWithFB();
         loginWithGoogle();
-
-//        }
-
 
     }
 
     private void initializeControls() {
-        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-        //fb login
-        txtstatus = (TextView) findViewById(R.id.txtStatus);
-        login_button = (LoginButton) findViewById(R.id.login_button);
-        callbackManager = CallbackManager.Factory.create();
 
-        login_button.setReadPermissions(Arrays.asList(
-                "email", "user_birthday", "user_friends","user_posts"));
-//        login_button.setPublishPermissions("publish_actions");
         //gpluslogin
         btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
         btnSignOut = (Button) findViewById(R.id.btn_sign_out);
@@ -154,85 +127,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSignOut.setOnClickListener(this);
     }
 
-    private void loginWithFB() {
-        login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                // App code
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
-
-                                Log.v("LoginActivity ", response.toString());
-                                try {
-
-
-
-                                    userDetails.setName(object.getString("name"));
-                                    userDetails.setUserId(object.getString("id"));
-                                    userDetails.setProfilePic("https://graph.facebook.com/" + userDetails.getUserId()+ "/picture?type=small");
-                                    if(object.getString("email") != null)
-                                        userDetails.setEmail(object.getString("email"));
-
-                                    Log.d(TAG,"user is "+userDetails);
-                                    uploadManager.login(userDetails);
-                                } catch (JSONException e) {
-                                    userDetails.setEmail("null");
-                                    uploadManager.login(userDetails);
-//                                    e.printStackTrace();
-                                }
-
-//                                // TODO: 4/24/2017 send request to get feed
-                                Bundle params = new Bundle();
-                                params.putString("fields", "picture,likes,comments,story,icon,message,place,shares");
-                                params.putString("limit", "10");
-
-                                new GraphRequest(
-                                        AccessToken.getCurrentAccessToken(),
-                                        "me/feed",
-                                        params,
-                                        HttpMethod.GET,
-                                        new GraphRequest.Callback() {
-                                            public void onCompleted(GraphResponse response) {
-                                                Log.d(TAG, "response is "+ String.valueOf(response));
-            /* handle the result */
-                                            }
-                                        }
-                                ).executeAsync();
-                            }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,gender");
-                request.setParameters(parameters);
-                request.executeAsync();
-
-                userDetails.setToken(loginResult.getAccessToken().getToken());
-                userDetails.setFbGoId(loginResult.getAccessToken().getUserId());
-                userDetails.setFacebookData(loginResult.getAccessToken().getApplicationId());
-                userDetails.setSource(0);
-                String declinedPerm = String.valueOf(loginResult.getAccessToken().getDeclinedPermissions());
-                System.out.print(declinedPerm);
-
-//              Date expiresOn=loginResult.getAccessToken().getExpires();
-            }
-
-            @Override
-            public void onCancel() {
-                txtstatus.setText("login cancelled");
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                txtstatus.setText("login error: " + error.getMessage());
-            }
-
-
-        });
-
-    }
     private void loginWithGoogle(){
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -320,7 +214,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
@@ -406,6 +299,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void donePinterestLogIn () {
         Log.d(TAG,"pinterest stored");
+//        Intent intent = new Intent(MainActivity.this, Home.class);
+//        intent.putExtra("Some_message", "staring new activity");
+//        startActivity(intent);
+    }
+    @Override
+    public void doneFacebookLogIn() {
+        Log.d(TAG,"facebook stored");
 //        Intent intent = new Intent(MainActivity.this, Home.class);
 //        intent.putExtra("Some_message", "staring new activity");
 //        startActivity(intent);

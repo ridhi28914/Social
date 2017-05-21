@@ -10,19 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.application.social.views.MainActivity">
 
-    <TextView
-        android:id="@+id/txtStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World"
-        android:layout_alignParentTop="true" />
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_sign_in"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="112dp" />
     <Button
         android:id="@+id/platformActivity"
         android:layout_width="wrap_content"

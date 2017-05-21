@@ -95,7 +95,6 @@ public  class UploadManager {
 
             @Override
             protected void onPostExecute(String response) {
-//            JsonParser pr = new JsonParser();
                 Log.d(mTAG, "response object is:- " + response);
                 String accessToken=null;
                 String userId=null;
@@ -134,6 +133,74 @@ public  class UploadManager {
 
 
         }
+
+    public void facebookLogIn(UserDetails details) {
+
+        FacebookLogin facebookLogin= new FacebookLogin(details);
+        Log.d(mTAG, "user is"+details.getName());
+        facebookLogin.execute();
+    }
+    public class FacebookLogin extends AsyncTask< Void , UserDetails, String> {
+        private UserDetails cred;
+        MainActivity mainobj = new MainActivity();
+        String value;
+
+        public FacebookLogin() {
+        }
+
+        FacebookLogin(UserDetails cred) {
+            this.cred = cred;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            if(cred.getEmail()==null)
+                cred.setEmail("null");
+            if(cred.getFacebookData()==null)
+                cred.setFacebookData("null");
+            OkHttpClient client;
+            client = new OkHttpClient();
+
+            RequestBody body = new FormBody.Builder()
+                    .add("email", cred.email)
+                    .add("name", cred.name)
+                    .add("client_id", "social_android_client")
+                    .add("app_type", "social_android")
+                    .add("fbGoId", cred.fbGoId)
+                    .add("source", String.valueOf(cred.source))
+                    .add("profile_pic", cred.profilePic)
+                    .add("token", cred.token)
+                    .add("facebook_data", cred.facebookData)
+                    .build();
+
+            String url = SERVER_URL+"facebook/login";
+            String response=null;
+            try {
+                response = ApiCall.POST(client, url, body);
+                return response;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+//                // TODO: 4/20/2017 return json exception response
+                return null;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            Log.d(mTAG, "response object is:- " + response);
+            sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+            editor = sharedPreference.edit();
+            mainobj.doneFacebookLogIn();
+//                super.onPostExecute(Jobject);
+
+        }
+    }
+
+
+
     public void twitterLogIn(UserDetails details) {
 
         TwitterLogin twitterLogin= new TwitterLogin(details);
