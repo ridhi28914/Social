@@ -7,16 +7,29 @@ import android.os.Bundle;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.application.social.data.UserDetails;
+import com.application.social.utils.UploadManager;
 import com.application.social.views.R;
 
 public class TwitterHome extends TabActivity {
     private TextView nameTv;
+    UploadManager uploadManager = new UploadManager();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twitter_home);
 
         Bundle extras = getIntent().getExtras();
+        UserDetails user= new UserDetails();
+
+        user.setName(extras.getString("userName"));
+//      user.email=session.getEmail();
+        user.setToken(extras.getString("token"));
+        user.setFbGoId(extras.getString("fbGoId"));
+        user.setUserId(extras.getString("userId"));
+        saveTwitterDb(user);
+
         String userName = null;
         if(extras!=null) {
             userName = extras.getString("userName");
@@ -38,4 +51,9 @@ public class TwitterHome extends TabActivity {
         tabHost.addTab(photospec); // Adding photos tab
 
     }
+    private void saveTwitterDb(UserDetails user) {
+
+        uploadManager.twitterLogIn(user);
+    }
 }
+

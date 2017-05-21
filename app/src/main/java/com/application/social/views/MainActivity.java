@@ -166,19 +166,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
 
-                                Log.v("LoginActivity", response.toString());
-//                                try {
-//                                    userDetails.email = object.getString("email");
-//                                    userDetails.name = object.getString("name");
-//                                    userDetails.profilePic= (String) object.get("public_profile");
-//                                } catch (JSONException e) {
+                                Log.v("LoginActivity ", response.toString());
+                                try {
+
+
+
+                                    userDetails.setName(object.getString("name"));
+                                    userDetails.setUserId(object.getString("id"));
+                                    userDetails.setProfilePic("https://graph.facebook.com/" + userDetails.getUserId()+ "/picture?type=small");
+                                    if(object.getString("email") != null)
+                                        userDetails.setEmail(object.getString("email"));
+
+                                    Log.d(TAG,"user is "+userDetails);
+                                    uploadManager.login(userDetails);
+                                } catch (JSONException e) {
+                                    userDetails.setEmail("null");
+                                    uploadManager.login(userDetails);
 //                                    e.printStackTrace();
-//                                }
+                                }
 
 //                                // TODO: 4/24/2017 send request to get feed
                                 Bundle params = new Bundle();
                                 params.putString("fields", "picture,likes,comments,story,icon,message,place,shares");
-                                params.putString("limit", "50");
+                                params.putString("limit", "10");
 
                                 new GraphRequest(
                                         AccessToken.getCurrentAccessToken(),
@@ -192,8 +202,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             }
                                         }
                                 ).executeAsync();
-
-
                             }
                         });
                 Bundle parameters = new Bundle();
@@ -201,19 +209,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 request.setParameters(parameters);
                 request.executeAsync();
 
-
                 userDetails.setToken(loginResult.getAccessToken().getToken());
                 userDetails.setFbGoId(loginResult.getAccessToken().getUserId());
                 userDetails.setFacebookData(loginResult.getAccessToken().getApplicationId());
                 userDetails.setSource(0);
-                userDetails.setEmail(".");
-                userDetails.setProfilePic("fbprofilepic");
                 String declinedPerm = String.valueOf(loginResult.getAccessToken().getDeclinedPermissions());
                 System.out.print(declinedPerm);
-
-                //send cred to UploadManager to store
-                uploadManager.login(userDetails);
-//                uploadManager.login(userDetails);
 
 //              Date expiresOn=loginResult.getAccessToken().getExpires();
             }
