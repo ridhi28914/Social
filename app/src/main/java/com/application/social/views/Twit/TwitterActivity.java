@@ -88,7 +88,7 @@ public class TwitterActivity extends ListActivity {
 //        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 //
 //        if (networkInfo != null && networkInfo.isConnected()) {
-            new DownloadTwitterTask().execute(ScreenName);
+        new DownloadTwitterTask().execute(ScreenName);
 //        } else {
 //            Log.v(LOG_TAG, "No network connection available.");
 //        }

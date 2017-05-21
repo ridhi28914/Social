@@ -22,8 +22,8 @@ import com.application.social.utils.Instagram.InstagramHelper;
 import com.application.social.utils.Instagram.InstagramListener;
 import com.application.social.views.Insta.Photo;
 import com.application.social.views.Pint.PintHome;
-import com.application.social.views.Pint.Pinterest;
-import com.application.social.views.Twit.TwitterActivity;
+import com.application.social.views.Twit.TwitterFeed;
+import com.application.social.views.Twit.TwitterHome;
 import com.pinterest.android.pdk.PDKClient;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.*;
@@ -75,41 +75,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //inside onCreate
-
-//        final InstagramApp mApp = new InstagramApp(this, CommonLib.CLIENT_ID,
-//                CommonLib.INSTAGRAM_SECRET, CommonLib.INSTAGRAM_CALLBACK_URL);
-//        mApp.setListener(new InstagramApp.OAuthAuthenticationListener() {
-//
-//            @Override
-//            public void onSuccess() {
-//// tvSummary.setText("Connected as " + mApp.getUserName());
-////                btnConnect.setText("Disconnect");
-////                llAfterLoginView.setVisibility(View.VISIBLE);
-//// userInfoHashmap = mApp.
-//                mApp.fetchUserName();
-//            }
-//
-//            @Override
-//            public void onFail(String error) {
-//                Toast.makeText(Home.this, error, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-//        pdkClient.login(this, scopes, new PDKCallback() {
-//            @Override
-//            public void onSuccess(PDKResponse response) {
-//                Log.d(getClass().getName(), response.getData().toString());
-//            }
-//
-//            @Override
-//            public void onFailure(PDKException exception) {
-//                Log.e(getClass().getName(), exception.getDetailMessage());
-//            }
-//        });
-
-//        linkededinApiHelper();
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
@@ -231,77 +196,13 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         extras.putString("fbGoId", String.valueOf(result.getUserId()));
         extras.putString("userName", result.getUserName());
         extras.putString("token", String.valueOf(result.getAuthToken()));
-        extras.putString("userId",userId);
-        Intent intent = new Intent(this, TwitterActivity.class);
+        Intent intent = new Intent(this, TwitterHome.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtras(extras);
         startActivity(intent);
         finish();
     }
 
-    //LinkedIn login
-//    public void login(View view){
-//        final UserDetails userDetails=new UserDetails();
-//        LISessionManager.getInstance(getApplicationContext())
-//                .init(this, buildScope(), new AuthListener() {
-//                    @Override
-//                    public void onAuthSuccess() {
-////// TODO: 4/22/2017 remove toast and code to store credentials in db
-//                        Toast.makeText(getApplicationContext(), "success" +
-//                                        LISessionManager
-//                                                .getInstance(getApplicationContext())
-//                                                .getSession().getAccessToken().toString(),
-//                                Toast.LENGTH_LONG).show();
-//
-//                        LISessionManager s=LISessionManager.getInstance(getApplicationContext());
-//                        userDetails.setAccessToken(s.getSession().getAccessToken().toString());
-//
-//                    }
-//
-//                    @Override
-//                    public void onAuthError(LIAuthError error) {
-//
-//                        Toast.makeText(getApplicationContext(), "failed "
-//                                        + error.toString(),
-//                                Toast.LENGTH_LONG).show();
-//                    }
-//                }, true);
-//    }
 
-//    private static Scope buildScope() {
-//        return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS);
-//    }
-//    public void linkededinApiHelper(){
-//        APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
-//        apiHelper.getRequest(Home.this, liUrl, new ApiListener() {
-//            @Override
-//            public void onApiSuccess(ApiResponse result) {
-//                try {
-//                    showResult(result.getResponseDataAsJson());
-//                    progress.dismiss();
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onApiError(LIApiError error) {
-//
-//            }
-//        });
-//    }
-
-//    public  void  showResult(JSONObject response){
-//
-//        try {
-//            String email=response.get("emailAddress").toString();
-//            String name=response.get("formattedName").toString();
-//            String pic=response.getString("pictureUrl");
-//
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
 
 }
