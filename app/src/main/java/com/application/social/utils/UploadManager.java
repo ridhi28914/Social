@@ -163,6 +163,7 @@ public  class UploadManager {
             client = new OkHttpClient();
 
             RequestBody body = new FormBody.Builder()
+                    .add("user_id", cred.userId)
                     .add("email", cred.email)
                     .add("name", cred.name)
                     .add("client_id", "social_android_client")
@@ -222,7 +223,6 @@ public  class UploadManager {
         @Override
         protected String doInBackground(Void... params) {
 
-//            Log.d(mTAG, "email is " + cred.token);
             OkHttpClient client;
             client = new OkHttpClient();
 
@@ -232,7 +232,6 @@ public  class UploadManager {
                     .add("client_id", "social_android_client")
                     .add("app_type", "social_android")
                     .add("fbGoId", cred.fbGoId)
-//                        .add("profile_pic", cred.profilePic)
                     .add("token", cred.token)
                     .build();
 

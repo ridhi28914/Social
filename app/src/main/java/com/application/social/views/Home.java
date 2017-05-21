@@ -124,6 +124,9 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     }
 
     private void loginWithFB() {
+        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+        editor = sharedPreference.edit();
+        final String userId=sharedPreference.getString("user_id",null);
         //fb login
         txtstatus = (TextView) findViewById(R.id.txtStatus);
         login_button = (LoginButton) findViewById(R.id.login_button);
@@ -145,9 +148,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 
                                 Log.v("LoginActivity ", response.toString());
                                 try {
-
-
-
                                     userDetails.setName(object.getString("name"));
                                     userDetails.setUserId(object.getString("id"));
                                     userDetails.setProfilePic("https://graph.facebook.com/" + userDetails.getUserId()+ "/picture?type=small");
@@ -158,7 +158,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
                                     uploadManager.facebookLogIn(userDetails);
                                 } catch (JSONException e) {
                                     userDetails.setEmail("null");
-                                    uploadManager.login(userDetails);
+                                    uploadManager.facebookLogIn(userDetails);
 //                                    e.printStackTrace();
                                 }
 
@@ -190,6 +190,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
                 userDetails.setFbGoId(loginResult.getAccessToken().getUserId());
                 userDetails.setFacebookData(loginResult.getAccessToken().getApplicationId());
                 userDetails.setSource(0);
+                userDetails.setUserId(userId);
                 String declinedPerm = String.valueOf(loginResult.getAccessToken().getDeclinedPermissions());
                 System.out.print(declinedPerm);
 
