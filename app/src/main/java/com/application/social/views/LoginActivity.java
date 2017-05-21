@@ -1,5 +1,8 @@
 package com.application.social.views;
+
+import android.support.v7.app.AppCompatActivity;
 package info.androidhive.androidsplashscreentimer;
+import android.support.v7.app.AppCompatActivity;
 
         import android.app.Activity;
         import android.content.Intent;
