@@ -62,7 +62,7 @@ public  class UploadManager {
             client = new OkHttpClient();
 
             RequestBody body = new FormBody.Builder()
-//                        .add("email", cred.email)
+                    .add("user_id", cred.userId)
                     .add("name", cred.name)
                     .add("client_id", "social_android_client")
                     .add("app_type", "social_android")
@@ -90,16 +90,6 @@ public  class UploadManager {
             Log.d(mTAG, "response object is:- " + response);
             sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
             editor = sharedPreference.edit();
-//                editor.putString("access_token", accessToken);
-//                editor.commit();
-//                if (sharedPreference.contains("access_token")) {
-//                    accessToken = sharedPreference.getString("access_token", null);
-//                    if (accessToken != null) {
-//                        Log.d(mTAG, "accessToken is :- " + accessToken);
-//                    } else {
-//                        Log.d(mTAG, "accessToken is null");
-//                    }
-//                }
             mainobj.doneTwitterLogIn();
 //                super.onPostExecute(Jobject);
 
@@ -109,7 +99,7 @@ public  class UploadManager {
     public void pinterestLogIn(UserDetails details) {
 
         PinterestLogin pinterestLogin= new PinterestLogin(details);
-        Log.d(mTAG, "user is"+details.getName());
+        Log.d(mTAG, "user is"+details.getUserId());
         pinterestLogin.execute();
     }
     public class PinterestLogin extends AsyncTask< Void , UserDetails, String> {
@@ -131,6 +121,7 @@ public  class UploadManager {
             client = new OkHttpClient();
 
             RequestBody body = new FormBody.Builder()
+                    .add("user_id", cred.userId)
                     .add("name", cred.name)
                     .add("client_id", "social_android_client")
                     .add("app_type", "social_android")
@@ -155,18 +146,6 @@ public  class UploadManager {
         @Override
         protected void onPostExecute(String response) {
             Log.d(mTAG, "response object is:- " + response);
-//            sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
-//            editor = sharedPreference.edit();
-//                editor.putString("access_token", accessToken);
-//                editor.commit();
-//                if (sharedPreference.contains("access_token")) {
-//                    accessToken = sharedPreference.getString("access_token", null);
-//                    if (accessToken != null) {
-//                        Log.d(mTAG, "accessToken is :- " + accessToken);
-//                    } else {
-//                        Log.d(mTAG, "accessToken is null");
-//                    }
-//                }
             mainobj.donePinterestLogIn();
 //                super.onPostExecute(Jobject);
 
@@ -200,8 +179,10 @@ public  class UploadManager {
             @Override
             protected String doInBackground(Void... params) {
 
-                Log.d(mTAG, "email is " + cred.token);
-
+                if(cred.getEmail()==null)
+                        cred.setEmail("null");
+                if(cred.getFacebookData()==null)
+                        cred.setFacebookData("null");
                 OkHttpClient client;
                 client = new OkHttpClient();
 
@@ -214,6 +195,7 @@ public  class UploadManager {
                         .add("source", String.valueOf(cred.source))
                         .add("profile_pic", cred.profilePic)
                         .add("token", cred.token)
+                        .add("facebook_data", cred.facebookData)
                         .build();
 
                 String url = SERVER_URL+"auth/login";
@@ -235,6 +217,7 @@ public  class UploadManager {
 //            JsonParser pr = new JsonParser();
                 Log.d(mTAG, "response object is:- " + response);
                 String accessToken=null;
+                String userId=null;
                 if (response != null) {
                     JSONObject jObject;
                     try {
@@ -242,6 +225,7 @@ public  class UploadManager {
                         JSONObject data = new JSONObject(jObject.getString("response"));
                         Log.d(mTAG, "data is:-" + data);
                         accessToken = data.getString("access_token");
+                        userId = data.getString("user_id");
                         Log.d(mTAG, "at is:-" + accessToken);
 
                     } catch (JSONException e) {
@@ -252,6 +236,7 @@ public  class UploadManager {
                     sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
                     editor = sharedPreference.edit();
                     editor.putString("access_token", accessToken);
+                    editor.putString("user_id",userId);
                     editor.commit();
                     if (sharedPreference.contains("access_token")) {
                         accessToken = sharedPreference.getString("access_token", null);
@@ -262,7 +247,6 @@ public  class UploadManager {
                         }
                     }
                     mainobj.doneLoggingIn();
-//                super.onPostExecute(Jobject);
 
                 }
             }

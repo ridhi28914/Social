@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                                // TODO: 4/24/2017 send request to get feed
                                 Bundle params = new Bundle();
                                 params.putString("fields", "picture,likes,comments,story,icon,message,place,shares");
-                                params.putString("limit", "10");
+                                params.putString("limit", "50");
 
                                 new GraphRequest(
                                         AccessToken.getCurrentAccessToken(),
@@ -187,8 +187,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         HttpMethod.GET,
                                         new GraphRequest.Callback() {
                                             public void onCompleted(GraphResponse response) {
-                                                Log.d(TAG, String.valueOf(response));
-//                                                response.getGraphObject().getInnerJSONObject();
+                                                Log.d(TAG, "response is "+ String.valueOf(response));
             /* handle the result */
                                             }
                                         }
@@ -203,14 +202,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 request.executeAsync();
 
 
-                userDetails.token=loginResult.getAccessToken().getToken();
-                userDetails.fbGoId=loginResult.getAccessToken().getUserId();
-                //// TODO: 4/19/2017 change this to fbdata
-                userDetails.facebookData = loginResult.getAccessToken().getApplicationId();
-                userDetails.source=0;
-                String declinedPerm= String.valueOf(loginResult.getAccessToken().getDeclinedPermissions());
+                userDetails.setToken(loginResult.getAccessToken().getToken());
+                userDetails.setFbGoId(loginResult.getAccessToken().getUserId());
+                userDetails.setFacebookData(loginResult.getAccessToken().getApplicationId());
+                userDetails.setSource(0);
+                userDetails.setEmail(".");
+                userDetails.setProfilePic("fbprofilepic");
+                String declinedPerm = String.valueOf(loginResult.getAccessToken().getDeclinedPermissions());
                 System.out.print(declinedPerm);
 
+                //send cred to UploadManager to store
+                uploadManager.login(userDetails);
 //                uploadManager.login(userDetails);
 
 //              Date expiresOn=loginResult.getAccessToken().getExpires();
@@ -269,22 +271,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            System.out.println(acct);
-
-            String info=acct.getDisplayName();
-            //System.out.print(acct.getIdToken());
-            Log.d(TAG,"token is:-"+acct.getIdToken());
             //Fetch values
-            userDetails.token=acct.getIdToken();
-            userDetails.token="sometoken";
-            userDetails.email=acct.getEmail();
-            userDetails.fbGoId=acct.getId();
-            userDetails.name= acct.getDisplayName();
-            userDetails.profilePic= acct.getPhotoUrl().toString();
-            userDetails.source=0;
+            userDetails.setToken(acct.getIdToken());
+            userDetails.setEmail(acct.getEmail());
+            userDetails.setFbGoId(acct.getId());
+            userDetails.setName(acct.getDisplayName());
+            userDetails.setProfilePic(acct.getPhotoUrl().toString());
+            userDetails.setSource(1);
             //send cred to UploadManager to store
             uploadManager.login(userDetails);
-
             //Set values
             txtName.setText(userDetails.email);
             txtEmail.setText(userDetails.name);

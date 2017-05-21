@@ -1,6 +1,7 @@
 package com.application.social.views;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -43,12 +44,14 @@ import java.util.List;
 import static com.application.social.utils.CommonLib.PINTEREST_KEY;
 import static com.application.social.utils.CommonLib.TWITTER_KEY;
 import static com.application.social.utils.CommonLib.TWITTER_SECRET;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Home extends AppCompatActivity implements InstagramListener, View.OnClickListener {
 
     String TAG = "Home class";
 
-
+    SharedPreferences sharedPreference;
+    SharedPreferences.Editor editor;
 //    private static final String host = "api.linkedin.com";
 //    private static final String liUrl = "https://" + host
 //            + "/v1/people/~:" +
@@ -220,12 +223,15 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         //new Intent(this, fragments_view.class);
 //        Intent intent = new Intent(getApplicationContext(), fragments_view.class);
 //        startActivity(intent);
-        
+        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+        editor = sharedPreference.edit();
+        String userId=sharedPreference.getString("user_id",null);
         
         Bundle extras = new Bundle();
         extras.putString("fbGoId", String.valueOf(result.getUserId()));
         extras.putString("userName", result.getUserName());
         extras.putString("token", String.valueOf(result.getAuthToken()));
+        extras.putString("userId",userId);
         Intent intent = new Intent(this, TwitterActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtras(extras);

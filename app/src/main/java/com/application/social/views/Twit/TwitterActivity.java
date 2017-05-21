@@ -44,7 +44,6 @@ public class TwitterActivity extends ListActivity {
     final static String LOG_TAG = "rnc";
     private ListActivity activity;
     UploadManager uploadManager = new UploadManager();
-//    final static String ScreenName = "ridhi28";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +57,7 @@ public class TwitterActivity extends ListActivity {
 //                user.email=session.getEmail();
         user.setToken(extras.getString("token"));
         user.setFbGoId(extras.getString("fbGoId"));
+        user.setUserId(extras.getString("userId"));
 //                user.profilePic=
 //// TODO: 4/22/2017 Get the email address of user
 //                TwitterAuthClient authClient = new TwitterAuthClient();
@@ -78,7 +78,7 @@ public class TwitterActivity extends ListActivity {
 
         saveTwitterDb(user);
 
-        downloadTweets(user.getName());
+//        downloadTweets(user.getName());
 
 
     }
@@ -95,8 +95,11 @@ public class TwitterActivity extends ListActivity {
     }
 
     private void saveTwitterDb(UserDetails user) {
+
         uploadManager.twitterLogIn(user);
     }
+
+
     // Uses an AsyncTask to download a Twitter user's timeline
     private class DownloadTwitterTask extends AsyncTask<String, Void, String> {
         final static String TwitterTokenURL = "https://api.twitter.com/oauth2/token";

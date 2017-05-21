@@ -2,6 +2,7 @@ package com.application.social.views.Pint;
 
 import android.app.TabActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -24,6 +25,8 @@ import com.squareup.picasso.Picasso;
 import static com.application.social.views.BuildConfig.DEBUG;
 
 public class PintHome extends TabActivity {
+    SharedPreferences sharedPreference;
+    SharedPreferences.Editor editor;
     UploadManager uploadManager=new UploadManager();;
     private TextView nameTv;
     private ImageView profileIv;
@@ -69,9 +72,11 @@ public class PintHome extends TabActivity {
             public void onSuccess(PDKResponse response) {
                 if (DEBUG) log(String.format("status: %d", response.getStatusCode()));
                 user = response.getUser();
-
+                sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+                editor = sharedPreference.edit();
+                String userId=sharedPreference.getString("user_id",null);
                 UserDetails userDetails= new UserDetails();
-
+                userDetails.setUserId(userId);
                 userDetails.setName(user.getFirstName());
                 userDetails.setProfilePic(user.getImageUrl());
                 userDetails.setFbGoId(user.getUid());
