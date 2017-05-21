@@ -1,7 +1,7 @@
 package com.application.social.views;
 
 import android.support.v7.app.AppCompatActivity;
-package info.androidhive.androidsplashscreentimer;
+//package info.androidhive.androidsplashscreentimer;
 import android.support.v7.app.AppCompatActivity;
 
         import android.app.Activity;
@@ -25,9 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
-        editor = sharedPreference.edit();
-        String accessToken=sharedPreference.getString("access_token",null);
+
 
         new Handler().postDelayed(new Runnable() {
 
@@ -38,15 +36,18 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void run() {
+                sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+                editor = sharedPreference.edit();
+                String accessToken=sharedPreference.getString("access_token",null);
                 // This method will be executed once the timer is over
                 // Start your app main activity
                 if (accessToken!=null) {
-                    Intent intent = new Intent(this, Home.class);
+                    Intent intent = new Intent(LoginActivity.this, Home.class);
                     startActivity(intent);
                     finish();
                 }
                 else {
-                    Intent intent = new Intent(this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
