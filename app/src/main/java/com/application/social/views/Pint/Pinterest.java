@@ -101,6 +101,7 @@ public class Pinterest extends AppCompatActivity {
     }
 
     private void  onMyPins() {
+
         Intent i = new Intent(this, MyPins.class);
         startActivity(i);
     }
