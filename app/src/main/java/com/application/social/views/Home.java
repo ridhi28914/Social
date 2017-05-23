@@ -23,8 +23,7 @@ import com.application.social.utils.CommonLib;
 import com.application.social.utils.Instagram.InstagramHelper;
 import com.application.social.utils.Instagram.InstagramListener;
 import com.application.social.utils.UploadManager;
-import com.application.social.utils.Instagram.InstagramManager;
-import com.application.social.views.Insta.Photo;
+import com.application.social.views.Insta.Photoo;
 import com.application.social.views.Pint.PintHome;
 import com.application.social.views.Twit.TwitterHome;
 import com.facebook.AccessToken;
@@ -58,8 +57,6 @@ import java.util.List;
 import static com.application.social.utils.CommonLib.PINTEREST_KEY;
 
 public class Home extends AppCompatActivity implements InstagramListener, View.OnClickListener {
-
-    InstagramManager manager = InstagramManager.getInstance();
 
     String TAG = "Home class";
 
@@ -249,7 +246,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         show_photo_view(authToken);
     }
     private void show_photo_view(String authToken){
-        Intent intent = new Intent(Home.this, Photo.class);
+        Intent intent = new Intent(Home.this, Photoo.class);
         Bundle bundle= new Bundle();
         bundle.putString("authToken",authToken);
         intent.putExtras(bundle);
