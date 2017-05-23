@@ -17,12 +17,12 @@ import java.util.ArrayList;
 
 import static com.application.social.views.R.id.listView;
 public class InstaImageAdapter extends RecyclerView.Adapter<InstaImageAdapter.ViewHolder> {
-    private ArrayList<InstaVersion> android_versions;
+    private ArrayList<InstaVersion> insta_versions;
     private Context context;
 
-    public InstaImageAdapter(Context context, ArrayList<InstaVersion> android_versions) {
+    public InstaImageAdapter(Context context, ArrayList<InstaVersion> insta_versions) {
         this.context = context;
-        this.android_versions = android_versions;
+        this.insta_versions = insta_versions;
 
     }
 
@@ -36,12 +36,12 @@ public class InstaImageAdapter extends RecyclerView.Adapter<InstaImageAdapter.Vi
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
 //        viewHolder.tv_android.setText(android_versions.get(i).getVersion_name());
-        Picasso.with(context).load(android_versions.get(i).getImage_url()).resize(120, 60).into(viewHolder.img_android);
+        Picasso.with(context).load(insta_versions.get(i).getImage_url()).resize(120, 60).into(viewHolder.img_android);
     }
 
     @Override
     public int getItemCount() {
-        return android_versions.size();
+        return insta_versions.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

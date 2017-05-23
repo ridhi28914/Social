@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,9 +22,11 @@ import android.widget.Toast;
 //import com.linkedin.platform.utils.Scope;
 import com.application.social.data.UserDetails;
 import com.application.social.utils.CommonLib;
+import com.application.social.utils.Instagram.InstaImageAdapter;
 import com.application.social.utils.Instagram.InstagramHelper;
 import com.application.social.utils.Instagram.InstagramListener;
 import com.application.social.utils.UploadManager;
+import com.application.social.views.Insta.InstagramManager;
 import com.application.social.views.Insta.Photo;
 import com.application.social.views.Pint.PintHome;
 import com.application.social.views.Twit.TwitterFeed;
@@ -68,6 +71,8 @@ import static com.application.social.views.BuildConfig.DEBUG;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Home extends AppCompatActivity implements InstagramListener, View.OnClickListener {
+
+    InstagramManager manager = InstagramManager.getInstance();
 
     String TAG = "Home class";
 
@@ -247,22 +252,29 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
                 break;
         }
     }
+
+
     @Override public void onInstagramSignInFail(String errorMessage) {
         mDataTextView.setText(errorMessage);
     }
-
     @Override public void onInstagramSignInSuccess(String authToken, String userId) {
         System.out.print(authToken);
         show_photo_view(authToken);
     }
     private void show_photo_view(String authToken){
+        manager.setAccessToken(authToken);
+        manager.getInstagramImages();
+    }
+    public void showImage(ArrayList<String> arrImage){
         Intent intent = new Intent(Home.this, Photo.class);
         Bundle bundle= new Bundle();
-        bundle.putString("authToken",authToken);
+        bundle.putString("result", String.valueOf(arrImage));
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
     }
+
+
 
     private void onPinterestLogin() {
         List scopes = new ArrayList<String>();
@@ -303,13 +315,15 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     private void savePinterestDb(UserDetails user) {
         uploadManager.pinterestLogIn(user);
     }
-
     private void onPinterestLoginSuccess() {
         Intent i = new Intent(this, PintHome.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
         finish();
     }
+
+
+
     public void onTwitterLogin(TwitterLoginButton twitterLoginButton) {
 
         twitterLoginButton.setCallback(new Callback<TwitterSession>() {
@@ -350,7 +364,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         startActivity(intent);
         finish();
     }
-
     private void saveTwitterDb(UserDetails user) {
 
         uploadManager.twitterLogIn(user);

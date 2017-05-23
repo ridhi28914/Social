@@ -60,7 +60,8 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".Twit.TwitterFeed" />
         <activity android:name=".Twit.TwitterHome" />
-        <activity android:name="com.application.social.utils.Instagram.InstaImageAdapter"></activity>
+        <activity android:name="com.application.social.utils.Instagram.InstaImageAdapter" />
+        <activity android:name=".Insta.InstaFeed"></activity>
     </application>
 
 </manifest>

@@ -4,13 +4,17 @@
 
 package com.application.social.views.Insta;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.webkit.CookieManager;
 
 import com.application.social.utils.CommonLib;
 import com.application.social.utils.Instagram.Constants;
+import com.application.social.utils.Instagram.InstaImageAdapter;
+import com.application.social.views.Home;
 
 import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.HttpResponse;
@@ -28,7 +32,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-class InstagramManager {
+public class InstagramManager {
 
 
     private static InstagramManager manager;
@@ -204,8 +208,9 @@ class InstagramManager {
         @Override
         protected void onPostExecute(ArrayList<String> result)
         {
-            Photo photo=new Photo();
-            photo.showImage(result);
+            Home home=new Home();
+            home.showImage(result);
+
         }
     }
 }

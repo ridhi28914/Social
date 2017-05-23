@@ -28,85 +28,75 @@ import static com.application.social.views.R.id.listView;
 public class Photo extends Activity {
 
     InstagramManager manager = InstagramManager.getInstance();
+    private RecyclerView recyclerView;
 
-    private static GridView gridView;
-    private static Context context;
+    //    private RecyclerView.LayoutManager layoutManager;
+    ArrayList arrayLists= new ArrayList<>();
+    private InstaImageAdapter adapter ;
+
+    //    private static GridView gridView;
+    Context context;
 
     private Button logoutButton;
 //    SharedPreferences settings;
 //    SharedPreferences.Editor editor;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
+        Context context=getApplicationContext();
+
+        recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        arrayLists.add("https://scontent.cdninstagram.com/t51.2885-15/s150x150/e35/c0.135.1080.1080/18512385_774736376023759_894327120057073664_n.jpg");
+        adapter = new InstaImageAdapter(getApplicationContext(),arrayLists );
         Bundle extras = getIntent().getExtras();
-
-//        settings = getSharedPreferences(Constants.PREF_NAME, 0);
-//        editor = settings.edit();
-
 //        logoutButton = (Button) findViewById(R.id.btnLogout);
 
 //        gridView = (GridView)findViewById(R.id.gridview);
         context = this;
-        String authToken= (String) extras.get("authToken");
-        manager.setAccessToken(authToken);
-        getPhotosList();
+         String a=(extras.getString("result"));
+
+        recyclerView.setAdapter(adapter);
+//        settings = getSharedPreferences(Constants.PREF_NAME, 0);
+//        editor = settings.edit();
+//        manager.setAccessToken(authToken);
+//        getPhotosList();
     }
 
+//    public void showImage(ArrayList<String> arrImage){
+//
+//        System.out.println(arrImage);
+//        arrayLists = prepareData(arrImage);
+//
+//        adapter = new InstaImageAdapter(context, arrayLists);
+//        recyclerView2.setAdapter(adapter);
+//    }
+
+    private ArrayList prepareData(ArrayList<String> arrImage){
+
+        ArrayList arrayList= new ArrayList<>();
+        for(int i=0;i<arrImage.size();i++){
+            InstaVersion instaVersion = new InstaVersion();
+//            androidVersion.setVersion_name(arrImage[i]);
+            instaVersion.setImage_url(arrImage.get(i));
+            arrayList.add(instaVersion);
+        }
+        return arrayList;
+    }
     private void getPhotosList(){
-
         manager.getInstagramImages();
-
     }
 
-//    @Override
+    //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.activity_photo_list, menu);
 //        return true;
 //    }
-
-
-
-
-    public void showImage(ArrayList<String> arrImage){
-        System.out.println(arrImage);
-//        ImageAdapter adapter = new ImageAdapter(context,R.layout.photo_cell,arrImage);
-//        gridView.setAdapter(adapter);
-//        adapter.notifyDataSetChanged();
-//        initViews(arrImage);
-        if(findViewById(R.id.card_recycler_view)==null)
-            System.out.print("null");
-        else {
-
-
-            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
-            recyclerView.setHasFixedSize(true);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-            recyclerView.setLayoutManager(layoutManager);
-
-            ArrayList androidVersions = prepareData(arrImage);
-            InstaImageAdapter adapter = new InstaImageAdapter(getApplicationContext(), androidVersions);
-            recyclerView.setAdapter(adapter);
-        }
-    }
-//    private void initViews(ArrayList<String> arrImage){
-//
-//
-//    }
-    private static ArrayList prepareData(ArrayList<String> arrImage){
-
-        ArrayList android_version = new ArrayList<>();
-        for(int i=0;i<arrImage.size();i++){
-            InstaVersion androidVersion = new InstaVersion();
-//            androidVersion.setVersion_name(arrImage[i]);
-            androidVersion.setImage_url(arrImage.get(i));
-            android_version.add(androidVersion);
-        }
-        return android_version;
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -122,7 +112,10 @@ public class Photo extends Activity {
     public void onBackPressed () {
 
     }
-
+    @Override
+    protected void onDestroy(){
+        System.out.print("actvity is finished");
+    }
     public void logoutButtonAction(View v) {
 
         manager.deleteInstagramCookies();
