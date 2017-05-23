@@ -2,26 +2,21 @@
  * Created by HhA on 1/9/14.
  */
 
-package com.application.social.views.Insta;
+package com.application.social.utils.Instagram;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.webkit.CookieManager;
 
 import com.application.social.utils.CommonLib;
-import com.application.social.utils.Instagram.Constants;
-import com.application.social.utils.Instagram.InstaImageAdapter;
-import com.application.social.views.Home;
+import com.application.social.views.Insta.Photo;
 
 import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.client.methods.HttpGet;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
-import cz.msebera.android.httpclient.params.BasicHttpParams;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -208,9 +203,7 @@ public class InstagramManager {
         @Override
         protected void onPostExecute(ArrayList<String> result)
         {
-            Home home=new Home();
-            home.showImage(result);
-
+            Photo.showImage(result);
         }
     }
 }

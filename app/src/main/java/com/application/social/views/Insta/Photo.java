@@ -4,25 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.GridView;
 
-import com.application.social.utils.Instagram.ImageAdapter;
 import com.application.social.utils.Instagram.InstaImageAdapter;
 import com.application.social.utils.Instagram.InstaVersion;
+import com.application.social.utils.Instagram.InstagramInterface;
+import com.application.social.utils.Instagram.InstagramListener;
+import com.application.social.utils.Instagram.InstagramManager;
 import com.application.social.views.Home;
 import com.application.social.views.R;
 
 import java.util.ArrayList;
-
-import com.squareup.picasso.Picasso;
-
-import static com.application.social.views.R.id.listView;
 
 
 public class Photo extends Activity {
@@ -34,7 +30,6 @@ public class Photo extends Activity {
     ArrayList arrayLists= new ArrayList<>();
     private InstaImageAdapter adapter ;
 
-    //    private static GridView gridView;
     Context context;
 
     private Button logoutButton;
@@ -58,23 +53,25 @@ public class Photo extends Activity {
 
 //        gridView = (GridView)findViewById(R.id.gridview);
         context = this;
-         String a=(extras.getString("result"));
+        String authToken= (String) extras.get("authToken");
+        manager.setAccessToken(authToken);
 
-        recyclerView.setAdapter(adapter);
+//        recyclerView.setAdapter(adapter);
+        getPhotosList();
 //        settings = getSharedPreferences(Constants.PREF_NAME, 0);
 //        editor = settings.edit();
 //        manager.setAccessToken(authToken);
 //        getPhotosList();
     }
 
-//    public void showImage(ArrayList<String> arrImage){
-//
-//        System.out.println(arrImage);
-//        arrayLists = prepareData(arrImage);
-//
-//        adapter = new InstaImageAdapter(context, arrayLists);
-//        recyclerView2.setAdapter(adapter);
-//    }
+    public void showImage(ArrayList<String> arrImage){
+
+        System.out.println(arrImage);
+        arrayLists = prepareData(arrImage);
+
+        adapter = new InstaImageAdapter(context, arrayLists);
+        recyclerView.setAdapter(adapter);
+    }
 
     private ArrayList prepareData(ArrayList<String> arrImage){
 
@@ -130,4 +127,5 @@ public class Photo extends Activity {
         startActivity(intent);
         finish();
     }
+
 }

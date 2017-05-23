@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 //import com.linkedin.platform.APIHelper;
 //import com.linkedin.platform.LISessionManager;
@@ -22,14 +20,12 @@ import android.widget.Toast;
 //import com.linkedin.platform.utils.Scope;
 import com.application.social.data.UserDetails;
 import com.application.social.utils.CommonLib;
-import com.application.social.utils.Instagram.InstaImageAdapter;
 import com.application.social.utils.Instagram.InstagramHelper;
 import com.application.social.utils.Instagram.InstagramListener;
 import com.application.social.utils.UploadManager;
-import com.application.social.views.Insta.InstagramManager;
+import com.application.social.utils.Instagram.InstagramManager;
 import com.application.social.views.Insta.Photo;
 import com.application.social.views.Pint.PintHome;
-import com.application.social.views.Twit.TwitterFeed;
 import com.application.social.views.Twit.TwitterHome;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -43,18 +39,13 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.pinterest.android.pdk.PDKClient;
 import com.pinterest.android.pdk.PDKUser;
-import com.pinterest.android.pdk.Utils;
-import com.squareup.picasso.Picasso;
-import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.*;
-import io.fabric.sdk.android.Fabric;
 
 
 import com.pinterest.android.pdk.PDKCallback;
 import com.pinterest.android.pdk.PDKException;
 import com.pinterest.android.pdk.PDKResponse;
 
-import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import org.json.JSONException;
@@ -65,10 +56,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.application.social.utils.CommonLib.PINTEREST_KEY;
-import static com.application.social.utils.CommonLib.TWITTER_KEY;
-import static com.application.social.utils.CommonLib.TWITTER_SECRET;
-import static com.application.social.views.BuildConfig.DEBUG;
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Home extends AppCompatActivity implements InstagramListener, View.OnClickListener {
 
@@ -262,17 +249,14 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         show_photo_view(authToken);
     }
     private void show_photo_view(String authToken){
-        manager.setAccessToken(authToken);
-        manager.getInstagramImages();
-    }
-    public void showImage(ArrayList<String> arrImage){
         Intent intent = new Intent(Home.this, Photo.class);
         Bundle bundle= new Bundle();
-        bundle.putString("result", String.valueOf(arrImage));
+        bundle.putString("authToken",authToken);
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
     }
+
 
 
 
