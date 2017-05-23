@@ -60,6 +60,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".Twit.TwitterFeed" />
         <activity android:name=".Twit.TwitterHome" />
+        <activity android:name=".Insta.InstaImageAdapter"></activity>
     </application>
 
 </manifest>

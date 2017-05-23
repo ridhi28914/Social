@@ -1,6 +1,7 @@
 package com.application.social.views.Twit;
 
 import android.app.ListActivity;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
@@ -43,21 +44,33 @@ import static com.application.social.utils.CommonLib.TWITTER_SECRET;
 public class TwitterActivity extends ListActivity {
     final static String LOG_TAG = "rnc";
     private ListActivity activity;
-    UploadManager uploadManager = new UploadManager();
-
+//    UploadManager uploadManager = new UploadManager();
+    SharedPreferences sharedPreference;
+    SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twitter);
 
         Bundle extras = getIntent().getExtras();
-        UserDetails user= new UserDetails();
+        Bundle extra=new Bundle();
 
-        user.setName(extras.getString("userName"));
+        UserDetails user= new UserDetails();
+        if(extras!=null) {
+
+            user.setName(extras.getString("userName"));
+        }else{
+            sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+            editor = sharedPreference.edit();
+            String userName=sharedPreference.getString("twitterUsername",null);
+            if(userName!=null)
+                extra.putString("userName",userName) ;
+
+        }
 //                user.email=session.getEmail();
-        user.setToken(extras.getString("token"));
-        user.setFbGoId(extras.getString("fbGoId"));
-        user.setUserId(extras.getString("userId"));
+//        user.setToken(extras.getString("token"));
+//        user.setFbGoId(extras.getString("fbGoId"));
+//        user.setUserId(extras.getString("userId"));
 //                user.profilePic=
 //// TODO: 4/22/2017 Get the email address of user
 //                TwitterAuthClient authClient = new TwitterAuthClient();
@@ -76,9 +89,9 @@ public class TwitterActivity extends ListActivity {
 //                    }
 //                });
 
-        saveTwitterDb(user);
+//        saveTwitterDb(user);
 
-//        downloadTweets(user.getName());
+        downloadTweets(user.getName());
 
 
     }
@@ -94,10 +107,10 @@ public class TwitterActivity extends ListActivity {
 //        }
     }
 
-    private void saveTwitterDb(UserDetails user) {
-
-        uploadManager.twitterLogIn(user);
-    }
+//    private void saveTwitterDb(UserDetails user) {
+//
+//        uploadManager.twitterLogIn(user);
+//    }
 
 
     // Uses an AsyncTask to download a Twitter user's timeline

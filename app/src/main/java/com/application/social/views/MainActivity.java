@@ -64,8 +64,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener , GoogleApiClient.OnConnectionFailedListener , AfterUpload {
 
 
-//    SharedPreferences sharedPreference;
-//    SharedPreferences.Editor editor;
+    SharedPreferences sharedPreference;
+    SharedPreferences.Editor editor;
 
 
     //gplus login
@@ -299,6 +299,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void donePinterestLogIn () {
         Log.d(TAG,"pinterest stored");
+//        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+//        editor = sharedPreference.edit();
+//        editor.putString("pinterest_login", "true");
+//        editor.commit();
 //        Intent intent = new Intent(MainActivity.this, Home.class);
 //        intent.putExtra("Some_message", "staring new activity");
 //        startActivity(intent);

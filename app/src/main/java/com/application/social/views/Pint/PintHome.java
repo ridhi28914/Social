@@ -40,31 +40,28 @@ public class PintHome extends TabActivity {
         profileIv = (ImageView) findViewById(R.id.profile_imageview);
         TabHost tabHost = getTabHost();
 
-        // Tab for Photos
-        TabHost.TabSpec photospec = tabHost.newTabSpec("MYPINS");
+        TabHost.TabSpec pinsspec = tabHost.newTabSpec("MYPINS");
         // setting Title and Icon for the Tab
-        photospec.setIndicator("MYPINS");
+        pinsspec.setIndicator("MYPINS");
         Intent photosIntent = new Intent(this, MyPins.class);
-        photospec.setContent(photosIntent);
+        pinsspec.setContent(photosIntent);
 
-        // Tab for Songs
-        TabHost.TabSpec songspec = tabHost.newTabSpec("MYBOARDS");
-        songspec.setIndicator("MYBOARDS");
+        TabHost.TabSpec boardspec = tabHost.newTabSpec("MYBOARDS");
+        boardspec.setIndicator("MYBOARDS");
         Intent songsIntent = new Intent(this, MyBoards.class);
-        songspec.setContent(songsIntent);
+        boardspec.setContent(songsIntent);
 
-        // Tab for Videos
-        TabHost.TabSpec videospec = tabHost.newTabSpec("FOLLOWING");
-        videospec.setIndicator("FOLLOWING");
+        TabHost.TabSpec followspec = tabHost.newTabSpec("FOLLOWING");
+        followspec.setIndicator("FOLLOWING");
         Intent videosIntent = new Intent(this, FollowingActivity.class);
-        videospec.setContent(videosIntent);
+        followspec.setContent(videosIntent);
 
         // Adding all TabSpec to TabHost
-        tabHost.addTab(photospec); // Adding photos tab
-        tabHost.addTab(songspec); // Adding songs tab
-        tabHost.addTab(videospec); // Adding videos tab
-
+        tabHost.addTab(pinsspec); // Adding photos tab
+        tabHost.addTab(boardspec); // Adding songs tab
+        tabHost.addTab(followspec); // Adding videos tab
         getMe();
+
     }
     private void  getMe() {
         PDKClient.getInstance().getMe(USER_FIELDS, new PDKCallback() {

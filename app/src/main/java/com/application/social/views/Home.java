@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //import com.linkedin.platform.APIHelper;
 //import com.linkedin.platform.LISessionManager;
@@ -37,13 +39,15 @@ import com.facebook.HttpMethod;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.pinterest.android.pdk.PDKClient;
+import com.pinterest.android.pdk.PDKUser;
+import com.pinterest.android.pdk.Utils;
+import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.*;
 import io.fabric.sdk.android.Fabric;
 
 
 import com.pinterest.android.pdk.PDKCallback;
-//import com.pinterest.android.pdk.PDKClient;
 import com.pinterest.android.pdk.PDKException;
 import com.pinterest.android.pdk.PDKResponse;
 
@@ -60,6 +64,7 @@ import java.util.List;
 import static com.application.social.utils.CommonLib.PINTEREST_KEY;
 import static com.application.social.utils.CommonLib.TWITTER_KEY;
 import static com.application.social.utils.CommonLib.TWITTER_SECRET;
+import static com.application.social.views.BuildConfig.DEBUG;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Home extends AppCompatActivity implements InstagramListener, View.OnClickListener {
@@ -82,6 +87,10 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 
     private PDKClient pdkClient;
     Button pinterestLoginButton;
+    private TextView nameTv;
+    private ImageView profileIv;
+    private final String USER_FIELDS = "id,image,counts,created_at,first_name,last_name,bio";
+    PDKUser user;
 
     private Button mInstagramButton;
     private InstagramHelper mInstagram;
@@ -98,8 +107,9 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig));
+
+//        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+//        Fabric.with(this, new Twitter(authConfig));
 
         FacebookSdk.sdkInitialize(getApplicationContext());
 
@@ -116,8 +126,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         mInstagramButton = (Button) findViewById(R.id.instagram_button);
         mInstagramButton.setOnClickListener(this);
         mInstagram = new InstagramHelper(this, this, CommonLib.INSTAGRAM_ID,CommonLib.INSTAGRAM_SECRET, CommonLib.INSTAGRAM_CALLBACK_URL);
-
-
 
         loginWithFB();
 
@@ -266,8 +274,23 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         pdkClient.login(this, scopes, new PDKCallback() {
             @Override
             public void onSuccess(PDKResponse response) {
+
                 Log.d(getClass().getName(), response.getData().toString());
-                onPinterestLoginSuccess();
+//                sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+//                editor = sharedPreference.edit();
+//                editor.putString("pinterest_pdkclient", String.valueOf(pdkClient));
+//                editor.commit();
+                user = response.getUser();
+                sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+                editor = sharedPreference.edit();
+//                String userId=sharedPreference.getString("user_id",null);
+//                UserDetails userDetails= new UserDetails();
+//                userDetails.setUserId(userId);
+//                userDetails.setName(user.getFirstName());
+//                userDetails.setProfilePic(user.getImageUrl());
+//                userDetails.setFbGoId(user.getUid());
+//                savePinterestDb(userDetails);
+//                onPinterestLoginSuccess();
                 //                //user logged in, use response.getUser() to get PDKUser object
             }
 
@@ -276,6 +299,9 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
                 Log.e(getClass().getName(), exception.getDetailMessage());
             }
         });
+    }
+    private void savePinterestDb(UserDetails user) {
+        uploadManager.pinterestLogIn(user);
     }
 
     private void onPinterestLoginSuccess() {
@@ -291,8 +317,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
             public void success(Result<TwitterSession> result) {
                 Log.d("Twitter success "+ getClass().getName(), result.toString());
                 onTwitterLoginSuccess(result.data);
-
-
             }
             @Override
             public void failure(TwitterException exception) {
@@ -302,19 +326,24 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 
     }
     private void onTwitterLoginSuccess(TwitterSession result) {
-        
-//        // TODO: 4/27/2017 change this to fragment starting 
-        //new Intent(this, fragments_view.class);
-//        Intent intent = new Intent(getApplicationContext(), fragments_view.class);
-//        startActivity(intent);
         sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
         editor = sharedPreference.edit();
         String userId=sharedPreference.getString("user_id",null);
-        
+        editor.putString("twitterUsername", result.getUserName());
+        editor.putString("twitter_login", "true");
+        editor.commit();
+
         Bundle extras = new Bundle();
-        extras.putString("fbGoId", String.valueOf(result.getUserId()));
-        extras.putString("userName", result.getUserName());
-        extras.putString("token", String.valueOf(result.getAuthToken()));
+        extras.putString("userName",result.getUserName()) ;
+
+        UserDetails user= new UserDetails();
+        user.setName(result.getUserName());
+//      user.email=session.getEmail();
+        user.setToken(String.valueOf(result.getAuthToken()));
+        user.setFbGoId(String.valueOf(result.getUserId()));
+        user.setUserId(userId);
+        saveTwitterDb(user);
+
         Intent intent = new Intent(this, TwitterHome.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtras(extras);
@@ -322,6 +351,9 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         finish();
     }
 
+    private void saveTwitterDb(UserDetails user) {
 
+        uploadManager.twitterLogIn(user);
+    }
 
 }

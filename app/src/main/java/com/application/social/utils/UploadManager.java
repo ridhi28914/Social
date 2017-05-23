@@ -64,6 +64,8 @@ public  class UploadManager {
                         cred.setEmail("null");
                 if(cred.getFacebookData()==null)
                         cred.setFacebookData("null");
+                if(cred.getToken()==null)
+                        cred.setToken("null");
                 OkHttpClient client;
                 client = new OkHttpClient();
 
@@ -76,7 +78,7 @@ public  class UploadManager {
                         .add("source", String.valueOf(cred.source))
                         .add("profile_pic", cred.profilePic)
                         .add("token", cred.token)
-                        .add("facebook_data", cred.facebookData)
+//                        .add("facebook_data", cred.facebookData)
                         .build();
 
                 String url = SERVER_URL+"auth/login";
