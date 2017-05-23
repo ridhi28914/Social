@@ -204,7 +204,8 @@ class InstagramManager {
         @Override
         protected void onPostExecute(ArrayList<String> result)
         {
-            Photo.showImage(result);
+            Photo photo=new Photo();
+            photo.showImage(result);
         }
     }
 }
