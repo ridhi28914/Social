@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 
 import com.application.social.views.Pint.PintHome;
 import com.application.social.views.Twit.TwitterActivity;
@@ -37,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_login);
-
         new Handler().postDelayed(new Runnable() {
 
             @Override

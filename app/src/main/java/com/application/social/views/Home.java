@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -101,7 +102,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 //        Fabric.with(this, new Twitter(authConfig));
 
         FacebookSdk.sdkInitialize(getApplicationContext());
-
         setContentView(R.layout.activity_home);
 
         pinterestLoginButton = (Button) findViewById(R.id.pinterest_login);
