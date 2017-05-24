@@ -253,7 +253,9 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         startActivity(intent);
         finish();
     }
-
+    private void saveInstagramDb(UserDetails user) {
+        uploadManager.instagramLogIn(user);
+    }
 
 
 

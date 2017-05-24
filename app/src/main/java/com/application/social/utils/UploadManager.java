@@ -37,6 +37,13 @@ public  class UploadManager {
 
     //static list
 
+    public void instagramLogIn(UserDetails user) {
+//        FacebookLogin facebookLogin= new FacebookLogin(details);
+//        Log.d(mTAG, "user is"+details.getName());
+//        facebookLogin.execute();
+    }
+
+
     public void login(UserDetails details) {
 
         LoginCred loginCred = new LoginCred(details);
@@ -45,7 +52,7 @@ public  class UploadManager {
     }
 
 
-        public class LoginCred extends AsyncTask< Void , UserDetails, String> {
+    public class LoginCred extends AsyncTask< Void , UserDetails, String> {
             private UserDetails cred;
             MainActivity mainobj = new MainActivity();
             String value;
