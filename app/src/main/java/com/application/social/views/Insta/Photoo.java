@@ -30,9 +30,11 @@ import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.client.methods.HttpGet;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 
+import static android.R.attr.data;
+
 public class Photoo extends AppCompatActivity {
     private RecyclerView recyclerView;
-    ArrayList arrayLists= new ArrayList<>();
+    ArrayList<InstaVersion> arrayLists = new ArrayList<>();
     private InstaImageAdapter adapter ;
     SharedPreferences sharedPreference;
     SharedPreferences.Editor editor;
@@ -49,7 +51,7 @@ public class Photoo extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-//        adapter = new InstaImageAdapter(getApplicationContext(),arrayLists );
+
         Bundle extras = getIntent().getExtras();
         String authToken=null;
         if(extras!=null){
@@ -83,7 +85,7 @@ public class Photoo extends AppCompatActivity {
             System.out.println(e.getMessage());
         }
     }
-    public void showImage(ArrayList<String> arrImage){
+    public void showImage(ArrayList<InstaVersion> arrImage){
 
         System.out.println(arrImage);
         arrayLists = prepareData(arrImage);
@@ -91,13 +93,18 @@ public class Photoo extends AppCompatActivity {
         adapter = new InstaImageAdapter(context, arrayLists);
         recyclerView.setAdapter(adapter);
     }
-    private ArrayList prepareData(ArrayList<String> arrImage){
+    private ArrayList<InstaVersion> prepareData(ArrayList<InstaVersion> arrImage){
 
-        ArrayList arrayList= new ArrayList<>();
+        ArrayList<InstaVersion> arrayList= new ArrayList<>();
         for(int i=0;i<arrImage.size();i++){
             InstaVersion instaVersion = new InstaVersion();
-//            androidVersion.setVersion_name(arrImage[i]);
-            instaVersion.setImage_url(arrImage.get(i));
+            instaVersion.setCaption(arrImage.get(i).getCaption());
+            instaVersion.setUser_name(arrImage.get(i).getUser_name());
+            instaVersion.setImage_url(arrImage.get(i).getImage_url());
+            instaVersion.setProfile_picture(arrImage.get(i).getProfile_picture());
+            instaVersion.setLikes(arrImage.get(i).getLikes());
+            instaVersion.setComments(arrImage.get(i).getComments());
+
             arrayList.add(instaVersion);
         }
         return arrayList;
@@ -112,7 +119,7 @@ public class Photoo extends AppCompatActivity {
         return strUrl;
     }
 
-    public class Get_Images extends AsyncTask<String, String,ArrayList<String>> {
+    public class Get_Images extends AsyncTask<InstaVersion, String,ArrayList<InstaVersion>> {
         private String token;
         public Get_Images(){
 
@@ -142,9 +149,11 @@ public class Photoo extends AppCompatActivity {
             return sb.toString();
         }
 
-        protected ArrayList<String> doInBackground(String... params) {
+        protected ArrayList<InstaVersion> doInBackground(InstaVersion... params) {
 
-            ArrayList<String> imageArray = new ArrayList<String>();
+            //ArrayList< ArrayList<String> > dataArray = new ArrayList<ArrayList<String>>();
+            ArrayList<String> imageArray = new ArrayList<>();
+            ArrayList<InstaVersion> dataArray = new ArrayList<>();
 
             try {
 //                DefaultHttpClient httpClient = new DefaultHttpClient(new BasicHttpParams());
@@ -175,12 +184,41 @@ public class Photoo extends AppCompatActivity {
 
                     if (imgArray!=null){
                         for (int i=0;i<imgArray.length();i++) {
+                            InstaVersion instaObj = new InstaVersion();
                             JSONObject jObj = imgArray.getJSONObject(i);
                             JSONObject objImage = (JSONObject) jObj.get("images");
-                            JSONObject objStdImage = (JSONObject) objImage.get("thumbnail");
+                            JSONObject objStdImage = (JSONObject) objImage.get("standard_resolution");
                             String img_url = objStdImage.getString("url");
-                            imageArray.add(img_url);
 
+                            JSONObject objName = (JSONObject) jObj.get("user");
+                            String username = objName.getString("username");
+
+                            if(!jObj.isNull("caption")) {
+                                JSONObject objCaption = (JSONObject) jObj.get("caption");
+                                String caption = objCaption.getString("text");
+                                instaObj.setCaption(caption);
+                            }
+
+                            if(!jObj.isNull("likes")) {
+                                JSONObject objLikes = (JSONObject) jObj.get("likes");
+                                String likes = objLikes.getString("count");
+                                instaObj.setLikes(likes);
+                            }
+
+                            if(!jObj.isNull("comments")) {
+                                JSONObject objComments = (JSONObject) jObj.get("comments");
+                                String comments = objComments.getString("count");
+                                instaObj.setComments(comments);
+                            }
+
+                            JSONObject objProfile = (JSONObject) jObj.get("user");
+                            String profilePictue = objProfile.getString("profile_picture");
+
+                            instaObj.setImage_url(img_url);
+                            instaObj.setUser_name(username);
+                            instaObj.setProfile_picture(profilePictue);
+
+                            dataArray.add(instaObj);
                         }
                     }
                     System.out.println(imageArray);
@@ -189,12 +227,12 @@ public class Photoo extends AppCompatActivity {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            return imageArray;
+            return dataArray;
         }
 
 
         @Override
-        protected void onPostExecute(ArrayList<String> result)
+        protected void onPostExecute(ArrayList<InstaVersion> result)
         {
             showImage(result);
         }

@@ -77,7 +77,7 @@ public class PintHome extends TabActivity {
                 userDetails.setName(user.getFirstName());
                 userDetails.setProfilePic(user.getImageUrl());
                 userDetails.setFbGoId(user.getUid());
-                savePinterestDb(userDetails);
+ //               savePinterestDb(userDetails);
                 setUser();
             }
             @Override
@@ -88,9 +88,9 @@ public class PintHome extends TabActivity {
         });
     }
 
-    private void savePinterestDb(UserDetails user) {
-        uploadManager.pinterestLogIn(user);
-    }
+//    private void savePinterestDb(UserDetails user) {
+//        uploadManager.pinterestLogIn(user);
+//    }
 
     private void setUser() {
         nameTv.setText(user.getFirstName() + " " + user.getLastName());
