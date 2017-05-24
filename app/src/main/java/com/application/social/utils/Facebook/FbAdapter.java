@@ -36,7 +36,7 @@ public class FbAdapter extends RecyclerView.Adapter<FbAdapter.ViewHolder>  {
 
     @Override
     public void onBindViewHolder(FbAdapter.ViewHolder viewHolder, int i) {
-
+//
 //        viewHolder.tv_android.setText(android_versions.get(i).getVersion_name());
         Picasso.with(context).load(fb_versions.get(i).getImage_url()).resize(120, 60).into(viewHolder.img_android);
     }
