@@ -16,6 +16,8 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.google.gson.Gson;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class FacebookFeed extends AppCompatActivity {
@@ -88,6 +90,11 @@ public class FacebookFeed extends AppCompatActivity {
      ArrayList prepareData(GraphResponse response){
 
          System.out.print(response);
+        response.getRawResponse();
+         JSONObject object=response.getJSONObject();
+         response.getJSONArray();
+
+         response.getError();
          return null;
      }
 }
