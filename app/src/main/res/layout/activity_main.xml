@@ -8,16 +8,17 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/cardview_light_background"
     tools:context="com.application.social.views.MainActivity">
 
     <Button
         android:id="@+id/platformActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="26dp"
+        android:text="Start Another Activity"
+        android:layout_below="@+id/btn_sign_in"
         android:layout_centerHorizontal="true"
-        android:text="Start Another Activity" />
+        android:layout_marginTop="146dp" />
     <LinearLayout
         android:id="@+id/llProfile"
         android:layout_width="fill_parent"
@@ -58,13 +59,16 @@
         </LinearLayout>
     </LinearLayout>
     <com.google.android.gms.common.SignInButton
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/btn_sign_in"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:layout_below="@+id/btn_sign_out"
+        app:buttonSize="wide"
+        app:colorScheme="dark"
+        android:layout_below="@+id/llProfile"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="57dp" />
 
     <Button
         android:id="@+id/btn_sign_out"

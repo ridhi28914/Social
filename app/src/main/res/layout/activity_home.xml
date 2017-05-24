@@ -2,47 +2,90 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Another Activity"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <com.twitter.sdk.android.core.identity.TwitterLoginButton
         android:id="@+id/twitter_login_button"
+        android:layout_width="300dp"
+        android:layout_height="38dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_vertical|center_horizontal"
+
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="120dp"
+        android:adjustViewBounds="true"
+        android:autoText="false"
+        android:paddingTop="100dp"
+        android:scaleType="fitCenter"
+        android:textAllCaps="false"
+        android:textSize="10sp" />
+    <!--<com.pinterest.pinit.PinItButton
+        android:id="@+id/pinterest_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"/>-->
 
     <Button
-        android:text="Login With Pinterest"
-        android:layout_width="wrap_content"
+        android:id="@+id/pinterest_login"
+        android:layout_width="300dp"
+        android:layout_height="38dp"
         android:layout_centerInParent="true"
-        android:layout_height="wrap_content"
-        android:id="@+id/pinterest_login"/>
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/pin11"
+        android:scaleType="fitCenter"
+        android:textAllCaps="false" />
     <Button
         android:id="@+id/instagram_button"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="38dp"
         android:layout_centerInParent="true"
-        android:layout_height="wrap_content"
-        android:text="Login with Instagram" />
-    <com.facebook.login.widget.LoginButton
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/insta11"
+        android:scaleType="fitCenter"
+        android:textAllCaps="false" />
+        <!--android:text="Log in with Instagram"-->
+    <com.facebook.login.widget.LoginButton xmlns:facebook="http://schemas.android.com/apk/res-auto"
         android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_sign_in"
+        android:layout_width="300dp"
+        android:layout_height="38dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="112dp" />
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="0.03"
+        android:padding="20dp"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        facebook:com_facebook_login_text="Log in with Facebook" />
     <TextView
         android:id="@+id/data_received_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Data Received" />
+        android:textAllCaps="false" />
     <!--<Button-->
     <!--android:layout_below="@+id/linkedtext"-->
     <!--android:id="@+id/linkedin_login_button"-->
