@@ -37,13 +37,60 @@ public  class UploadManager {
 
     //static list
 
-    public void instagramLogIn(UserDetails user) {
-//        FacebookLogin facebookLogin= new FacebookLogin(details);
-//        Log.d(mTAG, "user is"+details.getName());
-//        facebookLogin.execute();
+    public void instagramLogIn(UserDetails details) {
+        InstagramLogin instagramLogin= new InstagramLogin(details);
+        Log.d(mTAG, "user is"+details.getName());
+        instagramLogin.execute();
     }
 
+    public class InstagramLogin extends AsyncTask< Void , UserDetails, String> {
+        private UserDetails cred;
+        MainActivity mainobj = new MainActivity();
+        String value;
 
+        public InstagramLogin() {
+        }
+
+        InstagramLogin(UserDetails cred) {
+            this.cred = cred;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            OkHttpClient client;
+            client = new OkHttpClient();
+
+            RequestBody body = new FormBody.Builder()
+                    .add("user_id", cred.userId)
+                    .add("client_id", "social_android_client")
+                    .add("app_type", "social_android")
+                    .add("fbGoId", cred.fbGoId)
+                    .add("token", cred.token)
+                    .build();
+
+            String url = SERVER_URL+"instagram/login";
+            String response=null;
+            try {
+                response = ApiCall.POST(client, url, body);
+                return response;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+//                // TODO: 4/20/2017 return json exception response
+                return null;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            Log.d(mTAG, "response object is:- " + response);
+            mainobj.doneInstagramLogIn();
+//                super.onPostExecute(Jobject);
+
+        }
+    }
     public void login(UserDetails details) {
 
         LoginCred loginCred = new LoginCred(details);

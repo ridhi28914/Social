@@ -12,4 +12,6 @@ public interface AfterUpload {
     void donePinterestLogIn();
 
     void doneFacebookLogIn();
+
+    void doneInstagramLogIn();
 }

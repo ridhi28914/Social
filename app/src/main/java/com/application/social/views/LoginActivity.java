@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.application.social.views.Insta.Photoo;
 import com.application.social.views.Pint.PintHome;
 import com.application.social.views.Twit.TwitterActivity;
 import com.application.social.views.Twit.TwitterFeed;
@@ -52,8 +53,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
                     editor = sharedPreference.edit();
-//                    if (sharedPreference.getString("twitter_login", null) != null) {
-//                        Intent i = new Intent(LoginActivity.this, TwitterHome.class);
+//                    if (sharedPreference.getString("instagram_login", null) != null) {
+//                        Intent i = new Intent(LoginActivity.this, Photoo.class);
 //                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                        startActivity(i);
 //                        finish();

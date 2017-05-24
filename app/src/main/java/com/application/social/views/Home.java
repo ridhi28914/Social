@@ -243,8 +243,21 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     }
     @Override public void onInstagramSignInSuccess(String authToken, String userId) {
         System.out.print(authToken);
+        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+        editor = sharedPreference.edit();
+        editor.putString("instagramToken", authToken);
+        editor.putString("instagram_login", "true");
+        editor.commit();
+        UserDetails user= new UserDetails();
+        String user_id=sharedPreference.getString("user_id",null);
+        user.setUserId(user_id);
+        user.setFbGoId(userId);
+        user.setToken(authToken);
+        saveInstagramDb(user);
+
         show_photo_view(authToken);
     }
+
     private void show_photo_view(String authToken){
         Intent intent = new Intent(Home.this, Photoo.class);
         Bundle bundle= new Bundle();
@@ -256,7 +269,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     private void saveInstagramDb(UserDetails user) {
         uploadManager.instagramLogIn(user);
     }
-
 
 
     private void onPinterestLogin() {

@@ -1,6 +1,7 @@
 package com.application.social.views.Insta;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,7 +34,8 @@ public class Photoo extends AppCompatActivity {
     private RecyclerView recyclerView;
     ArrayList arrayLists= new ArrayList<>();
     private InstaImageAdapter adapter ;
-
+    SharedPreferences sharedPreference;
+    SharedPreferences.Editor editor;
     Context context;
 
     private Button logoutButton;
@@ -47,15 +49,23 @@ public class Photoo extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-        arrayLists.add("https://scontent.cdninstagram.com/t51.2885-15/s150x150/e35/c0.135.1080.1080/18512385_774736376023759_894327120057073664_n.jpg");
-        adapter = new InstaImageAdapter(getApplicationContext(),arrayLists );
+//        adapter = new InstaImageAdapter(getApplicationContext(),arrayLists );
         Bundle extras = getIntent().getExtras();
+        String authToken=null;
+        if(extras!=null){
 
+            authToken= (String) extras.get("authToken");
+
+        }
+        else{
+            sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+            editor = sharedPreference.edit();
+            authToken = sharedPreference.getString("instagramToken", null);
+        }
 //        logoutButton = (Button) findViewById(R.id.btnLogout);
 
 //        gridView = (GridView)findViewById(R.id.gridview);
         context = this;
-        String authToken= (String) extras.get("authToken");
         getPhotosList(authToken);
 
 
