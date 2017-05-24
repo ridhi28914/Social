@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,7 @@ import com.application.social.utils.CommonLib;
 import com.application.social.utils.Instagram.InstagramHelper;
 import com.application.social.utils.Instagram.InstagramListener;
 import com.application.social.utils.UploadManager;
+import com.application.social.views.Fb.FacebookFeed;
 import com.application.social.views.Insta.Photoo;
 import com.application.social.views.Pint.PintHome;
 import com.application.social.views.Twit.TwitterHome;
@@ -36,6 +38,7 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.gson.Gson;
 import com.pinterest.android.pdk.PDKClient;
 import com.pinterest.android.pdk.PDKUser;
 import com.twitter.sdk.android.core.*;
@@ -50,6 +53,10 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -137,6 +144,9 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
+//                AccessToken token=loginResult.getAccessToken();
+                final AccessToken accessToken=AccessToken.getCurrentAccessToken();
+//                String token= accessToken.getToken();
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -152,30 +162,15 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
                                         userDetails.setEmail(object.getString("email"));
 
                                     Log.d(TAG,"user is "+userDetails);
-                                    uploadManager.facebookLogIn(userDetails);
+//                                    uploadManager.facebookLogIn(userDetails);
                                 } catch (JSONException e) {
                                     userDetails.setEmail("null");
-                                    uploadManager.facebookLogIn(userDetails);
+//                                    uploadManager.facebookLogIn(userDetails);
 //                                    e.printStackTrace();
                                 }
 
-//                                // TODO: 4/24/2017 send request to get feed
-                                Bundle params = new Bundle();
-                                params.putString("fields", "picture,likes,comments,story,icon,message,place,shares");
-                                params.putString("limit", "10");
+                                onFacebookLoginSuccess(accessToken);
 
-                                new GraphRequest(
-                                        AccessToken.getCurrentAccessToken(),
-                                        "me/feed",
-                                        params,
-                                        HttpMethod.GET,
-                                        new GraphRequest.Callback() {
-                                            public void onCompleted(GraphResponse response) {
-                                                Log.d(TAG, "response is "+ String.valueOf(response));
-            /* handle the result */
-                                            }
-                                        }
-                                ).executeAsync();
                             }
                         });
                 Bundle parameters = new Bundle();
@@ -190,6 +185,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
                 userDetails.setUserId(userId);
                 String declinedPerm = String.valueOf(loginResult.getAccessToken().getDeclinedPermissions());
                 System.out.print(declinedPerm);
+
 
 //              Date expiresOn=loginResult.getAccessToken().getExpires();
             }
@@ -207,6 +203,24 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 
         });
 
+    }
+    public void onFacebookLoginSuccess(AccessToken accessToken) {
+        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+        editor = sharedPreference.edit();
+        editor.putString("fbToken", String.valueOf(accessToken));
+        editor.putString("facebook_login", "true");
+        editor.commit();
+
+        Gson gson = new Gson();
+        String g= gson.toJson(accessToken);
+
+        Intent i = new Intent(this, FacebookFeed.class);
+        Bundle extras = new Bundle();
+        extras.putString("token", g);
+        i.putExtras(extras);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+        finish();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -316,6 +330,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         startActivity(i);
         finish();
     }
+
 
 
 

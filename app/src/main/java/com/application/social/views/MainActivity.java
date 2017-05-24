@@ -281,6 +281,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void onDestroy(){
+        Log.d(TAG,"destroyed");
+
+    }
 
     @Override
     public void doneLoggingIn() {
