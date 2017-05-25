@@ -3,6 +3,8 @@ package com.application.social.views;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -70,14 +72,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 
     SharedPreferences sharedPreference;
     SharedPreferences.Editor editor;
-//    private static final String host = "api.linkedin.com";
-//    private static final String liUrl = "https://" + host
-//            + "/v1/people/~:" +
-//            "(email-address,formatted-name,phone-numbers,picture-urls::(original))";
-
-//    private ProgressDialog progress;
-//    private TextView user_name, user_email;
-//    private ImageView profile_picture;
 
     //    twitter login
     TwitterLoginButton twitterLoginButton;
@@ -111,6 +105,17 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_home);
 
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
         pinterestLoginButton = (Button) findViewById(R.id.pinterest_login);
         pinterestLoginButton.setOnClickListener(this);
         pdkClient = PDKClient.configureInstance(this, PINTEREST_KEY);
@@ -122,6 +127,8 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         mInstagramButton = (Button) findViewById(R.id.instagram_button);
         mInstagramButton.setOnClickListener(this);
         mInstagram = new InstagramHelper(this, this, CommonLib.INSTAGRAM_ID,CommonLib.INSTAGRAM_SECRET, CommonLib.INSTAGRAM_CALLBACK_URL);
+
+
 
         loginWithFB();
 
@@ -144,9 +151,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
-//                AccessToken token=loginResult.getAccessToken();
                 final AccessToken accessToken=AccessToken.getCurrentAccessToken();
-//                String token= accessToken.getToken();
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -205,14 +210,14 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 
     }
     public void onFacebookLoginSuccess(AccessToken accessToken) {
-        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
-        editor = sharedPreference.edit();
-        editor.putString("fbToken", String.valueOf(accessToken));
-        editor.putString("facebook_login", "true");
-        editor.commit();
-
         Gson gson = new Gson();
         String g= gson.toJson(accessToken);
+
+        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+        editor = sharedPreference.edit();
+        editor.putString("fbToken", g);
+        editor.putString("facebook_login", "true");
+        editor.commit();
 
         Intent i = new Intent(this, FacebookFeed.class);
         Bundle extras = new Bundle();

@@ -22,4 +22,5 @@
     <string name="title_activity_photo">Photo</string>
     <string name="title_activity_pint_home_two">PintHomeTwo</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_compose">Compose</string>
 </resources>

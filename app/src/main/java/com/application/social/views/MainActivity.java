@@ -205,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.platformActivity:
                 Intent intent = new Intent(this, Home.class);
+//                Intent intent = new Intent(this, Compose.class);
                 startActivity(intent);
                 break;
         }

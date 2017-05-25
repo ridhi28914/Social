@@ -16,6 +16,7 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -36,16 +37,17 @@ public class FacebookFeed extends AppCompatActivity {
         
         Bundle extras = getIntent().getExtras();
         String aceessToken =null;
-        AccessToken a=null;
+        AccessToken at=null;
+        Gson gson = new Gson();
         if(extras!=null){
             aceessToken = extras.getString("token");
-            Gson gson = new Gson();
-             a = gson.fromJson(aceessToken, AccessToken.class);
+             at = gson.fromJson(aceessToken, AccessToken.class);
         }
         else{
-//            sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
-//            editor = sharedPreference.edit();
-//            sharedPreference.getString("instagramToken", null);
+            sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+            editor = sharedPreference.edit();
+            aceessToken = sharedPreference.getString("fbToken", null);
+            at = gson.fromJson(aceessToken, AccessToken.class);
         }
 
         Context context=getApplicationContext();
@@ -55,46 +57,49 @@ public class FacebookFeed extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        getFacebookFeed(a);
+        getFacebookFeed(at);
 
 
     }
-    void getFacebookFeed(AccessToken a){
+    void getFacebookFeed(AccessToken at){
         Bundle params = new Bundle();
         params.putString("fields", "picture,likes,comments,story,icon,message,place,shares");
         params.putString("limit", "10");
 
         new GraphRequest(
 //                AccessToken.getCurrentAccessToken(),
-                a,
+                at,
                 "me/feed",
                 params,
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
                         Log.d(TAG, "response is "+ String.valueOf(response));
-                        showResponse(response);
+                        try {
+                            showResponse(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
             /* handle the result */
                     }
                 }
         ).executeAsync();
     }
-    public void showResponse(GraphResponse response){
+    public void showResponse(GraphResponse response) throws JSONException {
 
         arrayLists = prepareData(response);
         adapter = new InstaImageAdapter(context, arrayLists);
         recyclerView.setAdapter(adapter);
     }
 
-     ArrayList prepareData(GraphResponse response){
+     ArrayList prepareData(GraphResponse response) throws JSONException {
 
-         System.out.print(response);
-        response.getRawResponse();
          JSONObject object=response.getJSONObject();
-         response.getJSONArray();
-
-         response.getError();
+         JSONObject data= object.getJSONObject("data");
+         String s=object.getString("data");
+         System.out.print(data);
+//         response.getError();
          return null;
      }
 }
