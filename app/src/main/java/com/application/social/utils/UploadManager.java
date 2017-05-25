@@ -143,7 +143,7 @@ public  class UploadManager {
             client = new OkHttpClient();
 
             RequestBody body = new FormBody.Builder()
-                    .add("user_id", cred.userId)
+//                    .add("user_id", cred.userId)
                     .add("client_id", "social_android_client")
                     .add("app_type", "social_android")
                     .add("fbGoId", cred.fbGoId)
