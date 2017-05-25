@@ -13,9 +13,10 @@ public class CommonLib {
 
     public static final String SERVER_URL = "http://192.168.43.22:8080/SocialServer/rest/";
 
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    public static final String TWITTER_KEY = "DqvYukCn5ZLGC1ypoPT3e9FrE";
-    public static final String TWITTER_SECRET = "UiAX48Jc3ddksA8kln0CofaoLLSgtlde26DaJ7Mwat8qBMRT1h";
+    public static final String TWITTER_KEY = "thiYKReEP5JE9Fd4RoAyFspVC";
+    public static final String TWITTER_SECRET = "4hYuMg90NmpfO5YszSj6yiPF3qeYWPsgDVSLT7hEE1t7pRTM3S";
+    public static final String TWITTER_ACCESSTOKEN_KEY= "722095238458658817-69K5xoUpGiwmsLVRdaqI6y0DUzYi14k";
+    public static final String TWITTER_ACCESSTOKEN_SECRET= "OQpPGkBSZh8iD208XZg1ce1vJiEs4CiaNxPdZ1mFYhhWW";
 
     public static final String INSTAGRAM_ID= "79653c8f7e93422da446cb8febd289cf";
     public static final String INSTAGRAM_SECRET= "cea697ad55594ccf98b3eecfc85e0de6";

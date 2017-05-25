@@ -18,8 +18,16 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
 
 import static com.application.social.utils.CommonLib.SERVER_URL;
+import static com.application.social.utils.CommonLib.TWITTER_ACCESSTOKEN_KEY;
+import static com.application.social.utils.CommonLib.TWITTER_ACCESSTOKEN_SECRET;
+import static com.application.social.utils.CommonLib.TWITTER_KEY;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.facebook.GraphRequest.TAG;
 
@@ -36,6 +44,79 @@ public  class UploadManager {
     String mTAG = "myAsyncTask";
 
     //static list
+
+
+    public void twitterPostTweet(String message) {
+        TwitterPost twitterPost= new TwitterPost(message);
+        twitterPost.execute();
+    }
+    public class TwitterPost extends AsyncTask< Void , String, String> {
+        MainActivity mainobj = new MainActivity();
+        String message;
+
+        public TwitterPost() {
+        }
+
+        TwitterPost(String message) {
+            this.message = message;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            ConfigurationBuilder confB = new ConfigurationBuilder();
+            confB.setDebugEnabled(true);
+            confB.setOAuthConsumerKey(TWITTER_KEY);
+            confB.setOAuthConsumerSecret(TWITTER_KEY);
+            confB.setOAuthAccessToken(TWITTER_ACCESSTOKEN_KEY);
+            confB.setOAuthAccessTokenSecret(TWITTER_ACCESSTOKEN_SECRET);
+
+            Log.i("Twitter activity", "After building configuration");
+
+            TwitterFactory tF = new TwitterFactory(confB.build());
+            Twitter twitter = tF.getInstance();
+
+//            try {
+//                twitter4j.Status status = twitter.updateStatus("Testing from android");
+////            StatusUpdate status = new StatusUpdate(message);
+////            Configuration configuration = (Configuration) confB.build();
+////            OAuthAuthorization auth = new OAuthAuthorization((twitter4j.conf.Configuration) configuration);
+////            ImageUpload uploader = new ImageUploadFactory(configuration)
+////                    .getInstance(auth);
+//
+////            File photo=new File("abc/myimage.png");
+////            String status="Checkout my new image";
+//
+////            uploader.upload(photo,status);
+//                Log.i("Twitter activity", "Done updating status");
+//                return "SUCCESS";
+//            } catch (TwitterException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+            try {
+                Log.d("userName", twitter.getScreenName());
+                // Log.d("password",twitter.getFavorites()());
+            } catch (IllegalStateException e) {
+                Log.d("illesayem", "caught");
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (TwitterException e) {
+                Log.d("fdfds", "caught");
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return "FAILURE";
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            Log.d(mTAG, "response object is:- " + response);
+            mainobj.doneTwitterLogIn();
+//                super.onPostExecute(Jobject);
+
+        }
+    }
 
     public void instagramLogIn(UserDetails details) {
         InstagramLogin instagramLogin= new InstagramLogin(details);

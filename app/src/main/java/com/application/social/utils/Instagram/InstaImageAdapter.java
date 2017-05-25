@@ -42,7 +42,7 @@ public class InstaImageAdapter extends RecyclerView.Adapter<InstaImageAdapter.Vi
         viewHolder.tv_likes.setText(insta_versions.get(i).getLikes());
         viewHolder.tv_comments.setText(insta_versions.get(i).getComments());
 
-        Picasso.with(context).load(insta_versions.get(i).getProfile_picture()).resize(150,150).into(viewHolder.iv_profile);
+//        Picasso.with(context).load(insta_versions.get(i).getProfile_picture()).resize(150,150).into(viewHolder.iv_profile);
         Picasso.with(context).load(insta_versions.get(i).getImage_url()).resize(150,150).into(viewHolder.iv_image);
     }
 

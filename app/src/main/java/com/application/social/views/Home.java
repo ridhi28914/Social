@@ -1,5 +1,7 @@
 package com.application.social.views;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -39,6 +41,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.gson.Gson;
@@ -145,13 +148,13 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 
         login_button.setReadPermissions(Arrays.asList(
                 "email", "user_birthday", "user_friends","user_posts"));
-//        login_button.setPublishPermissions("publish_actions");
         login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
                 final AccessToken accessToken=AccessToken.getCurrentAccessToken();
+                LoginManager.getInstance().logInWithPublishPermissions(Home.this,Arrays.asList("publish_actions"));
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -175,7 +178,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
                                 }
 
                                 onFacebookLoginSuccess(accessToken);
-
                             }
                         });
                 Bundle parameters = new Bundle();
@@ -227,6 +229,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         startActivity(i);
         finish();
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

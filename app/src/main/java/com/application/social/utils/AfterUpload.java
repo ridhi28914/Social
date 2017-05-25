@@ -14,4 +14,6 @@ public interface AfterUpload {
     void doneFacebookLogIn();
 
     void doneInstagramLogIn();
+
+    void doneTwitterPost();
 }

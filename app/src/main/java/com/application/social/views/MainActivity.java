@@ -298,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void doneTwitterLogIn() {
         Log.d(TAG,"twitter stored");
-//        Intent intent = new Intent(MainActivity.this, Home.class);
+        Intent intent = new Intent(MainActivity.this, Compose.class);
 //        intent.putExtra("Some_message", "staring new activity");
 //        startActivity(intent);
     }
@@ -328,4 +328,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG,"instagram stored");
 
     }
-}
+
+    @Override
+    public void doneTwitterPost() {
+        Log.d(TAG,"twitter posted");
+
+    }}
