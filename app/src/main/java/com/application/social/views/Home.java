@@ -125,7 +125,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         editor = sharedPreference.edit();
         final String userId=sharedPreference.getString("user_id",null);
         //fb login
-        txtstatus = (TextView) findViewById(R.id.txtStatus);
+//        txtstatus = (TextView) findViewById(R.id.txtStatus);
         login_button = (LoginButton) findViewById(R.id.login_button);
         callbackManager = CallbackManager.Factory.create();
 
