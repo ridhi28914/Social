@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 
+import com.application.social.views.Fb.FacebookFeed;
+import com.application.social.views.Insta.Photoo;
 import com.application.social.views.Pint.PintHome;
 import com.application.social.views.Twit.TwitterActivity;
 import com.application.social.views.Twit.TwitterFeed;
@@ -52,8 +54,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
                     editor = sharedPreference.edit();
-//                    if (sharedPreference.getString("twitter_login", null) != null) {
-//                        Intent i = new Intent(LoginActivity.this, TwitterHome.class);
+//                    if (sharedPreference.getString("facebook_login", null) != null) {
+//                        Intent i = new Intent(LoginActivity.this, FacebookFeed.class);
 //                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                        startActivity(i);
 //                        finish();
@@ -62,13 +64,13 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent = new Intent(LoginActivity.this, Home.class);
                         startActivity(intent);
                         finish();
-//                    }
-                }
-                else {
+                    }
+//                }
+//                else {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-                }
+//                }
             }
         }, SPLASH_TIME_OUT);
     }

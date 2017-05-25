@@ -4,11 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.application.social.views.Insta.InstaFeed">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/card_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.application.social.views.Compose"
+    tools:showIn="@layout/activity_compose">
 
 </android.support.constraint.ConstraintLayout>

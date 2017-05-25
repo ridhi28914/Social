@@ -205,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.platformActivity:
                 Intent intent = new Intent(this, Home.class);
+//                Intent intent = new Intent(this, Compose.class);
                 startActivity(intent);
                 break;
         }
@@ -281,6 +282,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void onDestroy(){
+        Log.d(TAG,"destroyed");
+
+    }
 
     @Override
     public void doneLoggingIn() {
@@ -296,6 +302,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        intent.putExtra("Some_message", "staring new activity");
 //        startActivity(intent);
     }
+
     @Override
     public void donePinterestLogIn () {
         Log.d(TAG,"pinterest stored");
@@ -307,11 +314,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        intent.putExtra("Some_message", "staring new activity");
 //        startActivity(intent);
     }
+
     @Override
     public void doneFacebookLogIn() {
         Log.d(TAG,"facebook stored");
 //        Intent intent = new Intent(MainActivity.this, Home.class);
 //        intent.putExtra("Some_message", "staring new activity");
 //        startActivity(intent);
+    }
+
+    @Override
+    public void doneInstagramLogIn() {
+        Log.d(TAG,"instagram stored");
+
     }
 }

@@ -59,7 +59,12 @@
         <activity android:name=".Twit.TwitterHome" />
         <activity android:name="com.application.social.utils.Instagram.InstaImageAdapter" />
         <activity android:name=".Insta.InstaFeed" />
-        <activity android:name=".Insta.Photoo"></activity>
+        <activity android:name=".Insta.Photoo" />
+        <activity android:name=".Fb.FacebookFeed" />
+        <activity
+            android:name=".Compose"
+            android:label="@string/title_activity_compose"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 
 </manifest>

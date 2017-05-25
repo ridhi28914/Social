@@ -10,6 +10,9 @@
         android:id="@+id/card_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+
+
     <!--<Button-->
     <!--android:scrollbars="vertical"-->
     <!--android:layout_width="300dp"-->
