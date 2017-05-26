@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.application.social.utils.Instagram.InstaImageAdapter;
 import com.application.social.utils.Instagram.InstaVersion;
@@ -30,15 +31,19 @@ public class FbAdapter extends RecyclerView.Adapter<FbAdapter.ViewHolder>  {
 
     @Override
     public FbAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_layout, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_layout_facebook, viewGroup, false);
         return new FbAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(FbAdapter.ViewHolder viewHolder, int i) {
-//
-//        viewHolder.tv_android.setText(android_versions.get(i).getVersion_name());
-        Picasso.with(context).load(fb_versions.get(i).getImage_url()).resize(120, 60).into(viewHolder.img_android);
+        viewHolder.tv_message.setText(fb_versions.get(i).getMessage());
+        viewHolder.tv_story.setText(fb_versions.get(i).getStory());
+        viewHolder.tv_likes.setText(fb_versions.get(i).getLikes());
+        viewHolder.tv_comments.setText(fb_versions.get(i).getComments());
+        if(fb_versions.get(i).getImage_url() != "null") {
+            Picasso.with(context).load(fb_versions.get(i).getImage_url()).resize(200, 200).into(viewHolder.iv_image);
+        }
     }
 
     @Override
@@ -47,13 +52,19 @@ public class FbAdapter extends RecyclerView.Adapter<FbAdapter.ViewHolder>  {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        //        TextView tv_android;
-        ImageView img_android;
+        TextView tv_message;
+        TextView tv_story;
+        TextView tv_likes;
+        TextView tv_comments;
+        ImageView iv_image;
+
         public ViewHolder(View view) {
             super(view);
-
-//            tv_android = (TextView)view.findViewById(R.id.tv_android);
-            img_android = (ImageView)view.findViewById(R.id.img_android);
+            tv_message = (TextView)view.findViewById(R.id.tv_message);
+            tv_story = (TextView)view.findViewById(R.id.tv_story);
+            tv_likes = (TextView)view.findViewById(R.id.tv_likes);
+            tv_comments = (TextView)view.findViewById(R.id.tv_comments);
+            iv_image = (ImageView)view.findViewById(R.id.iv_image);
         }
     }
 
