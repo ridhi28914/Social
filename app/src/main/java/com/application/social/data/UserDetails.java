@@ -16,6 +16,16 @@ public class UserDetails {
     public String facebookData;
     public String fbPermission;
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String password;
+
     public String getFacebookData() {
         return facebookData;
     }

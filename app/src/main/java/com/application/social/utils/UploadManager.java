@@ -172,6 +172,108 @@ public  class UploadManager {
 
         }
     }
+
+
+    public void customSignup(UserDetails details) {
+
+        CustomSignupCred customSignupCred= new CustomSignupCred(details);
+        Log.d(mTAG, "email is"+details.email);
+        customSignupCred.execute();
+    }
+
+
+    public class CustomSignupCred extends AsyncTask< Void , UserDetails, String> {
+        private UserDetails cred;
+        MainActivity mainobj = new MainActivity();
+        String value;
+
+        public CustomSignupCred() {
+        }
+
+        CustomSignupCred(UserDetails cred) {
+            this.cred = cred;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            OkHttpClient client;
+            client = new OkHttpClient();
+            RequestBody body;
+            if(cred.getName()==null){
+                 body = new FormBody.Builder()
+                        .add("email", cred.email)
+                        .add("client_id", "social_android_client")
+                        .add("app_type", "social_android")
+                        .add("password", cred.password)
+                        .build();
+            }
+
+            else {
+
+
+                body = new FormBody.Builder()
+                        .add("email", cred.email)
+                        .add("name", cred.name)
+                        .add("client_id", "social_android_client")
+                        .add("app_type", "social_android")
+                        .add("password", cred.password)
+                        .build();
+            }
+            String url = SERVER_URL+"auth/login";
+            String response=null;
+            try {
+                response = ApiCall.POST(client, url, body);
+                return response;
+            } catch (IOException e) {
+                e.printStackTrace();
+//                // TODO: 4/20/2017 return json exception response
+                return null;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            Log.d(mTAG, "response object is:- " + response);
+            String accessToken=null;
+            String userId=null;
+            if (response != null) {
+                JSONObject jObject;
+                try {
+                    jObject = new JSONObject(response);
+                    JSONObject data = new JSONObject(jObject.getString("response"));
+                    Log.d(mTAG, "data is:-" + data);
+                    accessToken = data.getString("access_token");
+                    userId = data.getString("user_id");
+                    Log.d(mTAG, "at is:-" + accessToken);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+                editor = sharedPreference.edit();
+                editor.putString("access_token", accessToken);
+                editor.putString("user_id",userId);
+                editor.commit();
+                if (sharedPreference.contains("access_token")) {
+                    accessToken = sharedPreference.getString("access_token", null);
+                    if (accessToken != null) {
+                        Log.d(mTAG, "accessToken is :- " + accessToken);
+                    } else {
+                        Log.d(mTAG, "accessToken is null");
+                    }
+                }
+                mainobj.doneLoggingIn();
+
+            }
+        }
+
+
+    }
+
     public void login(UserDetails details) {
 
         LoginCred loginCred = new LoginCred(details);
@@ -203,6 +305,7 @@ public  class UploadManager {
                         cred.setToken("null");
                 OkHttpClient client;
                 client = new OkHttpClient();
+
 
                 RequestBody body = new FormBody.Builder()
                         .add("email", cred.email)

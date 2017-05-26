@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         linearLayout = (LinearLayout) findViewById(R.id.sign_layout);
         linearLayout2= (LinearLayout) findViewById(R.id.login_layout);
         donebutton.setOnClickListener(this);
-//        donebutton.setVisibility(View.INVISIBLE);
+
         loginWithGoogle();
 
     }
@@ -150,6 +150,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSignIn.setScopes(gso.getScopeArray());
     }
 
+//    @Override
+//    protected void onDestroy(){
+//
+//    }
 
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -220,10 +224,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 linearLayout.setVisibility(View.GONE);
                 linearLayout2.setVisibility(View.VISIBLE);
                 break;
-
+            case R.id.btn_signup:
+                UserDetails uD=new UserDetails();
+                uD.setEmail("r");
+                uD.setName("d");
+                uD.setPassword("s");
+                UploadManager uM= new UploadManager();
+                uM.customSignup(uD);
+                break;
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
