@@ -1,11 +1,13 @@
 package com.application.social.views;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,6 +23,7 @@ import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.models.Configuration;
 import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.io.File;
 import java.net.URI;
@@ -42,6 +45,7 @@ import static com.application.social.views.R.menu.photo;
 public class Compose extends AppCompatActivity  {
 //    SharedPreferences sharedPreference;
 //    SharedPreferences.Editor editor;
+    Context context = getApplicationContext();
 UploadManager uploadManager =new UploadManager();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +63,20 @@ UploadManager uploadManager =new UploadManager();
             }
         });
 
-            uploadManager.twitterPostTweet("message");
+//            uploadManager.twitterPostTweet("message");
+
+//        Uri imageUri = FileProvider.getUriForFile(Compose.this,
+//                BuildConfig.APPLICATION_ID + ".file_provider",
+//                new File("/path/to/image"));
+//            uploadManager.twitterPostTweet("message");
 
 //        final TwitterSession session = TwitterCore.getInstance().getSessionManager()
 //                .getActiveSession();
-////        Uri uri=new Uri();
-//        final Intent intent = new ComposerActivity.Builder(Compose.this)
+//////        Uri uri=new Uri();
+//
+//        final Intent intent = new ComposerActivity.Builder(this)
 //                .session(session)
-////                .image(uri)
-//                .text("Love where you work")
+////                .text("Love where you work")
 //                .hashtags("#twitter")
 //                .createIntent();
 //        startActivity(intent);
@@ -79,7 +88,10 @@ UploadManager uploadManager =new UploadManager();
 //        onFacebookLoginSuccess2(accessToken);
 
         Log.i("Twitter activity", "Before building configuration");
-
+//        TweetComposer.Builder builder = new TweetComposer.Builder(Compose.this)
+//                .text("just setting up my Twitter Kit.");
+////                    .image(imageUri);
+//        builder.show();
 
 
     }

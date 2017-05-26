@@ -1,25 +1,12 @@
 package com.application.social.views;
 
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Window;
 
-import com.application.social.views.Fb.FacebookFeed;
-import com.application.social.views.Insta.Photoo;
-import com.application.social.views.Pint.PintHome;
-import com.application.social.views.Twit.TwitterActivity;
-import com.application.social.views.Twit.TwitterFeed;
-import com.application.social.views.Twit.TwitterHome;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 

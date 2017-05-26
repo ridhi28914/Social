@@ -63,7 +63,7 @@ public class FacebookFeed extends AppCompatActivity {
     }
     void getFacebookFeed(AccessToken at){
         Bundle params = new Bundle();
-        params.putString("fields", "picture,likes,comments,story,icon,message,place,shares");
+        params.putString("fields", "picture,comments.limit(1).summary(true),likes.limit(1).summary(true),story,icon,message,place,shares");
         params.putString("limit", "10");
 
         new GraphRequest(

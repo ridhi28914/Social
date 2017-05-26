@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,14 +18,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-//import com.linkedin.platform.APIHelper;
-//import com.linkedin.platform.LISessionManager;
-//import com.linkedin.platform.errors.LIApiError;
-//import com.linkedin.platform.errors.LIAuthError;
-//import com.linkedin.platform.listeners.ApiListener;
-//import com.linkedin.platform.listeners.ApiResponse;
-//import com.linkedin.platform.listeners.AuthListener;
-//import com.linkedin.platform.utils.Scope;
 import com.application.social.data.UserDetails;
 import com.application.social.utils.CommonLib;
 import com.application.social.utils.Instagram.InstagramHelper;
@@ -44,9 +38,11 @@ import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
 import com.google.gson.Gson;
 import com.pinterest.android.pdk.PDKClient;
 import com.pinterest.android.pdk.PDKUser;
+import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.*;
 
 
@@ -55,6 +51,8 @@ import com.pinterest.android.pdk.PDKException;
 import com.pinterest.android.pdk.PDKResponse;
 
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+import com.twitter.sdk.android.core.models.Tweet;
+import com.twitter.sdk.android.core.services.StatusesService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,12 +65,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import retrofit2.Call;
+
 import static com.application.social.utils.CommonLib.PINTEREST_KEY;
 
 public class Home extends AppCompatActivity implements InstagramListener, View.OnClickListener {
 
     String TAG = "Home class";
-
+    TwitterSession session;
     SharedPreferences sharedPreference;
     SharedPreferences.Editor editor;
 
@@ -81,9 +81,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 
     private PDKClient pdkClient;
     Button pinterestLoginButton;
-    private TextView nameTv;
-    private ImageView profileIv;
-    private final String USER_FIELDS = "id,image,counts,created_at,first_name,last_name,bio";
     PDKUser user;
 
     private Button mInstagramButton;
@@ -348,7 +345,14 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
             @Override
             public void success(Result<TwitterSession> result) {
                 Log.d("Twitter success "+ getClass().getName(), result.toString());
-                onTwitterLoginSuccess(result.data);
+
+                TwitterSession session = Twitter.getSessionManager()
+                        .getActiveSession();
+                TwitterAuthToken authToken = session.getAuthToken();
+                String token = authToken.token;
+                String secret = authToken.secret;
+
+                onTwitterLoginSuccess(result.data,authToken,session);
             }
             @Override
             public void failure(TwitterException exception) {
@@ -357,12 +361,14 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         });
 
     }
-    private void onTwitterLoginSuccess(TwitterSession result) {
+    private void onTwitterLoginSuccess(TwitterSession result, TwitterAuthToken authToken,TwitterSession session) {
         sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
         editor = sharedPreference.edit();
         String userId=sharedPreference.getString("user_id",null);
         editor.putString("twitterUsername", result.getUserName());
         editor.putString("twitter_login", "true");
+        editor.putString("twitter_token", authToken.token);
+        editor.putString("twitter_secret", authToken.secret);
         editor.commit();
 
         Bundle extras = new Bundle();
@@ -370,18 +376,50 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 
         UserDetails user= new UserDetails();
         user.setName(result.getUserName());
-//      user.email=session.getEmail();
         user.setToken(String.valueOf(result.getAuthToken()));
         user.setFbGoId(String.valueOf(result.getUserId()));
         user.setUserId(userId);
-        saveTwitterDb(user);
-
-        Intent intent = new Intent(this, TwitterHome.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtras(extras);
-        startActivity(intent);
-        finish();
+//        saveTwitterDb(user);
+getTweets("dtrying",session);
+//        Intent intent = new Intent(this, TwitterHome.class);
+//        Intent intent = new Intent(this, Compose.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        intent.putExtras(extras);
+//        startActivity(intent);
+//        finish();
     }
+
+    private void getTweets(String id,TwitterSession session) {
+        TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient(session);
+        StatusesService statusesService = twitterApiClient.getStatusesService();
+        Call<Tweet> update = statusesService.update(id, null, null, null, null, null, null, null,"some");
+                        Log.d("TwitterKit", "Login with Twitter failure");
+        update.enqueue(new Callback<Tweet>() {
+            @Override
+            public void success(Result<Tweet> result) {
+                Log.e(TAG, "Result<Tweet> result" + result.data.toString());
+
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                Log.e(TAG, "Result<Tweet> result" + exception.getMessage());
+            }
+        });
+//        statusesService.update(id, null, null, null, null, null, null, null,
+//                new Callback<Tweet>() {
+//            @Override
+//            public void success(Result<Tweet> result) {
+//                System.out.print("ridhi");
+//            }
+//            @Override
+//            public void failure(TwitterException exception) {
+//                Log.d("TwitterKit", "Login with Twitter failure", exception);
+//
+//            }
+//        });
+    }
+
     private void saveTwitterDb(UserDetails user) {
 
         uploadManager.twitterLogIn(user);

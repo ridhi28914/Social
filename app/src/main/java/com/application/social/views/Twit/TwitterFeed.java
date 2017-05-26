@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.application.social.data.UserDetails;
+import com.application.social.utils.UploadManager;
 import com.application.social.views.R;
 //import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.Twitter;
@@ -33,6 +34,7 @@ import static com.application.social.utils.CommonLib.TWITTER_SECRET;
 
 
 public class TwitterFeed extends ListActivity {
+    UploadManager uploadManager =new UploadManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,6 @@ public class TwitterFeed extends ListActivity {
                 .setTimeline(userTimeline)
                 .build();
         setListAdapter(adapter);
-//        onBackPressed(true);
+
     }
 }

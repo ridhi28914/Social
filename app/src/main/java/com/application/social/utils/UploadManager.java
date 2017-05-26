@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.application.social.data.UserDetails;
 import com.application.social.views.MainActivity;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +25,7 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
+import static android.R.id.message;
 import static com.application.social.utils.CommonLib.SERVER_URL;
 import static com.application.social.utils.CommonLib.TWITTER_ACCESSTOKEN_KEY;
 import static com.application.social.utils.CommonLib.TWITTER_ACCESSTOKEN_SECRET;
@@ -63,50 +65,59 @@ public  class UploadManager {
 
         @Override
         protected String doInBackground(Void... params) {
-
-            ConfigurationBuilder confB = new ConfigurationBuilder();
-            confB.setDebugEnabled(true);
-            confB.setOAuthConsumerKey(TWITTER_KEY);
-            confB.setOAuthConsumerSecret(TWITTER_KEY);
-            confB.setOAuthAccessToken(TWITTER_ACCESSTOKEN_KEY);
-            confB.setOAuthAccessTokenSecret(TWITTER_ACCESSTOKEN_SECRET);
-
-            Log.i("Twitter activity", "After building configuration");
-
-            TwitterFactory tF = new TwitterFactory(confB.build());
-            Twitter twitter = tF.getInstance();
-
+//
+//            ConfigurationBuilder confB = new ConfigurationBuilder();
+//            confB.setDebugEnabled(true);
+//            confB.setOAuthConsumerKey(TWITTER_KEY);
+//            confB.setOAuthConsumerSecret(TWITTER_KEY);
+//            sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+//            editor = sharedPreference.edit();
+//            String twitter_token=sharedPreference.getString("twitter_token",null);
+//            String twitter_secret=sharedPreference.getString("twitter_secret",null);
+//            confB.setOAuthAccessToken(twitter_token);
+//            confB.setOAuthAccessTokenSecret(twitter_secret);
+//
+//            Log.i("Twitter activity", "After building configuration");
+//
+//            TwitterFactory tF = new TwitterFactory(confB.build());
+//            Twitter twitter = tF.getInstance();
+//
 //            try {
 //                twitter4j.Status status = twitter.updateStatus("Testing from android");
-////            StatusUpdate status = new StatusUpdate(message);
-////            Configuration configuration = (Configuration) confB.build();
-////            OAuthAuthorization auth = new OAuthAuthorization((twitter4j.conf.Configuration) configuration);
-////            ImageUpload uploader = new ImageUploadFactory(configuration)
-////                    .getInstance(auth);
-//
-////            File photo=new File("abc/myimage.png");
-////            String status="Checkout my new image";
-//
-////            uploader.upload(photo,status);
+//            StatusUpdate status = new StatusUpdate(message);
+//            Configuration configuration = (Configuration) confB.build();
+//            OAuthAuthorization auth = new OAuthAuthorization((twitter4j.conf.Configuration) configuration);
+//            ImageUpload uploader = new ImageUploadFactory(configuration)
+//                    .getInstance(auth);
+
+//            File photo=new File("abc/myimage.png");
+//            String status="Checkout my new image";
+
+//            uploader.upload(photo,status);
+//                if (status.getId() == 0) {
+//                    System.out.println("Error occured while posting tweets to twitter");
+//                }
 //                Log.i("Twitter activity", "Done updating status");
 //                return "SUCCESS";
 //            } catch (TwitterException e) {
 //                // TODO Auto-generated catch block
 //                e.printStackTrace();
 //            }
-            try {
-                Log.d("userName", twitter.getScreenName());
-                // Log.d("password",twitter.getFavorites()());
-            } catch (IllegalStateException e) {
-                Log.d("illesayem", "caught");
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (TwitterException e) {
-                Log.d("fdfds", "caught");
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            return "FAILURE";
+//            try {
+//                Log.d("userName", twitter.getScreenName());
+//                // Log.d("password",twitter.getFavorites()());
+//            } catch (IllegalStateException e) {
+//                Log.d("illesayem", "caught");
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            } catch (TwitterException e) {
+//                Log.d("fdfds", "caught");
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//            return "FAILURE";
+
+        return null;
         }
 
         @Override
@@ -240,33 +251,32 @@ public  class UploadManager {
             String userId=null;
             if (response != null) {
                 JSONObject jObject;
+                String messag = null;
                 try {
                     jObject = new JSONObject(response);
                     JSONObject data = new JSONObject(jObject.getString("response"));
                     Log.d(mTAG, "data is:-" + data);
-                    accessToken = data.getString("access_token");
-                    userId = data.getString("user_id");
-                    Log.d(mTAG, "at is:-" + accessToken);
+                    if (jObject.getString("errorMessage") != null) {
+                        Log.d(mTAG, "error response is:-" + data);
+                        messag = jObject.getString("errorMessage");
+                    } else {
+                        accessToken = data.getString("access_token");
+                        userId = data.getString("user_id");
+                        Log.d(mTAG, "at is:-" + accessToken);
+                        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+                        editor = sharedPreference.edit();
+                        editor.putString("access_token", accessToken);
+                        editor.putString("user_id", userId);
+                        editor.commit();
+                        messag = "SUCCESS";
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
 
-                sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
-                editor = sharedPreference.edit();
-                editor.putString("access_token", accessToken);
-                editor.putString("user_id",userId);
-                editor.commit();
-                if (sharedPreference.contains("access_token")) {
-                    accessToken = sharedPreference.getString("access_token", null);
-                    if (accessToken != null) {
-                        Log.d(mTAG, "accessToken is :- " + accessToken);
-                    } else {
-                        Log.d(mTAG, "accessToken is null");
-                    }
-                }
-                mainobj.doneLoggingIn();
+                mainobj.doneLoggingIn(messag);
 
             }
         }

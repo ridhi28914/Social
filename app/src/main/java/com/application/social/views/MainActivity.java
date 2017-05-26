@@ -1,42 +1,24 @@
 package com.application.social.views;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.application.social.utils.AfterUpload;
-import com.application.social.utils.ApiCall;
 import com.application.social.utils.UploadManager;
 import com.application.social.data.UserDetails;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 //import com.facebook.Response;
-import com.facebook.HttpMethod;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -44,22 +26,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.Date;
-
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
-import static com.application.social.utils.CommonLib.SERVER_URL;
-import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.application.social.views.R.id.signup_button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener , GoogleApiClient.OnConnectionFailedListener , AfterUpload {
 
@@ -77,16 +47,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private SignInButton btnSignIn;
     private Button btnSignOut;
+    private Button btnSignUp;
+    private Button btnLogIn;
+    private Button signupButton;
     private LinearLayout llProfileLayout;
     private LinearLayout linerLayout;
     private LinearLayout linearLayout2;
     private ImageView imgProfilePic;
     private TextView txtName, txtEmail;
 
-    Button donebutton;
-    LinearLayout linearLayout;
+    private Button donebutton;
+
+    private LinearLayout linearLayout;
+
     UploadManager uploadManager = new UploadManager();
+    UploadManager uM =new UploadManager();
     UserDetails userDetails =  new UserDetails();
+    UserDetails uD = new UserDetails();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,13 +87,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initializeControls();
         Button btnStartAnotherActivity;
         btnStartAnotherActivity = (Button) findViewById(R.id.platformActivity);
-
         btnStartAnotherActivity.setOnClickListener(this);
+
         donebutton = (Button) findViewById(R.id.loginButton);
+        signupButton = (Button) findViewById(R.id.signup_button);
         linearLayout = (LinearLayout) findViewById(R.id.sign_layout);
         linearLayout2= (LinearLayout) findViewById(R.id.login_layout);
         donebutton.setOnClickListener(this);
+        signupButton.setOnClickListener(this);
 
+        btnSignUp = (Button) findViewById(R.id.btn_signup);
+        btnLogIn = (Button) findViewById(R.id.signin_button);
+        btnSignUp.setOnClickListener(this);
+        btnLogIn.setOnClickListener(this);
         loginWithGoogle();
 
     }
@@ -133,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtEmail = (TextView) findViewById(R.id.txtEmail);
         btnSignIn.setOnClickListener(this);
         btnSignOut.setOnClickListener(this);
+//        btnSignUp.setOnClickListener(this);
     }
 
     private void loginWithGoogle(){
@@ -219,17 +203,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(this, Home.class);
 //                Intent intent = new Intent(this, Compose.class);
                 startActivity(intent);
+
+//                Intent intent = new Intent(MainActivity.this, TweetCustomWebView.class);
+//                intent.putExtra("tweettext", "Text to tweet");
+//                startActivityForResult(intent, 100);
                 break;
             case R.id.loginButton:
                 linearLayout.setVisibility(View.GONE);
                 linearLayout2.setVisibility(View.VISIBLE);
                 break;
+            case signup_button:
+                linearLayout2.setVisibility(View.GONE);
+                linearLayout.setVisibility(View.VISIBLE);
+                break;
             case R.id.btn_signup:
-                UserDetails uD=new UserDetails();
+                uD=new UserDetails();
                 uD.setEmail("r");
                 uD.setName("d");
                 uD.setPassword("s");
-                UploadManager uM= new UploadManager();
+                uM= new UploadManager();
+                uM.customSignup(uD);
+                break;
+            case R.id.signin_button:
+                uD = new UserDetails();
+                uD.setEmail("r");
+                uD.setPassword("s");
+                uM= new UploadManager();
                 uM.customSignup(uD);
                 break;
         }
@@ -312,6 +311,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void doneLoggingIn(String message) {
+        Log.d(TAG,"done uploading");
+//        Intent intent = new Intent(MainActivity.this, Home.class);
+//        intent.putExtra("Some_message", "staring new activity");
+//        startActivity(intent);
+    }
+    @Override
     public void doneLoggingIn() {
         Log.d(TAG,"done uploading");
 //        Intent intent = new Intent(MainActivity.this, Home.class);
@@ -321,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void doneTwitterLogIn() {
         Log.d(TAG,"twitter stored");
-        Intent intent = new Intent(MainActivity.this, Compose.class);
+//        Intent intent = new Intent(MainActivity.this, Compose.class);
 //        intent.putExtra("Some_message", "staring new activity");
 //        startActivity(intent);
     }
