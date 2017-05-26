@@ -272,7 +272,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         user.setUserId(user_id);
         user.setFbGoId(userId);
         user.setToken(authToken);
-        saveInstagramDb(user);
+        //saveInstagramDb(user);
 
         show_photo_view(authToken);
     }
@@ -285,9 +285,9 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         startActivity(intent);
         finish();
     }
-    private void saveInstagramDb(UserDetails user) {
-        uploadManager.instagramLogIn(user);
-    }
+    //private void saveInstagramDb(UserDetails user) {
+    //    uploadManager.instagramLogIn(user);
+    //}
 
 
     private void onPinterestLogin() {
