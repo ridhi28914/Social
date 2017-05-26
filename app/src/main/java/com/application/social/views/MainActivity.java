@@ -78,10 +78,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SignInButton btnSignIn;
     private Button btnSignOut;
     private LinearLayout llProfileLayout;
+    private LinearLayout linerLayout;
+    private LinearLayout linearLayout2;
     private ImageView imgProfilePic;
     private TextView txtName, txtEmail;
 
-
+    Button donebutton;
+    LinearLayout linearLayout;
     UploadManager uploadManager = new UploadManager();
     UserDetails userDetails =  new UserDetails();
 
@@ -109,6 +112,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnStartAnotherActivity = (Button) findViewById(R.id.platformActivity);
 
         btnStartAnotherActivity.setOnClickListener(this);
+        donebutton = (Button) findViewById(R.id.loginButton);
+        linearLayout = (LinearLayout) findViewById(R.id.sign_layout);
+        linearLayout2= (LinearLayout) findViewById(R.id.login_layout);
+        donebutton.setOnClickListener(this);
+//        donebutton.setVisibility(View.INVISIBLE);
         loginWithGoogle();
 
     }
@@ -208,6 +216,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                Intent intent = new Intent(this, Compose.class);
                 startActivity(intent);
                 break;
+            case R.id.loginButton:
+                linearLayout.setVisibility(View.GONE);
+                linearLayout2.setVisibility(View.VISIBLE);
+                break;
+
         }
     }
 
