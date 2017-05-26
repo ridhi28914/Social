@@ -42,6 +42,8 @@ public class FbAdapter extends RecyclerView.Adapter<FbAdapter.ViewHolder>  {
         viewHolder.tv_likes.setText(fb_versions.get(i).getLikes());
         viewHolder.tv_comments.setText(fb_versions.get(i).getComments());
         if(fb_versions.get(i).getImage_url() != "null") {
+            // to do: Set visibility zero if no image in post
+            //final int visibility = viewHolder.iv_image.getVisibility();
             Picasso.with(context).load(fb_versions.get(i).getImage_url()).resize(200, 200).into(viewHolder.iv_image);
         }
     }
