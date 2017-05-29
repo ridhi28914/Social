@@ -64,7 +64,6 @@
             android:name=".Compose"
             android:label="@string/title_activity_compose"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".tweetTwitter"></activity>
     </application>
 
 </manifest>

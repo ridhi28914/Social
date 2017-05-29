@@ -92,7 +92,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     CallbackManager callbackManager;
 
     UploadManager uploadManager = new UploadManager();
-    UserDetails userDetails =  new UserDetails();
+    UserDetails userDetails = new UserDetails();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,14 +107,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        fab.setOnClickListener(this);
 
         pinterestLoginButton = (Button) findViewById(R.id.pinterest_login);
         pinterestLoginButton.setOnClickListener(this);
@@ -126,9 +119,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 
         mInstagramButton = (Button) findViewById(R.id.instagram_button);
         mInstagramButton.setOnClickListener(this);
-        mInstagram = new InstagramHelper(this, this, CommonLib.INSTAGRAM_ID,CommonLib.INSTAGRAM_SECRET, CommonLib.INSTAGRAM_CALLBACK_URL);
-
-
+        mInstagram = new InstagramHelper(this, this, CommonLib.INSTAGRAM_ID, CommonLib.INSTAGRAM_SECRET, CommonLib.INSTAGRAM_CALLBACK_URL);
 
         loginWithFB();
 
@@ -137,21 +128,21 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     private void loginWithFB() {
         sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
         editor = sharedPreference.edit();
-        final String userId=sharedPreference.getString("user_id",null);
+        final String userId = sharedPreference.getString("user_id", null);
         //fb login
 //        txtstatus = (TextView) findViewById(R.id.txtStatus);
         login_button = (LoginButton) findViewById(R.id.login_button);
         callbackManager = CallbackManager.Factory.create();
 
         login_button.setReadPermissions(Arrays.asList(
-                "email", "user_birthday", "user_friends","user_posts"));
+                "email", "user_birthday", "user_friends", "user_posts"));
         login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
-                final AccessToken accessToken=AccessToken.getCurrentAccessToken();
-                LoginManager.getInstance().logInWithPublishPermissions(Home.this,Arrays.asList("publish_actions"));
+                final AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                LoginManager.getInstance().logInWithPublishPermissions(Home.this, Arrays.asList("publish_actions"));
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -162,11 +153,11 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
                                 try {
                                     userDetails.setName(object.getString("name"));
                                     userDetails.setUserId(object.getString("id"));
-                                    userDetails.setProfilePic("https://graph.facebook.com/" + userDetails.getUserId()+ "/picture?type=small");
-                                    if(object.getString("email") != null)
+                                    userDetails.setProfilePic("https://graph.facebook.com/" + userDetails.getUserId() + "/picture?type=small");
+                                    if (object.getString("email") != null)
                                         userDetails.setEmail(object.getString("email"));
 
-                                    Log.d(TAG,"user is "+userDetails);
+                                    Log.d(TAG, "user is " + userDetails);
 //                                    uploadManager.facebookLogIn(userDetails);
                                 } catch (JSONException e) {
                                     userDetails.setEmail("null");
@@ -208,9 +199,10 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         });
 
     }
+
     public void onFacebookLoginSuccess(AccessToken accessToken) {
         Gson gson = new Gson();
-        String g= gson.toJson(accessToken);
+        String g = gson.toJson(accessToken);
 
         sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
         editor = sharedPreference.edit();
@@ -253,22 +245,29 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
             case R.id.instagram_button:
                 mInstagram.performSignIn();
                 break;
+            case R.id.fab:
+                startActivity(new Intent(Home.this, Compose.class));
+                overridePendingTransition(R.anim.slide_in_right, 0);
+
         }
     }
 
 
-    @Override public void onInstagramSignInFail(String errorMessage) {
+    @Override
+    public void onInstagramSignInFail(String errorMessage) {
         mDataTextView.setText(errorMessage);
     }
-    @Override public void onInstagramSignInSuccess(String authToken, String userId) {
+
+    @Override
+    public void onInstagramSignInSuccess(String authToken, String userId) {
         System.out.print(authToken);
         sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
         editor = sharedPreference.edit();
         editor.putString("instagramToken", authToken);
         editor.putString("instagram_login", "true");
         editor.commit();
-        UserDetails user= new UserDetails();
-        String user_id=sharedPreference.getString("user_id",null);
+        UserDetails user = new UserDetails();
+        String user_id = sharedPreference.getString("user_id", null);
         user.setUserId(user_id);
         user.setFbGoId(userId);
         user.setToken(authToken);
@@ -277,17 +276,18 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         show_photo_view(authToken);
     }
 
-    private void show_photo_view(String authToken){
+    private void show_photo_view(String authToken) {
         Intent intent = new Intent(Home.this, Photoo.class);
-        Bundle bundle= new Bundle();
-        bundle.putString("authToken",authToken);
+        Bundle bundle = new Bundle();
+        bundle.putString("authToken", authToken);
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
     }
-    //private void saveInstagramDb(UserDetails user) {
-    //    uploadManager.instagramLogIn(user);
-    //}
+
+    private void saveInstagramDb(UserDetails user) {
+        uploadManager.instagramLogIn(user);
+    }
 
 
     private void onPinterestLogin() {
@@ -326,9 +326,11 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
             }
         });
     }
+
     private void savePinterestDb(UserDetails user) {
         uploadManager.pinterestLogIn(user);
     }
+
     private void onPinterestLoginSuccess() {
         Intent i = new Intent(this, PintHome.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -337,14 +339,12 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     }
 
 
-
-
     public void onTwitterLogin(TwitterLoginButton twitterLoginButton) {
 
         twitterLoginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
-                Log.d("Twitter success "+ getClass().getName(), result.toString());
+                Log.d("Twitter success " + getClass().getName(), result.toString());
 
                 TwitterSession session = Twitter.getSessionManager()
                         .getActiveSession();
@@ -352,8 +352,9 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
                 String token = authToken.token;
                 String secret = authToken.secret;
 
-                onTwitterLoginSuccess(result.data,authToken,session);
+                onTwitterLoginSuccess(result.data, authToken, session);
             }
+
             @Override
             public void failure(TwitterException exception) {
                 Log.d("TwitterKit", "Login with Twitter failure", exception);
@@ -361,26 +362,30 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         });
 
     }
-    private void onTwitterLoginSuccess(TwitterSession result, TwitterAuthToken authToken,TwitterSession session) {
+
+    private void onTwitterLoginSuccess(TwitterSession result, TwitterAuthToken authToken, TwitterSession session) {
+
+        Gson gson = new Gson();
+        String g = gson.toJson(session);
         sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
         editor = sharedPreference.edit();
-        String userId=sharedPreference.getString("user_id",null);
+        String userId = sharedPreference.getString("user_id", null);
         editor.putString("twitterUsername", result.getUserName());
         editor.putString("twitter_login", "true");
         editor.putString("twitter_token", authToken.token);
         editor.putString("twitter_secret", authToken.secret);
+        editor.putString("twitterSession", g);
         editor.commit();
 
         Bundle extras = new Bundle();
-        extras.putString("userName",result.getUserName()) ;
+        extras.putString("userName", result.getUserName());
 
-        UserDetails user= new UserDetails();
+        UserDetails user = new UserDetails();
         user.setName(result.getUserName());
         user.setToken(String.valueOf(result.getAuthToken()));
         user.setFbGoId(String.valueOf(result.getUserId()));
         user.setUserId(userId);
 //        saveTwitterDb(user);
-getTweets("dtrying",session);
 //        Intent intent = new Intent(this, TwitterHome.class);
 //        Intent intent = new Intent(this, Compose.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -389,40 +394,9 @@ getTweets("dtrying",session);
 //        finish();
     }
 
-    private void getTweets(String id,TwitterSession session) {
-        TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient(session);
-        StatusesService statusesService = twitterApiClient.getStatusesService();
-        Call<Tweet> update = statusesService.update(id, null, null, null, null, null, null, null,"some");
-                        Log.d("TwitterKit", "Login with Twitter failure");
-        update.enqueue(new Callback<Tweet>() {
-            @Override
-            public void success(Result<Tweet> result) {
-                Log.e(TAG, "Result<Tweet> result" + result.data.toString());
-
-            }
-
-            @Override
-            public void failure(TwitterException exception) {
-                Log.e(TAG, "Result<Tweet> result" + exception.getMessage());
-            }
-        });
-//        statusesService.update(id, null, null, null, null, null, null, null,
-//                new Callback<Tweet>() {
-//            @Override
-//            public void success(Result<Tweet> result) {
-//                System.out.print("ridhi");
-//            }
-//            @Override
-//            public void failure(TwitterException exception) {
-//                Log.d("TwitterKit", "Login with Twitter failure", exception);
-//
-//            }
-//        });
-    }
 
     private void saveTwitterDb(UserDetails user) {
 
         uploadManager.twitterLogIn(user);
     }
-
 }

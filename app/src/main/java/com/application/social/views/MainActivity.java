@@ -9,9 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.application.social.utils.AfterUpload;
 import com.application.social.utils.UploadManager;
@@ -65,6 +67,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     UserDetails userDetails =  new UserDetails();
     UserDetails uD = new UserDetails();
 
+    EditText edit_input_name;
+    EditText edit_input_email;
+    EditText edit_input_pwd;
+    EditText edit_login_email;
+    EditText edit_login_pwd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        try {
@@ -101,6 +108,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSignUp.setOnClickListener(this);
         btnLogIn.setOnClickListener(this);
         loginWithGoogle();
+
+        edit_input_name   = (EditText)findViewById(R.id.input_name);
+        edit_input_email  = (EditText)findViewById(R.id.input_email);
+        edit_input_pwd    = (EditText)findViewById(R.id.input_password);
+        edit_login_email  = (EditText)findViewById(R.id.login_email);
+        edit_login_pwd    = (EditText)findViewById(R.id.login_password);
 
     }
 
@@ -217,19 +230,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 linearLayout.setVisibility(View.VISIBLE);
                 break;
             case R.id.btn_signup:
-                uD=new UserDetails();
-                uD.setEmail("r");
-                uD.setName("d");
-                uD.setPassword("s");
-                uM= new UploadManager();
-                uM.customSignup(uD);
+                // TODO: 5/29/2017 check for validity
+                if(edit_input_name.getText().toString()!=null && edit_input_email.getText().toString()!=null && edit_input_pwd.getText().toString()!=null) {
+                    uD = new UserDetails();
+                    uD.setEmail(edit_input_email.getText().toString());
+                    uD.setName(edit_input_name.getText().toString());
+                    uD.setPassword(edit_input_pwd.getText().toString());
+                    uM = new UploadManager();
+                    uM.customSignup(uD);
+                }
+                else{
+                    Toast toast = Toast.makeText(getApplicationContext(), "Please enter the required fields." ,Toast.LENGTH_LONG );
+                    toast.show();
+                    // TODO: 5/29/2017 send a toast
+                }
                 break;
             case R.id.signin_button:
-                uD = new UserDetails();
-                uD.setEmail("r");
-                uD.setPassword("s");
-                uM= new UploadManager();
-                uM.customSignup(uD);
+                // TODO: 5/29/2017 check for validity
+                if(edit_input_email!=null && edit_input_pwd!=null) {
+                    uD = new UserDetails();
+                    uD.setName(edit_input_name.getText().toString());
+                    uD.setPassword(edit_input_pwd.getText().toString());
+                    uM = new UploadManager();
+                    uM.customSignup(uD);
+                }
+                else{
+                    // TODO: 5/29/2017 send a toast
+                    Toast toast = Toast.makeText(getApplicationContext(), "Please enter the required fields." ,Toast.LENGTH_LONG );
+                    toast.show();
+                }
                 break;
         }
     }
@@ -305,9 +334,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onDestroy(){
-        Log.d(TAG,"destroyed");
+    protected void onStop() {
+        Log.w(TAG, "App stopped");
 
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.w(TAG, "App destroyed");
+
+        super.onDestroy();
     }
 
     @Override

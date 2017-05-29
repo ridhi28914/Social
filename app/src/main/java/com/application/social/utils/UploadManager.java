@@ -19,11 +19,6 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.conf.ConfigurationBuilder;
 
 import static android.R.id.message;
 import static com.application.social.utils.CommonLib.SERVER_URL;
@@ -65,57 +60,6 @@ public  class UploadManager {
 
         @Override
         protected String doInBackground(Void... params) {
-//
-//            ConfigurationBuilder confB = new ConfigurationBuilder();
-//            confB.setDebugEnabled(true);
-//            confB.setOAuthConsumerKey(TWITTER_KEY);
-//            confB.setOAuthConsumerSecret(TWITTER_KEY);
-//            sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
-//            editor = sharedPreference.edit();
-//            String twitter_token=sharedPreference.getString("twitter_token",null);
-//            String twitter_secret=sharedPreference.getString("twitter_secret",null);
-//            confB.setOAuthAccessToken(twitter_token);
-//            confB.setOAuthAccessTokenSecret(twitter_secret);
-//
-//            Log.i("Twitter activity", "After building configuration");
-//
-//            TwitterFactory tF = new TwitterFactory(confB.build());
-//            Twitter twitter = tF.getInstance();
-//
-//            try {
-//                twitter4j.Status status = twitter.updateStatus("Testing from android");
-//            StatusUpdate status = new StatusUpdate(message);
-//            Configuration configuration = (Configuration) confB.build();
-//            OAuthAuthorization auth = new OAuthAuthorization((twitter4j.conf.Configuration) configuration);
-//            ImageUpload uploader = new ImageUploadFactory(configuration)
-//                    .getInstance(auth);
-
-//            File photo=new File("abc/myimage.png");
-//            String status="Checkout my new image";
-
-//            uploader.upload(photo,status);
-//                if (status.getId() == 0) {
-//                    System.out.println("Error occured while posting tweets to twitter");
-//                }
-//                Log.i("Twitter activity", "Done updating status");
-//                return "SUCCESS";
-//            } catch (TwitterException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
-//            try {
-//                Log.d("userName", twitter.getScreenName());
-//                // Log.d("password",twitter.getFavorites()());
-//            } catch (IllegalStateException e) {
-//                Log.d("illesayem", "caught");
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            } catch (TwitterException e) {
-//                Log.d("fdfds", "caught");
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
-//            return "FAILURE";
 
         return null;
         }
