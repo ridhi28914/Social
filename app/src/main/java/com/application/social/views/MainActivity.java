@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            e.printStackTrace();
 //        }
         super.onCreate(savedInstanceState);
-
+        UploadManager.addCallback(this);
         initializeControls();
         Button btnStartAnotherActivity;
         btnStartAnotherActivity = (Button) findViewById(R.id.platformActivity);
@@ -198,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.
+            uploadManager.login(userDetails);
             updateUI(false);
         }
     }
