@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,7 +64,9 @@
             android:name=".Compose"
             android:label="@string/title_activity_compose"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".tweetTwitter"></activity>
+        <activity android:name=".tweetTwitter" />
+        <activity android:name=".AllTabs" />
+        <activity android:name=".Fragment1"></activity>
     </application>
 
 </manifest>

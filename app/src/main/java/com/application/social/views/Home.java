@@ -379,14 +379,14 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         user.setToken(String.valueOf(result.getAuthToken()));
         user.setFbGoId(String.valueOf(result.getUserId()));
         user.setUserId(userId);
-//        saveTwitterDb(user);
-getTweets("dtrying",session);
-//        Intent intent = new Intent(this, TwitterHome.class);
+//       saveTwitterDb(user);
+//        getTweets("dtrying",session);
+        Intent intent = new Intent(this, TwitterHome.class);
 //        Intent intent = new Intent(this, Compose.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        intent.putExtras(extras);
-//        startActivity(intent);
-//        finish();
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtras(extras);
+        startActivity(intent);
+        finish();
     }
 
     private void getTweets(String id,TwitterSession session) {
