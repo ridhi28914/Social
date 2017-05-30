@@ -23,4 +23,8 @@
     <string name="title_activity_pint_home_two">PintHomeTwo</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_compose">Compose</string>
+
+
+    <string name="select_time">Select from time picker</string>
+    <string name="no_text"> </string>
 </resources>

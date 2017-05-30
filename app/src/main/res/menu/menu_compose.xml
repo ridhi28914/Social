@@ -5,6 +5,21 @@
         android:id="@+id/action_send"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:text="SEND"
-        android:title="Send"/>
+        android:text="NEXT"
+        android:title="Send">
+    <menu>
+
+        <item android:id="@+id/action_sendnow"
+            android:showAsAction="ifRoom"
+            android:text="Send Now"
+            android:title="Send Now" />
+
+        <item android:id="@+id/action_schedule"
+            android:showAsAction="ifRoom"
+            android:text="Schedule"
+            android:title="Schedule" />
+
+    </menu>
+    </item>
+
 </menu>

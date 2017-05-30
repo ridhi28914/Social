@@ -35,12 +35,73 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonMessage"
+        android:inputType="textPersonName"
         android:layout_below="@+id/mySpinner"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="231dp"
         android:layout_marginEnd="231dp"
         android:layout_marginTop="134dp" />
+    <!--<Button-->
+        <!--android:id="@+id/select_date"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="21dp"-->
+        <!--android:text="@string/select_time"-->
+        <!--android:padding="16dp"-->
+        <!--android:layout_below="@+id/selected_date"-->
+        <!--android:layout_centerHorizontal="true" />-->
+    <TextView
+        android:id="@+id/selected_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/select_time"
+        android:textStyle="bold"
+        android:layout_marginTop="80dp"
+        android:text="@string/no_text"
+        android:visibility="gone"/>
+    <!--<Button-->
+        <!--android:id="@+id/select_time"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="40dp"-->
+        <!--android:text="@string/select_time"-->
+        <!--android:padding="16dp"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_centerHorizontal="true"/>-->
+    <TextView
+        android:id="@+id/selected_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/select_time"
+        android:textStyle="bold"
+        android:layout_marginTop="80dp"
+        android:text="@string/no_text"
+        android:visibility="gone"/>
 
+    <!--<Button-->
+
+        <!--android:id="@+id/startalarm"-->
+
+        <!--android:layout_width="fill_parent"-->
+
+        <!--android:layout_height="wrap_content"-->
+
+        <!--android:text="Start"-->
+
+        <!--/>-->
+
+    <!--<Button-->
+
+        <!--android:id="@+id/cancelalarm"-->
+
+        <!--android:layout_width="fill_parent"-->
+
+        <!--android:layout_height="wrap_content"-->
+
+        <!--android:text="Cancel"-->
+
+        <!--/>-->
 </RelativeLayout>
