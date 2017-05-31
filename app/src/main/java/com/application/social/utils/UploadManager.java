@@ -210,15 +210,10 @@ public  class UploadManager {
             String userId=null;
             if (response != null) {
                 JSONObject jObject;
-                String messag = null;
                 try {
                     jObject = new JSONObject(response);
                     JSONObject data = new JSONObject(jObject.getString("response"));
-                    Log.d(mTAG, "data is:-" + data);
-                    if (jObject.getString("errorMessage") != null) {
-                        Log.d(mTAG, "error response is:-" + data);
-                        messag = jObject.getString("errorMessage");
-                    } else {
+
                         accessToken = data.getString("access_token");
                         userId = data.getString("user_id");
                         Log.d(mTAG, "at is:-" + accessToken);
@@ -227,16 +222,22 @@ public  class UploadManager {
                         editor.putString("access_token", accessToken);
                         editor.putString("user_id", userId);
                         editor.commit();
-                        messag = "SUCCESS";
+                    for (AfterUpload callback : callbacks) {
+                        callback.doneLoggingIn("SUCCESS");
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    for (AfterUpload callback : callbacks) {
+                        callback.doneLoggingIn("FAILURE");
+                    }
                 }
+//                mainobj.doneLoggingIn(messag);
 
-
-                mainobj.doneLoggingIn(messag);
-
+            }else{
+                for (AfterUpload callback : callbacks) {
+                    callback.doneLoggingIn("FAILURE");
+                }
             }
         }
 

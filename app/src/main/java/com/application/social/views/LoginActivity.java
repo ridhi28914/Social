@@ -53,11 +53,11 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                     }
 //                }
-//                else {
+                else {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-//                }
+                }
             }
         }, SPLASH_TIME_OUT);
     }

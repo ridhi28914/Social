@@ -191,14 +191,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             txtName.setText(userDetails.email);
             txtEmail.setText(userDetails.name);
             //Set profile pic with the help of Glide
-            Glide.with(getApplicationContext()).load(userDetails.profilePic)
-                    .thumbnail(0.2f)
-                    .crossFade()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(imgProfilePic);
+//            Glide.with(getApplicationContext()).load(userDetails.profilePic)
+//                    .thumbnail(0.2f)
+//                    .crossFade()
+//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                    .into(imgProfilePic);
 
 
-            updateUI(true);
+//            updateUI(true);
         }
         else{
             Toast toast = Toast.makeText(getApplicationContext(), "Login failed" ,Toast.LENGTH_LONG );
@@ -219,10 +219,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(this, Home.class);
 //                Intent intent = new Intent(this, Compose.class);
                 startActivity(intent);
-
-//                Intent intent = new Intent(MainActivity.this, TweetCustomWebView.class);
-//                intent.putExtra("tweettext", "Text to tweet");
-//                startActivityForResult(intent, 100);
                 break;
             case R.id.loginButton:
                 linearLayout.setVisibility(View.GONE);
@@ -360,6 +356,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(MainActivity.this, Home.class);
             intent.putExtra("Some_message", "staring new activity");
             startActivity(intent);
+            finish();
         }
         else{
             Toast.makeText(MainActivity.this, "Login Failed." ,Toast.LENGTH_LONG ).show();
@@ -369,10 +366,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void doneLoggingIn() {
         Log.d(TAG,"done uploading");
         Toast.makeText(getApplicationContext(), "Login Failed." ,Toast.LENGTH_LONG ).show();
-
-//        Intent intent = new Intent(MainActivity.this, Home.class);
-//        intent.putExtra("Some_message", "staring new activity");
-//        startActivity(intent);
     }
     @Override
     public void doneTwitterLogIn() {
