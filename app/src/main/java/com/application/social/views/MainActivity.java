@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
-                        updateUI(false);
+//                        updateUI(false);
 //                        // TODO: 4/20/2017 change this to access token in shared preferences
                         uploadManager.logout("cmlkaGkga3VtYXJpMTQ5MjY4MDk5MzUyODAwMDMyNjA0MA==");
                     }
@@ -362,10 +362,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(MainActivity.this, "Login Failed." ,Toast.LENGTH_LONG ).show();
         }
     }
+
     @Override
     public void doneLoggingIn() {
         Log.d(TAG,"done uploading");
         Toast.makeText(getApplicationContext(), "Login Failed." ,Toast.LENGTH_LONG ).show();
+    }
+    @Override
+    public void doneLoggingOut(String message) {
+        if (message == "SUCCESS") {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.putExtra("Some_message", "staring new activity");
+            startActivity(intent);
+            finish();
+        }
+        else{
+            Toast.makeText(MainActivity.this, "Login Failed." ,Toast.LENGTH_LONG ).show();
+        }
     }
     @Override
     public void doneTwitterLogIn() {

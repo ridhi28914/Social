@@ -12,6 +12,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -41,6 +44,8 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.gson.Gson;
 import com.pinterest.android.pdk.PDKClient;
 import com.pinterest.android.pdk.PDKUser;
@@ -240,6 +245,22 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_home, menu);
+        return true;
+    }
+    private void logOut() {
+
+        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+        editor = sharedPreference.edit();
+        String at= sharedPreference.getString("access_token", null);
+        if(at!=null){
+            uploadManager.logout("at");
+            finish();
+        }
+    }
+    @Override
     public void onClick(View v) {
         int vid = v.getId();
         switch (vid) {
@@ -252,11 +273,20 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
             case R.id.fab:
                 startActivity(new Intent(Home.this, Compose.class));
                 overridePendingTransition(R.anim.slide_in_right, 0);
+                break;
 
         }
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                logOut();
+                break;
 
-
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void onInstagramSignInFail(String errorMessage) {
         mDataTextView.setText(errorMessage);
@@ -404,4 +434,5 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 
         uploadManager.twitterLogIn(user);
     }
+
 }
