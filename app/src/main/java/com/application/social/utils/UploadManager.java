@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -37,6 +38,20 @@ public  class UploadManager {
     SharedPreferences sharedPreference;
     SharedPreferences.Editor editor;
 
+
+    private static ArrayList<AfterUpload> callbacks = new ArrayList<AfterUpload>();
+
+    public static void addCallback(AfterUpload callback) {
+        if (!callbacks.contains(callback)) {
+            callbacks.add(callback);
+        }
+    }
+
+    public static void removeCallback(AfterUpload callback) {
+        if (callbacks.contains(callback)) {
+            callbacks.remove(callback);
+        }
+    }
 
     String mTAG = "myAsyncTask";
 
@@ -231,7 +246,7 @@ public  class UploadManager {
     public void login(UserDetails details) {
 
         LoginCred loginCred = new LoginCred(details);
-        Log.d(mTAG, "email is"+details.email);
+        //Log.d(mTAG, "email is"+details.email);
         loginCred.execute();
     }
 
@@ -322,7 +337,9 @@ return  null;
 //                    }
 //
 //                }
-                mainobj.doneLoggingIn();
+                for (AfterUpload callback : callbacks) {
+                    callback.doneLoggingIn();
+                }
 
             }
 
