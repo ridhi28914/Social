@@ -370,15 +370,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     @Override
     public void doneLoggingOut(String message) {
-        if (message == "SUCCESS") {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            intent.putExtra("Some_message", "staring new activity");
-            startActivity(intent);
-            finish();
-        }
-        else{
-            Toast.makeText(MainActivity.this, "Login Failed." ,Toast.LENGTH_LONG ).show();
-        }
+//        if (message == "SUCCESS") {
+//            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+//            intent.putExtra("Some_message", "staring new activity");
+//            startActivity(intent);
+//            finish();
+//        }
+//        else{
+//            Toast.makeText(MainActivity.this, "Login Failed." ,Toast.LENGTH_LONG ).show();
+//        }
     }
     @Override
     public void doneTwitterLogIn() {

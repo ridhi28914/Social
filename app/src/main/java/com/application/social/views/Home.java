@@ -21,8 +21,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.application.social.data.UserDetails;
+import com.application.social.utils.AfterUpload;
 import com.application.social.utils.CommonLib;
 import com.application.social.utils.Instagram.InstagramHelper;
 import com.application.social.utils.Instagram.InstagramListener;
@@ -76,13 +78,12 @@ import retrofit2.Call;
 
 import static com.application.social.utils.CommonLib.PINTEREST_KEY;
 
-public class Home extends AppCompatActivity implements InstagramListener, View.OnClickListener {
+public class Home extends AppCompatActivity implements InstagramListener, View.OnClickListener,AfterUpload {
 
     String TAG = "Home class";
     TwitterSession session;
     SharedPreferences sharedPreference;
     SharedPreferences.Editor editor;
-    private Button integrate;
     //    twitter login
     TwitterLoginButton twitterLoginButton;
 
@@ -104,17 +105,13 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getActionBar().setTitle("Social");  // provide compatibility to all the versions
-
+        UploadManager.addCallback(this);
 
 //        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
 //        Fabric.with(this, new Twitter(authConfig));
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_home);
-
-        integrate = (Button) findViewById(R.id.integrate);
-        integrate.setOnClickListener(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
@@ -436,6 +433,54 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     private void saveTwitterDb(UserDetails user) {
 
         uploadManager.twitterLogIn(user);
+    }
+
+
+
+    @Override
+    public void doneLoggingOut(String message) {
+        if (message == "SUCCESS") {
+            Intent intent = new Intent(Home.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else{
+            Toast.makeText(Home.this, "Logout Failed." ,Toast.LENGTH_LONG ).show();
+        }
+    }
+
+    @Override
+    public void doneTwitterLogIn() {
+
+    }
+
+    @Override
+    public void donePinterestLogIn() {
+
+    }
+
+    @Override
+    public void doneFacebookLogIn() {
+
+    }
+
+    @Override
+    public void doneInstagramLogIn() {
+
+    }
+
+    @Override
+    public void doneTwitterPost() {
+
+    }
+    @Override
+    public void doneLoggingIn() {
+
+    }
+
+    @Override
+    public void doneLoggingIn(String message) {
+
     }
 
 }

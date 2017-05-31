@@ -561,7 +561,6 @@ public  class UploadManager {
         @Override
         protected void onPostExecute(String Jobject) {
             sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
-//            sharedPreference = PreferenceManager.getDefaultSharedPreferences(this);
             editor = sharedPreference.edit();
             editor.remove("access_token");
             editor.commit();
