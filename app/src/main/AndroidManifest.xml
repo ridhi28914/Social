@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
+        android:theme="@style/Theme.AppCompat.Light">
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -65,9 +65,9 @@
             android:label="@string/title_activity_compose"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
-
         <service android:name="com.application.social.utils.MyAlarmService" />
 
+        <activity android:name=".Integrated"></activity>
     </application>
 
 </manifest>

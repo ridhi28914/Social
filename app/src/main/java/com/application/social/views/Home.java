@@ -23,6 +23,7 @@ import com.application.social.utils.CommonLib;
 import com.application.social.utils.Instagram.InstagramHelper;
 import com.application.social.utils.Instagram.InstagramListener;
 import com.application.social.utils.UploadManager;
+import com.application.social.views.Fb.Facebook;
 import com.application.social.views.Fb.FacebookFeed;
 import com.application.social.views.Insta.Photoo;
 import com.application.social.views.Pint.PintHome;
@@ -210,11 +211,12 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         editor.putString("facebook_login", "true");
         editor.commit();
 
-        Intent i = new Intent(this, FacebookFeed.class);
-        Bundle extras = new Bundle();
-        extras.putString("token", g);
-        i.putExtras(extras);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        Intent i = new Intent(this, FacebookFeed.class);
+        Intent i = new Intent(this, Integrated.class);
+//        Bundle extras = new Bundle();
+//        extras.putString("token", g);
+//        i.putExtras(extras);
+//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
         finish();
     }
