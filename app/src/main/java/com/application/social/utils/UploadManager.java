@@ -266,80 +266,75 @@ public  class UploadManager {
             @Override
             protected String doInBackground(Void... params) {
 
-//                if(cred.getEmail()==null)
-//                        cred.setEmail("null");
-//                if(cred.getFacebookData()==null)
-//                        cred.setFacebookData("null");
-//                if(cred.getToken()==null)
-//                        cred.setToken("null");
-//                OkHttpClient client;
-//                client = new OkHttpClient();
-//
-//
-//                RequestBody body = new FormBody.Builder()
-//                        .add("email", cred.email)
-//                        .add("name", cred.name)
-//                        .add("client_id", "social_android_client")
-//                        .add("app_type", "social_android")
-//                        .add("fbGoId", cred.fbGoId)
-//                        .add("source", String.valueOf(cred.source))
-//                        .add("profile_pic", cred.profilePic)
-//                        .add("token", cred.token)
-////                        .add("facebook_data", cred.facebookData)
-//                        .build();
-//
-//                String url = SERVER_URL+"auth/login";
-//                String response=null;
-//                try {
-//                    response = ApiCall.POST(client, url, body);
-//                    return response;
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-////                // TODO: 4/20/2017 return json exception response
-//                    return null;
-//                }
-return  null;
+                if(cred.getEmail()==null)
+                        cred.setEmail("null");
+                if(cred.getFacebookData()==null)
+                        cred.setFacebookData("null");
+                if(cred.getToken()==null)
+                        cred.setToken("null");
+                OkHttpClient client;
+                client = new OkHttpClient();
+
+
+                RequestBody body = new FormBody.Builder()
+                        .add("email", cred.email)
+                        .add("name", cred.name)
+                        .add("client_id", "social_android_client")
+                        .add("app_type", "social_android")
+                        .add("fbGoId", cred.fbGoId)
+                        .add("source", String.valueOf(cred.source))
+                        .add("profile_pic", cred.profilePic)
+                        .add("token", cred.token)
+//                        .add("facebook_data", cred.facebookData)
+                        .build();
+
+                String url = SERVER_URL+"auth/login";
+                String response=null;
+                try {
+                    response = ApiCall.POST(client, url, body);
+                    return response;
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+//                // TODO: 4/20/2017 return json exception response
+                    return null;
+                }
             }
 
             @Override
             protected void onPostExecute(String response) {
-//                Log.d(mTAG, "response object is:- " + response);
-//                String accessToken=null;
-//                String userId=null;
-//                if (response != null) {
-//                    JSONObject jObject;
-//                    try {
-//                        jObject = new JSONObject(response);
-//                        JSONObject data = new JSONObject(jObject.getString("response"));
-//                        Log.d(mTAG, "data is:-" + data);
-//                        accessToken = data.getString("access_token");
-//                        userId = data.getString("user_id");
-//                        Log.d(mTAG, "at is:-" + accessToken);
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//
-//                    sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
-//                    editor = sharedPreference.edit();
-//                    editor.putString("access_token", accessToken);
-//                    editor.putString("user_id",userId);
-//                    editor.commit();
-//                    if (sharedPreference.contains("access_token")) {
-//                        accessToken = sharedPreference.getString("access_token", null);
-//                        if (accessToken != null) {
-//                            Log.d(mTAG, "accessToken is :- " + accessToken);
-//                        } else {
-//                            Log.d(mTAG, "accessToken is null");
-//                        }
-//                    }
-//
-//                }
-                for (AfterUpload callback : callbacks) {
-                    callback.doneLoggingIn();
+                Log.d(mTAG, "response object is:- " + response);
+                String accessToken=null;
+                String userId=null;
+                if (response != null) {
+                    JSONObject jObject;
+                    try {
+                        jObject = new JSONObject(response);
+                        JSONObject data = new JSONObject(jObject.getString("response"));
+                        accessToken = data.getString("access_token");
+                        userId = data.getString("user_id");
+
+                        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+                        editor = sharedPreference.edit();
+                        editor.putString("access_token", accessToken);
+                        editor.putString("user_id",userId);
+                        editor.commit();
+                        for (AfterUpload callback : callbacks) {
+                            callback.doneLoggingIn("SUCCESS");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        for (AfterUpload callback : callbacks) {
+                            callback.doneLoggingIn("FAILURE");
+                        }
+                    }
+
+                }else{
+                    for (AfterUpload callback : callbacks) {
+                        callback.doneLoggingIn("FAILURE");
+                    }
                 }
+
 
             }
 

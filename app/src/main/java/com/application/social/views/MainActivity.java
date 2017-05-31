@@ -196,10 +196,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             updateUI(true);
-        } else {
-            // Signed out, show unauthenticated UI.
-            uploadManager.login(userDetails);
-            updateUI(false);
+        }
+        else{
+            Toast toast = Toast.makeText(getApplicationContext(), "Login failed" ,Toast.LENGTH_LONG );
         }
     }
 
@@ -351,16 +350,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void doneLoggingIn(String message) {
         Log.d(TAG,"done uploading");
-//        Intent intent = new Intent(MainActivity.this, Home.class);
-//        intent.putExtra("Some_message", "staring new activity");
-//        startActivity(intent);
+        if (message == "SUCCESS") {
+
+            Intent intent = new Intent(MainActivity.this, Home.class);
+            intent.putExtra("Some_message", "staring new activity");
+            startActivity(intent);
+        }
+        else{
+            Toast.makeText(MainActivity.this, "Login Failed." ,Toast.LENGTH_LONG ).show();
+        }
     }
     @Override
     public void doneLoggingIn() {
         Log.d(TAG,"done uploading");
-        Intent intent = new Intent(MainActivity.this, Home.class);
-        intent.putExtra("Some_message", "staring new activity");
-        startActivity(intent);
+        Toast.makeText(getApplicationContext(), "Login Failed." ,Toast.LENGTH_LONG ).show();
+
+//        Intent intent = new Intent(MainActivity.this, Home.class);
+//        intent.putExtra("Some_message", "staring new activity");
+//        startActivity(intent);
     }
     @Override
     public void doneTwitterLogIn() {
