@@ -20,5 +20,10 @@
         android:background="@color/colorPrimary"
         android:text="Platforms" />
 
+    <fragment class="com.application.social.views.ArticleFragment"
+        android:id="@+id/article__fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray" />
 
 </RelativeLayout>

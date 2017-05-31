@@ -232,7 +232,7 @@
             android:paddingTop="10dp"
             android:paddingLeft="4dp"
             android:textSize="16dp"
-            android:textColor="#808080"
+            android:textColor="#4099ff"
             android:background="#ffffff"
             android:layout_gravity="center_horizontal"
             />
@@ -333,7 +333,7 @@
             android:paddingTop="10dp"
             android:paddingLeft="4dp"
             android:textSize="16dp"
-            android:textColor="#808080"
+            android:textColor="#4099ff"
             android:background="#ffffff"
             android:layout_gravity="center_horizontal"
             />

@@ -30,6 +30,7 @@ import com.application.social.utils.UploadManager;
 import com.application.social.views.Fb.Facebook;
 import com.application.social.views.Fb.FacebookFeed;
 import com.application.social.views.Insta.Photoo;
+import com.application.social.views.Pint.MyPins;
 import com.application.social.views.Pint.PintHome;
 import com.application.social.views.Twit.TwitterHome;
 import com.facebook.AccessToken;
@@ -82,7 +83,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     TwitterSession session;
     SharedPreferences sharedPreference;
     SharedPreferences.Editor editor;
-    private Button integrate;
     //    twitter login
     TwitterLoginButton twitterLoginButton;
 
@@ -112,9 +112,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_home);
-
-        integrate = (Button) findViewById(R.id.integrate);
-        integrate.setOnClickListener(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
@@ -353,7 +350,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 //                userDetails.setProfilePic(user.getImageUrl());
 //                userDetails.setFbGoId(user.getUid());
 //                savePinterestDb(userDetails);
-//                onPinterestLoginSuccess();
+                onPinterestLoginSuccess();
                 //                //user logged in, use response.getUser() to get PDKUser object
             }
 
@@ -369,7 +366,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     }
 
     private void onPinterestLoginSuccess() {
-        Intent i = new Intent(this, PintHome.class);
+        Intent i = new Intent(this, MyPins.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
         finish();
