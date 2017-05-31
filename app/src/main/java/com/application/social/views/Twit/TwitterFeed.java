@@ -41,6 +41,7 @@ public class TwitterFeed extends ListActivity {
         super.onCreate(savedInstanceState);
 
 
+
         setContentView(R.layout.activity_twitter_feed);
         Bundle extras = getIntent().getExtras();
 

@@ -192,6 +192,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         editor = sharedPreference.edit();
         editor.putString("fbToken", g);
         editor.putString("facebook_login", "true");
+        editor.putString("fragmentNumberNew","101");
         editor.commit();
 
 //        Intent i = new Intent(this, FacebookFeed.class);
@@ -275,6 +276,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         editor = sharedPreference.edit();
         editor.putString("instagramToken", authToken);
         editor.putString("instagram_login", "true");
+        editor.putString("fragmentNumberNew","102");
         editor.commit();
         UserDetails user = new UserDetails();
         String user_id = sharedPreference.getString("user_id", null);
@@ -319,6 +321,8 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
                 user = response.getUser();
                 sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
                 editor = sharedPreference.edit();
+                editor.putString("fragmentNumberNew","103");
+                editor.commit();
 //                String userId=sharedPreference.getString("user_id",null);
 //                UserDetails userDetails= new UserDetails();
 //                userDetails.setUserId(userId);
@@ -326,7 +330,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 //                userDetails.setProfilePic(user.getImageUrl());
 //                userDetails.setFbGoId(user.getUid());
 //                savePinterestDb(userDetails);
-//                onPinterestLoginSuccess();
+                onPinterestLoginSuccess();
                 //                //user logged in, use response.getUser() to get PDKUser object
             }
 
@@ -385,6 +389,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         editor.putString("twitter_token", authToken.token);
         editor.putString("twitter_secret", authToken.secret);
         editor.putString("twitterSession", g);
+        editor.putString("fragmentNumberNew","104");
         editor.commit();
 
         Bundle extras = new Bundle();

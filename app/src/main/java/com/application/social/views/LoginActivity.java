@@ -34,7 +34,8 @@ public class LoginActivity extends AppCompatActivity {
                 sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
                 editor = sharedPreference.edit();
                 String accessToken = sharedPreference.getString("access_token", null);
-
+                editor.putString("fragmentNumberOld", "0");
+                editor.commit();
                 // This method will be executed once the timer is over
                 // Start your app main activity
                 if (accessToken != null) {

@@ -12,9 +12,12 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.application.social.utils.UploadManager;
+import com.application.social.views.Integrated;
 import com.application.social.views.R;
 import com.application.social.views.Twit.TwitterFeed;
 import com.application.social.views.fragments.BaseFragment;
+import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
+import com.twitter.sdk.android.tweetui.UserTimeline;
 
 /**
  * Created by Harsh on 31-05-2017.
@@ -43,7 +46,6 @@ public class TwitterFragment extends BaseFragment {
         context = getContext();
         activity = getActivity();
 
-        Bundle extras = activity.getIntent().getExtras();
         Bundle extra=new Bundle();
         String userName = null;
             sharedPreference = context.getSharedPreferences("TokenPreference", 0);
@@ -54,19 +56,12 @@ public class TwitterFragment extends BaseFragment {
         nameTv = (TextView) getView.findViewById(R.id.name_textview);
         nameTv.setText(userName);
 
-
-        //Add code here
-        TabHost tabHost = getTabHost();
-
-        // Tab for user tweets
-        TabHost.TabSpec photospec = tabHost.newTabSpec("MYTWEETS");
-        // setting Title and Icon for the Tab
-        photospec.setIndicator("MYTWEETS");
-        Intent photosIntent = new Intent(context, TwitterFeed.class);
-        photosIntent.putExtras(extra);
-
-        photospec.setContent(photosIntent);
-
-        tabHost.addTab(photospec); // Adding photos tab
+        final UserTimeline userTimeline = new UserTimeline.Builder()
+                .screenName(userName)
+                .build();
+        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(context)
+                .setTimeline(userTimeline)
+                .build();
+//        setListAdapter(adapter);
     }
 }
