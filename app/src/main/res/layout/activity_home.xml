@@ -6,12 +6,12 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <!--<TextView-->
+        <!--android:id="@+id/textView1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:textAppearance="?android:attr/textAppearanceLarge" />-->
 
     <com.twitter.sdk.android.core.identity.TwitterLoginButton
         android:id="@+id/twitter_login_button"
@@ -94,36 +94,4 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
-    <!--<Button-->
-    <!--android:layout_below="@+id/linkedtext"-->
-    <!--android:id="@+id/linkedin_login_button"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:background="@drawable/linkedin_signin_small"-->
-    <!--android:onClick="login"-->
-    <!--android:layout_marginBottom="15dp"/>-->
-    <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.VIEW" />-->
-        <!--<category android:name="android.intent.category.DEFAULT" />-->
-        <!--<category android:name="android.intent.category.BROWSABLE" />-->
-        <!--<data android:scheme="pdk4897144396905986296" />-->
-    <!--</intent-filter>-->
-    <!--<ImageView-->
-    <!--android:id="@+id/profile_picture"-->
-    <!--android:layout_width="80dp"-->
-    <!--android:layout_height="80dp" />-->
-
-    <!--<TextView android:id="@+id/name"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:textSize="20dp"-->
-    <!--android:layout_marginLeft="20dp"-->
-    <!--android:layout_toRightOf="@+id/profile_picture"/>-->
-
-    <!--<TextView android:id="@+id/email"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@id/name"-->
-    <!--android:layout_marginLeft="20dp"-->
-    <!--android:layout_toRightOf="@+id/profile_picture"/>-->
 </LinearLayout>
