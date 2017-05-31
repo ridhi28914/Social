@@ -21,6 +21,7 @@ import com.application.social.utils.Instagram.InstagramHelper;
 import com.application.social.utils.Instagram.InstagramListener;
 import com.application.social.utils.UploadManager;
 import com.application.social.views.Insta.Photoo;
+import com.application.social.views.Pint.MyPins;
 import com.application.social.views.Pint.PintHome;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -346,7 +347,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     }
 
     private void onPinterestLoginSuccess() {
-        Intent i = new Intent(this, PintHome.class);
+        Intent i = new Intent(this, MyPins.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
         finish();

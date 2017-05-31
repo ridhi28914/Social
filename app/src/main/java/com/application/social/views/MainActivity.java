@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -97,6 +98,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btnStartAnotherActivity;
         btnStartAnotherActivity = (Button) findViewById(R.id.platformActivity);
         btnStartAnotherActivity.setOnClickListener(this);
+
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
 
         donebutton = (Button) findViewById(R.id.loginButton); // no visibility
         signupButton = (Button) findViewById(R.id.signup_button);  // no visibility

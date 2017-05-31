@@ -94,11 +94,7 @@ public class Integrated extends AppCompatActivity {
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                        Toast.makeText(
-                                Integrated.this,
-                                "You Clicked : " + item.getTitle(),
-                                Toast.LENGTH_SHORT
-                        ).show();
+                        func(item);
                         return true;
                     }
                 });
@@ -106,6 +102,31 @@ public class Integrated extends AppCompatActivity {
                 popup.show(); //showing popup menu
             }
         }); //closing the setOnClickListener method*/
+    }
+
+    void func(MenuItem item) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        String choice = (String) item.getTitle();
+        int pos = 0;
+        if (choice == "Facebook")
+            pos = 1;
+        else if (choice == "Twitter")
+            pos = 2;
+        else if (choice == "Instagram")
+            pos = 3;
+        else if (choice == "Pinterest")
+            pos = 4;
+        switch (pos) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
     }
 }
 

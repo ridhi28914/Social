@@ -24,13 +24,6 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_compose">Compose</string>
 
-    <string-array name="spinner_list_item_array">
-        <item>Facebook</item>
-        <item>Twitter</item>
-        <item>Instagram</item>
-        <item>Pinterest</item>
-    </string-array>
-
     <string name="select_time">Select from time picker</string>
     <string name="no_text"> </string>
 </resources>

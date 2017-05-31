@@ -178,7 +178,7 @@ public class MyPins extends AppCompatActivity {
             ViewHolderItem viewHolder;
 
             //load more pins if about to reach end of list
-            if (_pinList.size() - position < 5) {
+            if (_pinList.size() - position < 10) {
                 loadNext();
             }
 
