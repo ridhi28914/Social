@@ -1,40 +1,32 @@
 package com.application.social.views;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.hardware.camera2.params.Face;
-import android.support.v4.view.MenuItemCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.application.social.utils.ActionBar;
-import com.application.social.views.Fb.Facebook;
-import com.application.social.views.R;
 import com.application.social.views.fragments.FacebookFragment;
 
-import static com.application.social.views.R.id.button1;
-
 public class Integrated extends AppCompatActivity {
+
     Button button1;
+
+    FacebookFragment facebookFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_integrated);
 
+        facebookFragment = new FacebookFragment();
 
-        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.add(R.id.fragment_container, facebookFragment);
 
         transaction.commit();
-        button1 = (Button) findViewById(R.id.button1);
+
+        transaction.commit();
+        /*button1 = (Button) findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +50,7 @@ public class Integrated extends AppCompatActivity {
 
                 popup.show(); //showing popup menu
             }
-        }); //closing the setOnClickListener method
+        }); //closing the setOnClickListener method*/
     }
 }
 
