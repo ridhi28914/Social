@@ -12,6 +12,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.application.social.utils.UploadManager;
+import com.application.social.views.Home;
 import com.application.social.views.Integrated;
 import com.application.social.views.R;
 import com.application.social.views.Twit.TwitterFeed;
@@ -46,22 +47,24 @@ public class TwitterFragment extends BaseFragment {
         context = getContext();
         activity = getActivity();
 
-        Bundle extra=new Bundle();
         String userName = null;
-            sharedPreference = context.getSharedPreferences("TokenPreference", 0);
-            editor = sharedPreference.edit();
-            userName=sharedPreference.getString("twitterUsername",null);
-            if(userName!=null)
-                extra.putString("userName",userName) ;
-        nameTv = (TextView) getView.findViewById(R.id.name_textview);
-        nameTv.setText(userName);
+        sharedPreference = context.getSharedPreferences("TokenPreference", 0);
+        editor = sharedPreference.edit();
+        userName = sharedPreference.getString("twitterUsername", null);
+        if (userName == null) {
+            Intent intent = new Intent(context, Home.class);
+            startActivity(intent);
+        } else {
+            nameTv = (TextView) getView.findViewById(R.id.name_textview);
+            nameTv.setText(userName);
 
-        final UserTimeline userTimeline = new UserTimeline.Builder()
-                .screenName(userName)
-                .build();
-        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(context)
-                .setTimeline(userTimeline)
-                .build();
+            final UserTimeline userTimeline = new UserTimeline.Builder()
+                    .screenName(userName)
+                    .build();
+            final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(context)
+                    .setTimeline(userTimeline)
+                    .build();
 //        setListAdapter(adapter);
+        }
     }
 }

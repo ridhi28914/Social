@@ -1,16 +1,23 @@
 package com.application.social.views;
 
+import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
 import com.application.social.views.fragments.FacebookFragment;
 import com.application.social.views.fragments.InstagramFragment;
 import com.application.social.views.fragments.TwitterFragment;
+import com.application.social.views.fragments.PinterestFragment;
 
-public class Integrated extends AppCompatActivity {
+public class Integrated extends AppCompatActivity implements View.OnClickListener{
 
     Button button1;
     SharedPreferences sharedPreference;
@@ -18,6 +25,7 @@ public class Integrated extends AppCompatActivity {
     FacebookFragment facebookFragment;
     InstagramFragment instagramFragment;
     TwitterFragment twitterFragment;
+    PinterestFragment pinterestFragment;
     String fragmentNumberOld;
     String fragmentNumberNew;
     @Override
@@ -28,6 +36,15 @@ public class Integrated extends AppCompatActivity {
         facebookFragment = new FacebookFragment();
         instagramFragment = new InstagramFragment();
         twitterFragment = new TwitterFragment();
+        pinterestFragment =new PinterestFragment();
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+//        transaction.add(R.id.fragment_container, pinterestFragment);
+//        transaction.commit();
+
+
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener((View.OnClickListener) Integrated.this);
 
         sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
         editor = sharedPreference.edit();
@@ -35,53 +52,95 @@ public class Integrated extends AppCompatActivity {
         fragmentNumberNew=sharedPreference.getString("fragmentNumberNew",null);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        if(fragmentNumberOld=="0"){
-            if(fragmentNumberNew=="101")
+        if(fragmentNumberOld.equalsIgnoreCase("0")) {
+            if (fragmentNumberNew.equalsIgnoreCase("101") ) {
                 transaction.add(R.id.fragment_container, facebookFragment);
-            else if(fragmentNumberNew=="102")
+                editor.putString("fragmentNumberOld", "101");
+            } else if (fragmentNumberNew.equalsIgnoreCase("102")) {
                 transaction.add(R.id.fragment_container, instagramFragment);
-//            else if(fragmentNumberNew=="103")
-//                transaction.add(R.id.fragment_container, pinterestFragment);
-            else if(fragmentNumberNew=="104")
-                transaction.add(R.id.fragment_container, twitterFragment);
+                editor.putString("fragmentNumberOld", "102");
 
-            transaction.commit();
-        }
-        else{
-
-            if(fragmentNumberNew=="101")
-                transaction.remove(facebookFragment);
-            else if(fragmentNumberNew=="102")
-                transaction.remove(instagramFragment);
-//            else if(fragmentNumberNew=="103")
-//                transaction.remove(pinerestFragment);
-            else if(fragmentNumberNew=="104")
-                transaction.remove(twitterFragment);
-            transaction.commit();
-
-            if(fragmentNumberNew=="101"){
-
-                transaction.add(R.id.fragment_container, facebookFragment);
-            }
-            else if(fragmentNumberNew=="102")
-            {
-                transaction.add(R.id.fragment_container, facebookFragment);
             }
             else if(fragmentNumberNew=="103")
             {
-                transaction.add(R.id.fragment_container, facebookFragment);
+            transaction.add(R.id.fragment_container, pinterestFragment);
+            editor.putString("fragmentNumberOld", "103");
             }
-            else if(fragmentNumberNew=="104")
+            else if(fragmentNumberNew.equalsIgnoreCase("104"))
             {
-                transaction.add(R.id.fragment_container, facebookFragment);
+                transaction.add(R.id.fragment_container, twitterFragment);
+                editor.putString("fragmentNumberOld","104");
             }
 
-
-
+            transaction.commit();
+            editor.commit();
         }
+        else{
+            if (fragmentNumberOld.equalsIgnoreCase("101") ) {
+                transaction.add(R.id.fragment_container, facebookFragment);
+                editor.putString("fragmentNumberOld", "101");
+            } else if (fragmentNumberOld.equalsIgnoreCase("102")) {
+                transaction.add(R.id.fragment_container, instagramFragment);
+                editor.putString("fragmentNumberOld", "102");
+
+            }
+            else if(fragmentNumberOld=="103")
+            {
+                transaction.add(R.id.fragment_container, pinterestFragment);
+                editor.putString("fragmentNumberOld", "103");
+            }
+            else if(fragmentNumberOld.equalsIgnoreCase("104"))
+            {
+                transaction.add(R.id.fragment_container, twitterFragment);
+                editor.putString("fragmentNumberOld","104");
+            }
+
+            transaction.commit();
+            editor.commit();
+        }
+//        else{
+//
+//            if(fragmentNumberOld=="101")
+//                transaction.remove(facebookFragment);
+//            else if(fragmentNumberOld=="102")
+//                transaction.remove(instagramFragment);
+////            else if(fragmentNumberNew=="103")
+////                transaction.remove(pinerestFragment);
+//            else if(fragmentNumberOld=="104")
+//                transaction.remove(twitterFragment);
+//
+//            transaction.commit();
+//
+//            if(fragmentNumberNew=="101"){
+//
+//                transaction.add(R.id.fragment_container, facebookFragment);
+//                editor.putString("fragmentNumberOld","101");
+//
+//            }
+//            else if(fragmentNumberNew=="102")
+//            {
+//                transaction.add(R.id.fragment_container, instagramFragment);
+//                editor.putString("fragmentNumberOld","102");
+//            }
+//            else if(fragmentNumberNew=="103")
+//            {
+//                transaction.add(R.id.fragment_container, pinterestFragment);
+//                editor.putString("fragmentNumberOld","103");
+//
+//            }
+//            else if(fragmentNumberNew=="104")
+//            {
+//                transaction.add(R.id.fragment_container, twitterFragment);
+//                editor.putString("fragmentNumberOld","104");
+//
+//            }
+//
+//            transaction.commit();
+//            editor.commit();
+//        }
 
 
-        /*button1 = (Button) findViewById(R.id.button1);
+        button1 = (Button) findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,34 +158,71 @@ public class Integrated extends AppCompatActivity {
                     }
                 });
 
-                popup.show(); //showing popup menu
+                popup.show();
             }
-        }); //closing the setOnClickListener method*/
+        });
+    }
+    @Override
+    public void onClick(View v) {
+        int vid = v.getId();
+        switch (vid) {
+//            case R.id.fab:
+//                startActivity(new Intent(Integrated.this, Compose.class));
+//                overridePendingTransition(R.anim.slide_in_right, 0);
+//                break;
+
+        }
     }
 
     void func(MenuItem item) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+        editor = sharedPreference.edit();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         String choice = (String) item.getTitle();
-        int pos = 0;
-        if (choice == "Facebook")
-            pos = 1;
-        else if (choice == "Twitter")
-            pos = 2;
-        else if (choice == "Instagram")
-            pos = 3;
-        else if (choice == "Pinterest")
-            pos = 4;
-        switch (pos) {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
+
+        fragmentNumberOld= sharedPreference.getString("fragmentNumberOld", null);
+        if(fragmentNumberOld.equalsIgnoreCase("101"))
+            transaction.remove(facebookFragment);
+        else if(fragmentNumberOld.equalsIgnoreCase("102"))
+            transaction.remove(instagramFragment);
+//            else if(fragmentNumberNew=="103")
+//                transaction.remove(PinerestFragment);
+        else if(fragmentNumberOld=="104")
+            transaction.remove(twitterFragment);
+
+        transaction.commit();
+        FragmentTransaction transaction2 = getSupportFragmentManager().beginTransaction();
+
+        if (choice.equalsIgnoreCase("Facebook"))
+        {
+            transaction2.add(R.id.fragment_container, facebookFragment);
+            editor.putString("fragmentNumberOld","101");
+            transaction2.commit();
+            editor.commit();
         }
+        else if (choice.equalsIgnoreCase("Twitter"))
+        {
+            transaction2.add(R.id.fragment_container, twitterFragment);
+            editor.putString("fragmentNumberOld","104");
+            transaction2.commit();
+            editor.commit();
+        }
+        else if (choice.equalsIgnoreCase("Instagram"))
+        {
+            transaction2.add(R.id.fragment_container, instagramFragment);
+            editor.putString("fragmentNumberOld","102");
+            transaction2.commit();
+            editor.commit();
+        }
+        else if (choice.equalsIgnoreCase("Pinterest"))
+        {
+//            transaction2.add(R.id.fragment_container, PinterestFragment);
+//                editor.putString("fragmentNumberOld","103");
+//            transaction2.commit();
+//            editor.commit();
+        }
+
+
     }
 }
 

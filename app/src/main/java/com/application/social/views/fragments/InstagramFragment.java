@@ -2,6 +2,7 @@ package com.application.social.views.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import com.application.social.utils.Instagram.Constants;
 import com.application.social.utils.Instagram.InstaImageAdapter;
 import com.application.social.utils.Instagram.InstaVersion;
+import com.application.social.views.Home;
 import com.application.social.views.Insta.Photoo;
 import com.application.social.views.R;
 
@@ -66,17 +68,23 @@ public class InstagramFragment extends BaseFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        Bundle extras = activity.getIntent().getExtras();
         String authToken=null;
 
         sharedPreference = context.getSharedPreferences("TokenPreference", 0);
         editor = sharedPreference.edit();
         editor.apply();
+
         authToken = sharedPreference.getString("instagramToken", null);
+        if(authToken==null){
+            Intent intent = new Intent(context, Home.class);
+            startActivity(intent);
+        }
+        else {
 //        logoutButton = (Button) findViewById(R.id.btnLogout);
 
 //        gridView = (GridView)findViewById(R.id.gridview);
-        getPhotosList(authToken);
+            getPhotosList(authToken);
+        }
     }
 
     private void getPhotosList(String authToken){

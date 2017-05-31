@@ -1,9 +1,9 @@
-package com.application.social.views.Pint;
+package com.application.social.views.fragments;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -19,6 +19,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.application.social.utils.UploadManager;
+import com.application.social.views.Pint.CreatePinActivity;
 import com.application.social.views.R;
 import com.pinterest.android.pdk.PDKCallback;
 import com.pinterest.android.pdk.PDKClient;
@@ -29,31 +31,49 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
-public class MyPins extends AppCompatActivity {
+/**
+ * Created by Ridhi on 6/1/2017.
+ */
+
+public class PinterestFragment extends BaseFragment {
+    private View getView;
+    private Context context;
+    private Activity activity;
+    UploadManager uploadManager = new UploadManager();
+    SharedPreferences sharedPreference;
+    SharedPreferences.Editor editor;
     private PDKCallback myPinsCallback;
     private PDKResponse myPinsResponse;
     private GridView _gridView;
-    private PinsAdapter _pinAdapter;
+    private PinterestFragment.PinsAdapter _pinAdapter;
     private boolean _loading = false;
     private static final String PIN_FIELDS = "id,link,creator,image,counts,note,created_at,board,metadata";
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_pins);
-        _pinAdapter = new PinsAdapter(this);
-        _gridView = (GridView) findViewById(R.id.grid_view);
 
-        _gridView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+    }
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-            @Override
-            public void onCreateContextMenu(ContextMenu menu, View v,
-                                            ContextMenu.ContextMenuInfo menuInfo) {
-                MenuInflater inflater = getMenuInflater();
-                inflater.inflate(R.menu.context_menu_boards, menu);
-            }
-        });
+        getView = getView();
+        context = getContext();
+        activity = getActivity();
+
+        _pinAdapter = new PinterestFragment.PinsAdapter(context);
+        _gridView = (GridView) getView.findViewById(R.id.grid_view);
+
+//        _gridView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+//
+//            @Override
+//            public void onCreateContextMenu(ContextMenu menu, View v,
+//                                            ContextMenu.ContextMenuInfo menuInfo) {
+////                MenuInflater inflater = getMenuInflater();
+//                inflater.inflate(R.menu.context_menu_boards, menu);
+//            }
+//        });
         _gridView.setAdapter(_pinAdapter);
         myPinsCallback = new PDKCallback() {
             @Override
@@ -72,13 +92,6 @@ public class MyPins extends AppCompatActivity {
         _loading = true;
         fetchPins();
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        fetchPins();
-    }
-
     private void fetchPins() {
         _pinAdapter.setPinList(null);
         PDKClient.getInstance().getMyPins(PIN_FIELDS, myPinsCallback);
@@ -97,9 +110,10 @@ public class MyPins extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_my_pins, menu);
-        return true;
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu,inflater);
+        inflater.inflate(R.menu.menu_my_pins, menu);
+//        return true;
     }
 
     @Override
@@ -114,7 +128,7 @@ public class MyPins extends AppCompatActivity {
     }
 
     private void createNewPin() {
-        Intent i = new Intent(this, CreatePinActivity.class);
+        Intent i = new Intent(context, CreatePinActivity.class);
         startActivity(i);
     }
 
@@ -175,7 +189,7 @@ public class MyPins extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolderItem viewHolder;
+            PinterestFragment.PinsAdapter.ViewHolderItem viewHolder;
 
             //load more pins if about to reach end of list
             if (_pinList.size() - position < 10) {
@@ -186,7 +200,7 @@ public class MyPins extends AppCompatActivity {
                 LayoutInflater inflater = ((Activity) _context).getLayoutInflater();
                 convertView = inflater.inflate(R.layout.list_item_pin, parent, false);
 
-                viewHolder = new ViewHolderItem();
+                viewHolder = new PinterestFragment.PinsAdapter.ViewHolderItem();
                 viewHolder.textViewItem = (TextView) convertView.findViewById(R.id.title_view);
                 viewHolder.imageView = (ImageView) convertView.findViewById(R.id.image_view);
 
@@ -205,9 +219,9 @@ public class MyPins extends AppCompatActivity {
             return convertView;
         }
 
-        public class ViewHolderItem {
-            public TextView textViewItem;
-            public ImageView imageView;
+        private class ViewHolderItem {
+            TextView textViewItem;
+            ImageView imageView;
         }
     }
- }
+}

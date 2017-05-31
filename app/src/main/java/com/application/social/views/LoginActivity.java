@@ -18,7 +18,7 @@ import static com.application.social.utils.CommonLib.TWITTER_SECRET;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static int SPLASH_TIME_OUT = 3;
+    private static int SPLASH_TIME_OUT = 3000;
     SharedPreferences sharedPreference;
     SharedPreferences.Editor editor;
     @Override

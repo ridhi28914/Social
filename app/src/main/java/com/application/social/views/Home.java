@@ -23,6 +23,7 @@ import com.application.social.utils.UploadManager;
 import com.application.social.views.Insta.Photoo;
 import com.application.social.views.Pint.MyPins;
 import com.application.social.views.Pint.PintHome;
+import com.application.social.views.fragments.InstagramFragment;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -90,8 +91,8 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_home);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(this);
 
         pinterestLoginButton = (ImageButton) findViewById(R.id.pinterest_login);
         pinterestLoginButton.setOnClickListener(this);
@@ -248,10 +249,10 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
             case R.id.instagram_button:
                 mInstagram.performSignIn();
                 break;
-            case R.id.fab:
-                startActivity(new Intent(Home.this, Compose.class));
-                overridePendingTransition(R.anim.slide_in_right, 0);
-                break;
+//            case R.id.fab:
+//                startActivity(new Intent(Home.this, Compose.class));
+//                overridePendingTransition(R.anim.slide_in_right, 0);
+//                break;
 
         }
     }
@@ -290,10 +291,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     }
 
     private void show_photo_view(String authToken) {
-        Intent intent = new Intent(Home.this, Photoo.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("authToken", authToken);
-        intent.putExtras(bundle);
+        Intent intent = new Intent(Home.this, Integrated.class);
         startActivity(intent);
         finish();
     }
@@ -347,7 +345,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     }
 
     private void onPinterestLoginSuccess() {
-        Intent i = new Intent(this, MyPins.class);
+        Intent i = new Intent(this, Integrated.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
         finish();
@@ -393,9 +391,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         editor.putString("fragmentNumberNew","104");
         editor.commit();
 
-        Bundle extras = new Bundle();
-        extras.putString("userName", result.getUserName());
-
         UserDetails user = new UserDetails();
         user.setName(result.getUserName());
         user.setToken(String.valueOf(result.getAuthToken()));
@@ -403,10 +398,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         user.setUserId(userId);
 //        saveTwitterDb(user);
         Intent intent = new Intent(this, Integrated.class);
-//        Intent intent = new Intent(this, AllTabs2.class);
-//        Intent intent = new Intent(this, Compose.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtras(extras);
         startActivity(intent);
         finish();
     }
