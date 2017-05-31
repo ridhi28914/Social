@@ -9,6 +9,8 @@ public interface AfterUpload {
 
     void doneLoggingIn(String message);
 
+    void doneLoggingOut(String message);
+
     void doneTwitterLogIn();
 
     void donePinterestLogIn();

@@ -554,7 +554,6 @@ public  class UploadManager {
                 return response;
             } catch (IOException e) {
                 e.printStackTrace();
-                //                // TODO: 4/20/2017 return json exception response
 //                Log.d(mTAG,"stack trace is :"+ e.printStackTrace());
                 return null;
             }
@@ -562,11 +561,14 @@ public  class UploadManager {
         @Override
         protected void onPostExecute(String Jobject) {
             sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
-//            sharedPreference = PreferenceManager.getDefaultSharedPreferences(this);
             editor = sharedPreference.edit();
             editor.remove("access_token");
             editor.commit();
-            Log.d(mTAG,"removed preference:- ");
+            for (AfterUpload callback : callbacks) {
+                callback.doneLoggingOut("SUCCESS");
+            }
+
+
         }
     }
 }
