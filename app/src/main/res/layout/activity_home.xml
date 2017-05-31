@@ -6,6 +6,11 @@
     android:orientation="vertical"
     android:weightSum="1">
 
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Integrate"
+        android:id="@+id/integrate"/>
     <!--<TextView-->
         <!--android:id="@+id/textView1"-->
         <!--android:layout_width="match_parent"-->
