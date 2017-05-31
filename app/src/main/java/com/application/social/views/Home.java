@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -81,10 +82,10 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     TwitterLoginButton twitterLoginButton;
 
     private PDKClient pdkClient;
-    Button pinterestLoginButton;
+    ImageButton pinterestLoginButton;
     PDKUser user;
 
-    private Button mInstagramButton;
+    private ImageButton mInstagramButton;
     private InstagramHelper mInstagram;
     private TextView mDataTextView;
 
@@ -98,6 +99,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //getActionBar().setTitle("Social");  // provide compatibility to all the versions
 
 
 //        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
@@ -110,7 +112,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
-        pinterestLoginButton = (Button) findViewById(R.id.pinterest_login);
+        pinterestLoginButton = (ImageButton) findViewById(R.id.pinterest_login);
         pinterestLoginButton.setOnClickListener(this);
         pdkClient = PDKClient.configureInstance(this, PINTEREST_KEY);
         pdkClient.onConnect(this);
@@ -118,7 +120,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         twitterLoginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
         onTwitterLogin(twitterLoginButton);
 
-        mInstagramButton = (Button) findViewById(R.id.instagram_button);
+        mInstagramButton = (ImageButton) findViewById(R.id.instagram_button);
         mInstagramButton.setOnClickListener(this);
         mInstagram = new InstagramHelper(this, this, CommonLib.INSTAGRAM_ID, CommonLib.INSTAGRAM_SECRET, CommonLib.INSTAGRAM_CALLBACK_URL);
 
@@ -388,12 +390,13 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         user.setFbGoId(String.valueOf(result.getUserId()));
         user.setUserId(userId);
 //        saveTwitterDb(user);
-//        Intent intent = new Intent(this, TwitterHome.class);
+        Intent intent = new Intent(this, TwitterHome.class);
+//        Intent intent = new Intent(this, AllTabs2.class);
 //        Intent intent = new Intent(this, Compose.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        intent.putExtras(extras);
-//        startActivity(intent);
-//        finish();
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtras(extras);
+        startActivity(intent);
+        finish();
     }
 
 

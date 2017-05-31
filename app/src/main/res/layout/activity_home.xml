@@ -15,11 +15,10 @@
 
     <com.twitter.sdk.android.core.identity.TwitterLoginButton
         android:id="@+id/twitter_login_button"
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="38dp"
         android:layout_centerInParent="true"
         android:layout_gravity="center_vertical|center_horizontal"
-
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -29,16 +28,11 @@
         android:paddingTop="100dp"
         android:scaleType="fitCenter"
         android:textAllCaps="false"
-        android:textSize="10sp" />
-    <!--<com.pinterest.pinit.PinItButton
-        android:id="@+id/pinterest_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>-->
+        android:textSize="6sp" />
 
-    <Button
+    <ImageButton
         android:id="@+id/pinterest_login"
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="38dp"
         android:layout_centerInParent="true"
         android:layout_gravity="center_vertical|center_horizontal"
@@ -47,12 +41,14 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:adjustViewBounds="true"
-        android:background="@drawable/pin11"
-        android:scaleType="fitCenter"
+        android:src="@drawable/pin11"
+        android:background="@drawable/curved"
+        android:scaleType="centerCrop"
         android:textAllCaps="false" />
-    <Button
+
+    <ImageButton
         android:id="@+id/instagram_button"
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="38dp"
         android:layout_centerInParent="true"
         android:layout_gravity="center_vertical|center_horizontal"
@@ -61,13 +57,17 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:adjustViewBounds="true"
-        android:background="@drawable/insta11"
-        android:scaleType="fitCenter"
-        android:textAllCaps="false" />
+        android:src="@drawable/insta11"
+        android:background="@drawable/curved"
+        android:scaleType="centerCrop"
+        android:textAllCaps="false"
+        />
+
         <!--android:text="Log in with Instagram"-->
+
     <com.facebook.login.widget.LoginButton xmlns:facebook="http://schemas.android.com/apk/res-auto"
         android:id="@+id/login_button"
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="38dp"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
