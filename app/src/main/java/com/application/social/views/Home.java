@@ -82,7 +82,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
     TwitterSession session;
     SharedPreferences sharedPreference;
     SharedPreferences.Editor editor;
-
+    private Button integrate;
     //    twitter login
     TwitterLoginButton twitterLoginButton;
 
@@ -113,6 +113,8 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_home);
 
+        integrate = (Button) findViewById(R.id.integrate);
+        integrate.setOnClickListener(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
@@ -132,6 +134,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         loginWithFB();
 
     }
+
 
     private void loginWithFB() {
         sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
@@ -420,7 +423,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         user.setFbGoId(String.valueOf(result.getUserId()));
         user.setUserId(userId);
 //        saveTwitterDb(user);
-        Intent intent = new Intent(this, TwitterHome.class);
+        Intent intent = new Intent(this, Integrated.class);
 //        Intent intent = new Intent(this, AllTabs2.class);
 //        Intent intent = new Intent(this, Compose.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

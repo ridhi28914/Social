@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/one"
-        android:title="One"/>
+        android:id="@+id/facebook"
+        android:title="Facebook"
+        app:actionViewClass="android.widget.Spinner"
+        android:background="#ffffff"
+        app:showAsAction="always"/>
 
     <item
-        android:id="@+id/two"
-        android:title="Two"/>
+        android:id="@+id/twitter"
+        android:title="Twitter"
+        app:actionViewClass="android.widget.Spinner"
+        android:background="#ffffff"
+        app:showAsAction="always"/>
 
     <item
-        android:id="@+id/three"
-        android:title="Three"/>
+        android:id="@+id/instagram"
+        android:title="Instagram"
+        app:actionViewClass="android.widget.Spinner"
+        android:background="#ffffff"
+        app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/pinterest"
+        android:title="Pinterest"
+        app:actionViewClass="android.widget.Spinner"
+        android:background="#ffffff"
+        app:showAsAction="always"/>
 </menu>
