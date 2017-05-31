@@ -1,4 +1,4 @@
-package com.application.social.views.Twit;
+package com.application.social.views.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.application.social.utils.UploadManager;
 import com.application.social.views.R;
+import com.application.social.views.Twit.TwitterFeed;
 import com.application.social.views.fragments.BaseFragment;
 
 /**

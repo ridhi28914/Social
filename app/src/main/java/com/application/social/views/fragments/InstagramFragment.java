@@ -69,9 +69,10 @@ public class InstagramFragment extends BaseFragment {
         Bundle extras = activity.getIntent().getExtras();
         String authToken=null;
 
-            sharedPreference = context.getSharedPreferences("TokenPreference", 0);
-            editor = sharedPreference.edit();
-            authToken = sharedPreference.getString("instagramToken", null);
+        sharedPreference = context.getSharedPreferences("TokenPreference", 0);
+        editor = sharedPreference.edit();
+        editor.apply();
+        authToken = sharedPreference.getString("instagramToken", null);
 //        logoutButton = (Button) findViewById(R.id.btnLogout);
 
 //        gridView = (GridView)findViewById(R.id.gridview);

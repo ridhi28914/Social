@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import com.application.social.views.fragments.FacebookFragment;
 import com.application.social.views.fragments.InstagramFragment;
+import com.application.social.views.fragments.TwitterFragment;
 
 public class Integrated extends AppCompatActivity {
 
@@ -14,6 +15,7 @@ public class Integrated extends AppCompatActivity {
 
     FacebookFragment facebookFragment;
     InstagramFragment instagramFragment;
+    TwitterFragment twitterFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,10 +23,11 @@ public class Integrated extends AppCompatActivity {
 
         facebookFragment = new FacebookFragment();
         instagramFragment = new InstagramFragment();
+        twitterFragment = new TwitterFragment();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        transaction.add(R.id.fragment_container, instagramFragment);
+        transaction.add(R.id.fragment_container, twitterFragment);
 
         transaction.commit();
         /*button1 = (Button) findViewById(R.id.button1);
