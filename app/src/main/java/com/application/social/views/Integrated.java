@@ -8,15 +8,23 @@ import android.os.Bundle;
 
 import com.application.social.views.Fb.Facebook;
 import com.application.social.views.R;
+import com.application.social.views.fragments.FacebookFragment;
 
 public class Integrated extends AppCompatActivity {
+
+    FacebookFragment facebookFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_integrated);
-        FragmentManager transaction = getFragmentManager();
-//        transaction.beginTransaction().add(R.id.container,Facebook,YOUR_FRAGMENT_STRING_TAG)//<---replace a view in your layout (id: container) with the newFragment
-//                .commit();
+
+        facebookFragment = new FacebookFragment();
+
+        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.add(R.id.fragment_container, facebookFragment);
+
+        transaction.commit();
     }
 }

@@ -1,16 +1,18 @@
-package com.application.social.views.Fb;
+package com.application.social.views.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.application.social.utils.Facebook.FbAdapter;
 import com.application.social.utils.Facebook.FbVersion;
-import com.application.social.utils.Instagram.InstaImageAdapter;
 import com.application.social.views.R;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -18,50 +20,63 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.google.gson.Gson;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class FacebookFeed extends AppCompatActivity {
+import static com.facebook.FacebookSdk.getApplicationContext;
+
+/**
+ * Created by Harsh on 31-05-2017.
+ */
+
+public class FacebookFragment extends BaseFragment {
+
     String TAG = "Facebookfeed class";
     private RecyclerView recyclerView;
     ArrayList arrayLists = new ArrayList<>();
     private FbAdapter adapter;
     SharedPreferences sharedPreference;
     SharedPreferences.Editor editor;
-    Context context;
+    private View getView;
+    private Context context;
+    private Activity activity;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_facebook_feed);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_facebook_feed, container, false);
+    }
 
-        Bundle extras = getIntent().getExtras();
-        String aceessToken =null;
-        AccessToken at=null;
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        getView = getView();
+        context = getContext();
+        activity = getActivity();
+
+        Bundle extras = activity.getIntent().getExtras();
+        String aceessToken = null;
+        AccessToken at = null;
         Gson gson = new Gson();
         aceessToken = extras.getString("token");
         at = gson.fromJson(aceessToken, AccessToken.class);
         sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
         editor = sharedPreference.edit();
+        editor.apply();
         aceessToken = sharedPreference.getString("fbToken", null);
         at = gson.fromJson(aceessToken, AccessToken.class);
 
-        Context context = getApplicationContext();
 
-        recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
+        recyclerView = (RecyclerView) getView.findViewById(R.id.card_recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
         getFacebookFeed(at);
-
-
     }
-
 
     void getFacebookFeed(AccessToken at) {
         Bundle params = new Bundle();
@@ -114,7 +129,7 @@ public class FacebookFeed extends AppCompatActivity {
         for (int i = 0; i < mediaArray.length(); i++) {
             JSONObject jObj = mediaArray.getJSONObject(i);
             //if (jObj.get("type").equals("image")) {
-                imgArray.put(jObj);
+            imgArray.put(jObj);
             //}
         }
 
