@@ -30,8 +30,6 @@ import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.client.methods.HttpGet;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 
-import static android.R.attr.data;
-
 public class Photoo extends AppCompatActivity {
     private RecyclerView recyclerView;
     ArrayList<InstaVersion> arrayLists = new ArrayList<>();

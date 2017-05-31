@@ -1,11 +1,10 @@
-package com.application.social.views.Insta;
+package com.application.social.views.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +14,7 @@ import android.view.ViewGroup;
 import com.application.social.utils.Instagram.Constants;
 import com.application.social.utils.Instagram.InstaImageAdapter;
 import com.application.social.utils.Instagram.InstaVersion;
+import com.application.social.views.Insta.Photoo;
 import com.application.social.views.R;
 
 import org.json.JSONArray;
@@ -34,82 +34,50 @@ import cz.msebera.android.httpclient.client.methods.HttpGet;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Instagram.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Instagram#newInstance} factory method to
- * create an instance of this fragment.
+ * Created by Harsh on 31-05-2017.
  */
-public class Instagram extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-//    private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-//    private String mParam1;
-//    private String mParam2;
+public class InstagramFragment extends BaseFragment {
+
     private RecyclerView recyclerView;
     ArrayList<InstaVersion> arrayLists = new ArrayList<>();
     private InstaImageAdapter adapter ;
     SharedPreferences sharedPreference;
     SharedPreferences.Editor editor;
-    Context context;
-    private OnFragmentInteractionListener mListener;
+    private View getView;
+    private Context context;
+    private Activity activity;
 
-    public Instagram() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Instagram.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Instagram newInstance(String param1, String param2) {
-        Instagram fragment = new Instagram();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_photoo, container, false);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-    }
-    @Override
-    public  void onActivityCreated (Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        Context context=getActivity();
+        getView = getView();
+        context = getContext();
+        activity = getActivity();
 
-        recyclerView = (RecyclerView) getView().findViewById(R.id.card_recycler_view);
+        recyclerView = (RecyclerView) getView.findViewById(R.id.card_recycler_view);
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
+        Bundle extras = activity.getIntent().getExtras();
         String authToken=null;
-        sharedPreference = getActivity().getSharedPreferences("TokenPreference", 0);
-        editor = sharedPreference.edit();
-        authToken = sharedPreference.getString("instagramToken", null);
+
+            sharedPreference = context.getSharedPreferences("TokenPreference", 0);
+            editor = sharedPreference.edit();
+            authToken = sharedPreference.getString("instagramToken", null);
+//        logoutButton = (Button) findViewById(R.id.btnLogout);
+
+//        gridView = (GridView)findViewById(R.id.gridview);
         getPhotosList(authToken);
     }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_instagram, container, false);
-    }
+
     private void getPhotosList(String authToken){
         getInstagramImages(authToken);
     }
@@ -117,7 +85,7 @@ public class Instagram extends Fragment {
 
         JSONArray object = null;
         try {
-            Instagram.Get_Images get_images = new Instagram.Get_Images(authToken);
+            InstagramFragment.Get_Images get_images = new InstagramFragment.Get_Images(authToken);
             get_images.execute();
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -276,42 +244,4 @@ public class Instagram extends Fragment {
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

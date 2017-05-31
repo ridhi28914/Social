@@ -10,7 +10,6 @@ import android.util.Log;
 
 import com.application.social.utils.Facebook.FbAdapter;
 import com.application.social.utils.Facebook.FbVersion;
-import com.application.social.utils.Instagram.InstaImageAdapter;
 import com.application.social.views.R;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
