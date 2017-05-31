@@ -7,12 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class Fragment1 extends Fragment {
+public class Fragment2 extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            return inflater.inflate(R.layout.activity_fragment1, container, false);
+        View rootView = inflater.inflate(R.layout.activity_fragment2, container, false);
+        return rootView;
     }
 }

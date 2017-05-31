@@ -1,26 +1,13 @@
 package com.application.social.views;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import com.application.social.utils.ActionBar;
 import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.application.social.utils.NavListAdapter;
-import com.application.social.views.Fb.FacebookFeed;
-import com.application.social.views.Twit.TwitterFeed;
-import com.application.social.views.Twit.TwitterHome;
 
 public class AllTabs extends FragmentActivity {
 
@@ -29,9 +16,9 @@ public class AllTabs extends FragmentActivity {
     String[] title;
     String[] subtitle;
     int[] icon;
-    Fragment1 fragment1 = new Fragment1();
- //   Fragment fragment2 = new Fragment2();
- //   Fragment fragment3 = new Fragment3();
+    Fragment fragment1 = new Fragment1();
+    Fragment fragment2 = new Fragment2();
+    Fragment fragment3 = new Fragment3();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +43,7 @@ public class AllTabs extends FragmentActivity {
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // Create the Navigation List in your ActionBar
-        //getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+       ActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
         // Listen to navigation list clicks
         ActionBar.OnNavigationListener navlistener = new ActionBar.OnNavigationListener() {
@@ -68,13 +55,13 @@ public class AllTabs extends FragmentActivity {
                 // Locate Position
                 switch (position) {
                     case 0:
-          //              ft.replace(android.R.id.content, fragment1);
+                        ft.replace(android.R.id.content, fragment1);
                         break;
                     case 1:
-          //              ft.replace(android.R.id.content, fragment2);
+                        ft.replace(android.R.id.content, fragment2);
                         break;
                     case 2:
-          //              ft.replace(android.R.id.content, fragment3);
+                        ft.replace(android.R.id.content, fragment3);
                         break;
                 }
                 ft.commit();
@@ -85,6 +72,13 @@ public class AllTabs extends FragmentActivity {
         // Set the NavListAdapter into the ActionBar Navigation
         //getSupportActionBar().setListNavigationCallbacks(adapter, navlistener);
     }
+
+//    public ActionBar getSupportActionBar() {
+//        return supportActionBar;
+//    }
+
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                                      Bundle savedInstanceState);
 }
 
 //    private Button button1;

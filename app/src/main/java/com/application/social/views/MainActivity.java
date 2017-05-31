@@ -13,12 +13,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.application.social.data.UserDetails;
 import com.application.social.utils.AfterUpload;
 import com.application.social.utils.UploadManager;
-import com.application.social.data.UserDetails;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-//import com.facebook.Response;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -30,6 +29,8 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
 import static com.application.social.views.R.id.signup_button;
+
+//import com.facebook.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener , GoogleApiClient.OnConnectionFailedListener , AfterUpload {
 
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout llProfileLayout;
     private LinearLayout linerLayout;
     private LinearLayout linearLayout2;
+    private TextView notAMember;
     private ImageView imgProfilePic;
     private TextView txtName, txtEmail;
 
@@ -89,10 +91,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnStartAnotherActivity = (Button) findViewById(R.id.platformActivity);
         btnStartAnotherActivity.setOnClickListener(this);
 
-        donebutton = (Button) findViewById(R.id.loginButton);
-        signupButton = (Button) findViewById(R.id.signup_button);
+        donebutton = (Button) findViewById(R.id.loginButton); // no visibility
+        signupButton = (Button) findViewById(R.id.signup_button);  // no visibility
         linearLayout = (LinearLayout) findViewById(R.id.sign_layout);
-        linearLayout2= (LinearLayout) findViewById(R.id.login_layout);
+        linearLayout2= (LinearLayout) findViewById(R.id.login_layout); // no visibility
+        notAMember = (TextView) findViewById(R.id.textView2);
         donebutton.setOnClickListener(this);
         signupButton.setOnClickListener(this);
 
@@ -116,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtEmail = (TextView) findViewById(R.id.txtEmail);
         btnSignIn.setOnClickListener(this);
         btnSignOut.setOnClickListener(this);
-//        btnSignUp.setOnClickListener(this);
+        //btnSignUp.setOnClickListener(this);
     }
 
     private void loginWithGoogle(){
@@ -211,10 +214,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.loginButton:
                 linearLayout.setVisibility(View.GONE);
                 linearLayout2.setVisibility(View.VISIBLE);
+                notAMember.setVisibility(View.GONE);
                 break;
             case signup_button:
                 linearLayout2.setVisibility(View.GONE);
                 linearLayout.setVisibility(View.VISIBLE);
+                notAMember.setVisibility(View.VISIBLE);
                 break;
             case R.id.btn_signup:
                 uD=new UserDetails();
