@@ -58,7 +58,7 @@ public class MyAlarmService extends Service {
 
 // TODO Auto-generated method stub
 
-        Toast.makeText(this, "MyAlarmService.onBind()", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "MyAlarmService.onBind()", Toast.LENGTH_LONG).show();
 
         return null;
 
@@ -74,7 +74,7 @@ public class MyAlarmService extends Service {
 
         super.onDestroy();
 
-        Toast.makeText(this, "MyAlarmService.onDestroy()", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "MyAlarmService.onDestroy()", Toast.LENGTH_LONG).show();
 
     }
 
@@ -88,7 +88,7 @@ public class MyAlarmService extends Service {
 
         super.onStart(intent, startId);
 
-        Toast.makeText(this, "MyAlarmService.onStart()", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "MyAlarmService.onStart()", Toast.LENGTH_LONG).show();
 
     }
 
@@ -100,7 +100,7 @@ public class MyAlarmService extends Service {
 
 // TODO Auto-generated method stub
 
-        Toast.makeText(this, "MyAlarmService.onUnbind()", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "MyAlarmService.onUnbind()", Toast.LENGTH_LONG).show();
 
         return super.onUnbind(intent);
 

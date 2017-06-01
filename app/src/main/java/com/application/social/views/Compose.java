@@ -181,6 +181,9 @@ public class Compose extends AppCompatActivity  implements MultiSelectionSpinner
                 }
             }
             Toast.makeText(this, "Message sent.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Compose.this, Integrated.class);
+            startActivity(intent);
+            finish();
         }
         else{
             Toast.makeText(this, "Please select one of the social networks or message is null", Toast.LENGTH_SHORT).show();
@@ -240,21 +243,13 @@ public class Compose extends AppCompatActivity  implements MultiSelectionSpinner
                 if(millis < Integer.MAX_VALUE)
                     calendar.add(Calendar.SECOND, (int) millis);
                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                Toast.makeText(Compose.this, "Start Alarm", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(Compose.this, "Start Alarm", Toast.LENGTH_SHORT).show();
                 Toast.makeText(Compose.this, "Message sent.", Toast.LENGTH_SHORT).show();
             }
             else{
                 Toast.makeText(Compose.this, "Please select one of the social networks or message is null", Toast.LENGTH_SHORT).show();
             }
 
-
-//            Intent i = new Intent(Compose.this, Posted.class);
-//            Bundle extras = new Bundle();
-//            extras.putString("token", g);
-//            i.putExtras(extras);
-//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            startActivity(i);
-//            finish();
         }
 }
 

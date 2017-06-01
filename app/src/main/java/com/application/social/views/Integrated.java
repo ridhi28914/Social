@@ -37,14 +37,9 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
         instagramFragment = new InstagramFragment();
         twitterFragment = new TwitterFragment();
         pinterestFragment =new PinterestFragment();
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-//        transaction.add(R.id.fragment_container, pinterestFragment);
-//        transaction.commit();
-
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener((View.OnClickListener) Integrated.this);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener((View.OnClickListener) Integrated.this);
 
         sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
         editor = sharedPreference.edit();
@@ -166,10 +161,10 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
     public void onClick(View v) {
         int vid = v.getId();
         switch (vid) {
-//            case R.id.fab:
-//                startActivity(new Intent(Integrated.this, Compose.class));
-//                overridePendingTransition(R.anim.slide_in_right, 0);
-//                break;
+            case R.id.fab:
+                startActivity(new Intent(Integrated.this, Compose.class));
+                overridePendingTransition(R.anim.slide_in_right, 0);
+                break;
 
         }
     }
