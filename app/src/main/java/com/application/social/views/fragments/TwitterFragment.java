@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ import com.twitter.sdk.android.tweetui.UserTimeline;
  * Created by Harsh on 31-05-2017.
  */
 
-public class TwitterFragment extends BaseFragment {
+public class TwitterFragment extends ListFragment {
 
     private TextView nameTv;
     UploadManager uploadManager = new UploadManager();
@@ -36,7 +37,9 @@ public class TwitterFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_twitter_home, container, false);
+//        View rootView = inflater.inflate(R.layout.twiter_fragment, container, false);
+//        return rootView;
+        return inflater.inflate(R.layout.twiter_fragment, container, false);
     }
 
     @Override
@@ -55,8 +58,6 @@ public class TwitterFragment extends BaseFragment {
             Intent intent = new Intent(context, Home.class);
             startActivity(intent);
         } else {
-            nameTv = (TextView) getView.findViewById(R.id.name_textview);
-            nameTv.setText(userName);
 
             final UserTimeline userTimeline = new UserTimeline.Builder()
                     .screenName(userName)
@@ -64,7 +65,9 @@ public class TwitterFragment extends BaseFragment {
             final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(context)
                     .setTimeline(userTimeline)
                     .build();
-//        setListAdapter(adapter);
+
+            setListAdapter(adapter);
+//          setListAdapter(adapter);
         }
     }
 }

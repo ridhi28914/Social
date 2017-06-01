@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import
         android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,7 +36,10 @@ import static com.application.social.utils.CommonLib.TWITTER_SECRET;
 
 public class TwitterFeed extends ListActivity {
     UploadManager uploadManager =new UploadManager();
-
+    SharedPreferences sharedPreference;
+    SharedPreferences.Editor editor;
+    String fragmentNumberOld;
+//    Button button1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +47,11 @@ public class TwitterFeed extends ListActivity {
 
 
         setContentView(R.layout.activity_twitter_feed);
-        Bundle extras = getIntent().getExtras();
-
+        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+        editor = sharedPreference.edit();
+        fragmentNumberOld= sharedPreference.getString("fragmentNumberOld", null);
         String userName = null;
-        if(extras!=null) {
-            userName = extras.getString("userName");
-        }
+        userName=sharedPreference.getString("twitterUsername",null);
 
          final UserTimeline userTimeline = new UserTimeline.Builder()
                 .screenName(userName)

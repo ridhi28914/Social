@@ -23,6 +23,7 @@ import com.application.social.utils.UploadManager;
 import com.application.social.views.Insta.Photoo;
 import com.application.social.views.Pint.MyPins;
 import com.application.social.views.Pint.PintHome;
+import com.application.social.views.Twit.TwitterHome;
 import com.application.social.views.fragments.InstagramFragment;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -197,7 +198,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         editor.putString("fragmentNumberNew","101");
         editor.commit();
 
-//        Intent i = new Intent(this, FacebookFeed.class);
         Intent i = new Intent(this, Integrated.class);
 //        Bundle extras = new Bundle();
 //        extras.putString("token", g);

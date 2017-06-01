@@ -202,6 +202,7 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
         }
         else if (choice.equalsIgnoreCase("Twitter"))
         {
+//            // TODO: 6/1/2017 calltwitter activity
             transaction2.add(R.id.fragment_container, twitterFragment);
             editor.putString("fragmentNumberOld","104");
             transaction2.commit();
