@@ -197,7 +197,8 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
         }
         else if (choice.equalsIgnoreCase("Pinterest")) {
             transaction2.add(R.id.fragment_container, pinterestFragment);
-                editor.putString("fragmentNumberOld","103");
+            button1.setText("Pinterest");
+            editor.putString("fragmentNumberOld","103");
             transaction2.commit();
             editor.commit();
         }
