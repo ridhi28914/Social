@@ -235,7 +235,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         editor = sharedPreference.edit();
         String at= sharedPreference.getString("access_token", null);
         if(at!=null){
-            uploadManager.logout("at");
+            uploadManager.logout(at);
             finish();
         }
     }

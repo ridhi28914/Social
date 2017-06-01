@@ -155,11 +155,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSignIn.setScopes(gso.getScopeArray());
     }
 
-//    @Override
-//    protected void onDestroy(){
-//
-//    }
-
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -252,10 +247,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.signin_button:
                 // TODO: 5/29/2017 check for validity
-                if(edit_input_email!=null && edit_input_pwd!=null) {
+                if(edit_login_email!=null && edit_login_pwd!=null) {
                     uD = new UserDetails();
-                    uD.setName(edit_input_name.getText().toString());
-                    uD.setPassword(edit_input_pwd.getText().toString());
+                    uD.setEmail(edit_login_email.getText().toString());
+                    uD.setPassword(edit_login_pwd.getText().toString());
                     uM = new UploadManager();
                     uM.customSignup(uD);
                 }
