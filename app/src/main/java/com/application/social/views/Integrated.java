@@ -77,6 +77,7 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
             else if(fragmentNumberNew=="103")
             {
                 transaction.add(R.id.fragment_container, pinterestFragment);
+                button1.setText("Pinterest");
                 editor.putString("fragmentNumberOld", "103");
             }
             else if(fragmentNumberNew.equalsIgnoreCase("104"))
@@ -103,6 +104,7 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
             else if(fragmentNumberOld=="103")
             {
                 transaction.add(R.id.fragment_container, pinterestFragment);
+                button1.setText("Pinterest");
                 editor.putString("fragmentNumberOld", "103");
             }
             else if(fragmentNumberOld.equalsIgnoreCase("104"))
@@ -160,8 +162,8 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
             transaction.remove(facebookFragment);
         else if(fragmentNumberOld.equalsIgnoreCase("102"))
             transaction.remove(instagramFragment);
-//            else if(fragmentNumberNew=="103")
-//                transaction.remove(PinerestFragment);
+            else if(fragmentNumberNew=="103")
+                transaction.remove(pinterestFragment);
         else if(fragmentNumberOld=="104")
             transaction.remove(twitterFragment);
 
@@ -194,10 +196,10 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
             editor.commit();
         }
         else if (choice.equalsIgnoreCase("Pinterest")) {
-//            transaction2.add(R.id.fragment_container, PinterestFragment);
-//                editor.putString("fragmentNumberOld","103");
-//            transaction2.commit();
-//            editor.commit();
+            transaction2.add(R.id.fragment_container, pinterestFragment);
+                editor.putString("fragmentNumberOld","103");
+            transaction2.commit();
+            editor.commit();
         }
     }
     @Override
@@ -212,7 +214,7 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
         editor = sharedPreference.edit();
         String at= sharedPreference.getString("access_token", null);
         if(at!=null){
-            uploadManager.logout("at");
+            uploadManager.logout(at);
             finish();
         }
     }

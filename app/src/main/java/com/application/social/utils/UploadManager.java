@@ -498,7 +498,6 @@ public  class UploadManager {
                     .add("client_id", "social_android_client")
                     .add("app_type", "social_android")
                     .add("fbGoId", cred.fbGoId)
-                    .add("profile_pic", cred.profilePic)
                     .build();
 
             String url = SERVER_URL+"pinterest/login";

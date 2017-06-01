@@ -381,30 +381,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     @Override
     public void doneTwitterLogIn() {
-        Log.d(TAG,"twitter stored");
-//        Intent intent = new Intent(MainActivity.this, Compose.class);
-//        intent.putExtra("Some_message", "staring new activity");
-//        startActivity(intent);
     }
 
     @Override
     public void donePinterestLogIn () {
-        Log.d(TAG,"pinterest stored");
-//        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
-//        editor = sharedPreference.edit();
-//        editor.putString("pinterest_login", "true");
-//        editor.commit();
-//        Intent intent = new Intent(MainActivity.this, Home.class);
-//        intent.putExtra("Some_message", "staring new activity");
-//        startActivity(intent);
+
     }
 
     @Override
     public void doneFacebookLogIn() {
-        Log.d(TAG,"facebook stored");
-//        Intent intent = new Intent(MainActivity.this, Home.class);
-//        intent.putExtra("Some_message", "staring new activity");
-//        startActivity(intent);
     }
 
     @Override

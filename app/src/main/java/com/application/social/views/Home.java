@@ -174,12 +174,12 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
 
             @Override
             public void onCancel() {
-                txtstatus.setText("login cancelled");
+//                txtstatus.setText("login cancelled");
             }
 
             @Override
             public void onError(FacebookException error) {
-                txtstatus.setText("login error: " + error.getMessage());
+//                txtstatus.setText("login error: " + error.getMessage());
             }
 
 
@@ -249,10 +249,6 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
             case R.id.instagram_button:
                 mInstagram.performSignIn();
                 break;
-//            case R.id.fab:
-//                startActivity(new Intent(Home.this, Compose.class));
-//                overridePendingTransition(R.anim.slide_in_right, 0);
-//                break;
 
         }
     }
@@ -285,7 +281,7 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
         user.setUserId(user_id);
         user.setFbGoId(userId);
         user.setToken(authToken);
-        //saveInstagramDb(user);
+//        saveInstagramDb(user);
 
         show_photo_view(authToken);
     }
@@ -313,21 +309,17 @@ public class Home extends AppCompatActivity implements InstagramListener, View.O
             public void onSuccess(PDKResponse response) {
 
                 Log.d(getClass().getName(), response.getData().toString());
-//                sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
-//                editor = sharedPreference.edit();
-//                editor.putString("pinterest_pdkclient", String.valueOf(pdkClient));
-//                editor.commit();
                 user = response.getUser();
                 sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
                 editor = sharedPreference.edit();
                 editor.putString("fragmentNumberNew","103");
                 editor.commit();
-//                String userId=sharedPreference.getString("user_id",null);
-//                UserDetails userDetails= new UserDetails();
-//                userDetails.setUserId(userId);
-//                userDetails.setName(user.getFirstName());
-//                userDetails.setProfilePic(user.getImageUrl());
-//                userDetails.setFbGoId(user.getUid());
+                String userId=sharedPreference.getString("user_id",null);
+                UserDetails userDetails= new UserDetails();
+                userDetails.setUserId(userId);
+                userDetails.setName(user.getFirstName());
+                userDetails.setProfilePic(user.getImageUrl());
+                userDetails.setFbGoId(user.getUid());
 //                savePinterestDb(userDetails);
                 onPinterestLoginSuccess();
                 //                //user logged in, use response.getUser() to get PDKUser object
