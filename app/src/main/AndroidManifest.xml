@@ -67,7 +67,7 @@
 
         <service android:name="com.application.social.utils.MyAlarmService" />
 
-        <activity android:name=".Integrated"></activity>
+        <activity android:name=".Integrated"/>
     </application>
 
 </manifest>

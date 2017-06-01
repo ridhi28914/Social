@@ -34,7 +34,7 @@ public class TwitterHome extends ListActivity {
         editor = sharedPreference.edit();
         fragmentNumberOld= sharedPreference.getString("fragmentNumberOld", null);
 
-        button1 = (Button) findViewById(R.id.button1);
+        //button1 = (Button) findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
