@@ -37,6 +37,7 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
         instagramFragment = new InstagramFragment();
         twitterFragment = new TwitterFragment();
         pinterestFragment =new PinterestFragment();
+        button1 = (Button) findViewById(R.id.button_dropdown);
 //        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
 //        transaction.add(R.id.fragment_container, pinterestFragment);
@@ -53,22 +54,28 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         if(fragmentNumberOld.equalsIgnoreCase("0")) {
-            if (fragmentNumberNew.equalsIgnoreCase("101") ) {
+            if (fragmentNumberNew.equalsIgnoreCase("101") )
+            {
                 transaction.add(R.id.fragment_container, facebookFragment);
+                button1.setText("Facebook");
                 editor.putString("fragmentNumberOld", "101");
-            } else if (fragmentNumberNew.equalsIgnoreCase("102")) {
+            }
+            else if (fragmentNumberNew.equalsIgnoreCase("102"))
+            {
                 transaction.add(R.id.fragment_container, instagramFragment);
+                button1.setText("Instagram");
                 editor.putString("fragmentNumberOld", "102");
 
             }
             else if(fragmentNumberNew=="103")
             {
-            transaction.add(R.id.fragment_container, pinterestFragment);
-            editor.putString("fragmentNumberOld", "103");
+                transaction.add(R.id.fragment_container, pinterestFragment);
+                editor.putString("fragmentNumberOld", "103");
             }
             else if(fragmentNumberNew.equalsIgnoreCase("104"))
             {
                 transaction.add(R.id.fragment_container, twitterFragment);
+                button1.setText("Twitter");
                 editor.putString("fragmentNumberOld","104");
             }
 
@@ -78,9 +85,11 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
         else{
             if (fragmentNumberOld.equalsIgnoreCase("101") ) {
                 transaction.add(R.id.fragment_container, facebookFragment);
+                button1.setText("Facebook");
                 editor.putString("fragmentNumberOld", "101");
             } else if (fragmentNumberOld.equalsIgnoreCase("102")) {
                 transaction.add(R.id.fragment_container, instagramFragment);
+                button1.setText("Instagram");
                 editor.putString("fragmentNumberOld", "102");
 
             }
@@ -92,55 +101,15 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
             else if(fragmentNumberOld.equalsIgnoreCase("104"))
             {
                 transaction.add(R.id.fragment_container, twitterFragment);
+                button1.setText("Twitter");
                 editor.putString("fragmentNumberOld","104");
             }
 
             transaction.commit();
             editor.commit();
         }
-//        else{
-//
-//            if(fragmentNumberOld=="101")
-//                transaction.remove(facebookFragment);
-//            else if(fragmentNumberOld=="102")
-//                transaction.remove(instagramFragment);
-////            else if(fragmentNumberNew=="103")
-////                transaction.remove(pinerestFragment);
-//            else if(fragmentNumberOld=="104")
-//                transaction.remove(twitterFragment);
-//
-//            transaction.commit();
-//
-//            if(fragmentNumberNew=="101"){
-//
-//                transaction.add(R.id.fragment_container, facebookFragment);
-//                editor.putString("fragmentNumberOld","101");
-//
-//            }
-//            else if(fragmentNumberNew=="102")
-//            {
-//                transaction.add(R.id.fragment_container, instagramFragment);
-//                editor.putString("fragmentNumberOld","102");
-//            }
-//            else if(fragmentNumberNew=="103")
-//            {
-//                transaction.add(R.id.fragment_container, pinterestFragment);
-//                editor.putString("fragmentNumberOld","103");
-//
-//            }
-//            else if(fragmentNumberNew=="104")
-//            {
-//                transaction.add(R.id.fragment_container, twitterFragment);
-//                editor.putString("fragmentNumberOld","104");
-//
-//            }
-//
-//            transaction.commit();
-//            editor.commit();
-//        }
 
-
-        button1 = (Button) findViewById(R.id.button1);
+//        button1 = (Button) findViewById(R.id.button_dropdown);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,6 +165,7 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
         if (choice.equalsIgnoreCase("Facebook"))
         {
             transaction2.add(R.id.fragment_container, facebookFragment);
+            button1.setText("Facebook");
             editor.putString("fragmentNumberOld","101");
             transaction2.commit();
             editor.commit();
@@ -204,6 +174,7 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
         {
 //            // TODO: 6/1/2017 calltwitter activity
             transaction2.add(R.id.fragment_container, twitterFragment);
+            button1.setText("Twitter");
             editor.putString("fragmentNumberOld","104");
             transaction2.commit();
             editor.commit();
@@ -211,6 +182,7 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
         else if (choice.equalsIgnoreCase("Instagram"))
         {
             transaction2.add(R.id.fragment_container, instagramFragment);
+            button1.setText("Instagram");
             editor.putString("fragmentNumberOld","102");
             transaction2.commit();
             editor.commit();
