@@ -8,16 +8,24 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.application.social.utils.AfterUpload;
+import com.application.social.utils.UploadManager;
 import com.application.social.views.fragments.FacebookFragment;
 import com.application.social.views.fragments.InstagramFragment;
 import com.application.social.views.fragments.TwitterFragment;
 import com.application.social.views.fragments.PinterestFragment;
 
-public class Integrated extends AppCompatActivity implements View.OnClickListener{
+import static android.R.id.message;
+import static com.twitter.sdk.android.Twitter.logOut;
+
+public class Integrated extends AppCompatActivity implements View.OnClickListener,AfterUpload {
 
     Button button1;
     SharedPreferences sharedPreference;
@@ -28,8 +36,11 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
     PinterestFragment pinterestFragment;
     String fragmentNumberOld;
     String fragmentNumberNew;
+    UploadManager uploadManager = new UploadManager();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        UploadManager.addCallback(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_integrated);
 
@@ -182,14 +193,84 @@ public class Integrated extends AppCompatActivity implements View.OnClickListene
             transaction2.commit();
             editor.commit();
         }
-        else if (choice.equalsIgnoreCase("Pinterest"))
-        {
+        else if (choice.equalsIgnoreCase("Pinterest")) {
 //            transaction2.add(R.id.fragment_container, PinterestFragment);
 //                editor.putString("fragmentNumberOld","103");
 //            transaction2.commit();
 //            editor.commit();
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_home, menu);
+        return true;
+    }
+    private void logOut() {
 
+        sharedPreference = getApplicationContext().getSharedPreferences("TokenPreference", 0);
+        editor = sharedPreference.edit();
+        String at= sharedPreference.getString("access_token", null);
+        if(at!=null){
+            uploadManager.logout("at");
+            finish();
+        }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                logOut();
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void doneLoggingIn() {
+
+    }
+
+    @Override
+    public void doneLoggingIn(String message) {
+
+    }
+
+    @Override
+    public void doneLoggingOut(String message) {
+        if (message == "SUCCESS") {
+            Intent intent = new Intent(Integrated.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else{
+            Toast.makeText(Integrated.this, "Logout Failed." ,Toast.LENGTH_LONG ).show();
+        }
+    }
+
+    @Override
+    public void doneTwitterLogIn() {
+
+    }
+
+    @Override
+    public void donePinterestLogIn() {
+
+    }
+
+    @Override
+    public void doneFacebookLogIn() {
+
+    }
+
+    @Override
+    public void doneInstagramLogIn() {
+
+    }
+
+    @Override
+    public void doneTwitterPost() {
 
     }
 }
