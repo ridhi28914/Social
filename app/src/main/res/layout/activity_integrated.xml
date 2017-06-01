@@ -18,7 +18,7 @@
         android:textSize="17sp"
         android:paddingLeft="15dp"
         android:background="#c0c0c0"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:textAllCaps="false"
         android:layout_centerVertical="true"
         android:text="Platforms" />
@@ -28,13 +28,23 @@
         android:layout_width="fill_parent"
         android:layout_below="@id/button_dropdown"
         android:layout_height="fill_parent" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@android:drawable/ic_dialog_email"
+        android:layout_gravity="bottom|right"
+        android:layout_marginLeft="275dp"
+        android:layout_marginTop="480dp"/>
 
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|right"-->
+        <!--android:layout_marginBottom="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--app:srcCompat="@android:drawable/ic_dialog_email" />-->
 
 </RelativeLayout>
